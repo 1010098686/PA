@@ -2,7 +2,7 @@
 #include "monitor/expr.h"
 #include "monitor/watchpoint.h"
 #include "nemu.h"
-
+#include<string.h>
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -37,7 +37,9 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_help(char *args);
-
+static int cmd_si(char *args);
+static int cmd_info(char* args);
+static int cmd_x(char* args);
 static struct {
 	char *name;
 	char *description;
@@ -46,7 +48,9 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
-
+    { "si","Let the program execute for n steps",cmd_si},
+	{ "info","Display the state of registers",cmd_info},
+	{ "x","Caculate the value of expression and display the content of the address",cmd_x}
 	/* TODO: Add more commands */
 
 };
@@ -75,6 +79,53 @@ static int cmd_help(char *args) {
 	}
 	return 0;
 }
+static int cmd_si(char* args)
+{
+	int steps;
+	if ( args == NULL) steps=1;
+	else
+	{
+		int len=strlen(args);
+		int value=0,i;
+		for( i=0;i<len;++i)
+			value=value*10+args[i];
+		steps=value;
+	}
+	cpu_exec(steps);
+	return 0;
+}
+
+static int cmd_info(char* args)
+{
+	if (strcmp(args,"r") == 0)
+	{
+		printf("eax:%d\n",cpu.eax);
+		printf("edx:%d\n",cpu.edx);
+		printf("ecx:%d\n",cpu.ecx);
+		printf("ebx:%d\n",cpu.ebx);
+		printf("ebp:%d\n",cpu.ebp);
+		printf("esi:%d\n",cpu.esi);
+		printf("edi:%d\n",cpu.edi);
+		printf("esp:%d\n",cpu.esp);
+	}
+	else if( strcmp(args,"w") == 0)
+	{
+
+	}
+	return 0;
+}
+
+static int cmd_x(char *args)
+{
+	char* cnum=strtok(NULL," ");
+	//char* exp=strtok(NULL," ");
+	int len=strlen(cnum);
+	int num=0,i;
+	for( i=0;i<len;++i)
+		num=num*10+cnum[i];
+	return 0;
+}
+
 
 void ui_mainloop() {
 	while(1) {
