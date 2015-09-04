@@ -95,14 +95,14 @@ static int cmd_info(char* args)
 {
 	if (strcmp(args,"r") == 0)
 	{
-		printf("eax:%d\n",cpu.eax);
-		printf("edx:%d\n",cpu.edx);
-		printf("ecx:%d\n",cpu.ecx);
-		printf("ebx:%d\n",cpu.ebx);
-		printf("ebp:%d\n",cpu.ebp);
-		printf("esi:%d\n",cpu.esi);
-		printf("edi:%d\n",cpu.edi);
-		printf("esp:%d\n",cpu.esp);
+		printf("eax:	0x%x	%d\n",cpu.eax,cpu.eax);
+		printf("edx:	0x%x	%d\n",cpu.edx,cpu.edx);
+		printf("ecx:	0x%x	%d\n",cpu.ecx,cpu.ecx);
+		printf("ebx:	0x%x	%d\n",cpu.ebx,cpu.ebx);
+		printf("ebp:	0x%x	%d\n",cpu.ebp,cpu.ebp);
+		printf("esi:	0x%x	%d\n",cpu.esi,cpu.esi);
+		printf("edi:	0x%x	%d\n",cpu.edi,cpu.edi);
+		printf("esp:	0x%x	%d\n",cpu.esp,cpu.esp);
 	}
 	else if( strcmp(args,"w") == 0)
 	{
@@ -113,12 +113,9 @@ static int cmd_info(char* args)
 
 static int cmd_x(char *args)
 {
-	char* cnum=strtok(NULL," ");
+	//char* cnum=strtok(NULL," ");
 	//char* exp=strtok(NULL," ");
-	int len=strlen(cnum);
-	int num=0,i;
-	for( i=0;i<len;++i)
-		num=num*10+cnum[i];
+	//int num=atoi(cnum);
 	return 0;
 }
 
