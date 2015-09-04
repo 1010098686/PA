@@ -85,11 +85,7 @@ static int cmd_si(char* args)
 	if ( args == NULL) steps=1;
 	else
 	{
-		int len=strlen(args);
-		int value=0,i;
-		for( i=0;i<len;++i)
-			value=value*10+args[i];
-		steps=value;
+		steps=atoi(args);	
 	}
 	cpu_exec(steps);
 	return 0;
