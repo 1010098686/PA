@@ -110,19 +110,34 @@ static int cmd_info(char* args)
 	}
 	return 0;
 }
-
+int getnum(char ch)   //convert the char to int nmber
+{
+	if(ch>='0' && ch <='9') return ch-'0';
+	else if(ch>='a' && ch<='f') return ch-'a'+10;
+	else if(ch>='A' && ch <='F') return ch-'F'+10;
+	else return -1; //invalid char
+}
+int xtod(char* str)  //convert the string which is hex number to decimal number
+{
+	int len=strlen(str);
+	int value=0;
+	int i;
+	for(i=0;i<len;++i)
+		value=value*16+getnum(str[i]);
+	return value;
+}
 static int cmd_x(char *args)
 {
 	char* cnum=strtok(NULL," ");
 	char* expx=strtok(NULL," ");
 	int num=atoi(cnum);
 	char* exp=expx+2;
-	int addr=atoi(exp);
+	int addr=xtod(exp);
 	int i;
 	for( i=1;i<=num;++i)
 	{
 		int content=swaddr_read(addr,4);
-		printf("%d\t",content);
+		printf("0x%x\t",content);
 		addr+=4;
 	}
 	printf("\n");
