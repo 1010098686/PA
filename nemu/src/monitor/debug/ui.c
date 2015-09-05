@@ -113,9 +113,19 @@ static int cmd_info(char* args)
 
 static int cmd_x(char *args)
 {
-	//char* cnum=strtok(NULL," ");
-	//char* exp=strtok(NULL," ");
-	//int num=atoi(cnum);
+	char* cnum=strtok(NULL," ");
+	char* expx=strtok(NULL," ");
+	int num=atoi(cnum);
+	char* exp=expx+2;
+	int addr=atoi(exp);
+	int i;
+	for( i=1;i<=num;++i)
+	{
+		int content=swaddr_read(addr,4);
+		printf("%d\t",content);
+		addr+=4;
+	}
+	printf("\n");
 	return 0;
 }
 
