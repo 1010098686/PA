@@ -137,7 +137,7 @@ static int cmd_x(char *args)
 	for( i=1;i<=num;++i)
 	{
 		int content=swaddr_read(addr,4);
-		printf("0x%x\t",content);
+		printf("0x%.8x\t",content);
 		addr+=4;
 	}
 	printf("\n");
