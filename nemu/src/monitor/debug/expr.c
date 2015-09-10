@@ -5,9 +5,9 @@
  */
 #include <sys/types.h>
 #include <regex.h>
-
+#include<string.h>
 enum {
-	NOTYPE = 256, EQ
+	NOTYPE = 256, EQ,SUB,ADD,MUL,DIV,NUM,L_BRACKET,R_BRACKET
 
 	/* TODO: Add more token types */
 
@@ -23,8 +23,15 @@ static struct rule {
 	 */
 
 	{" +",	NOTYPE},				// spaces
-	{"\\+", '+'},					// plus
-	{"==", EQ}						// equal
+	{"\\+", ADD},					// plus
+	{"==", EQ},                     // equal
+	{"-",SUB},                      // sub
+	{"\\*",MUL},                   // multiply
+	{"/",DIV},                      // divide
+	{"\\d+",NUM},                   // numbers
+	{"(",L_BRACKET},             // left bracket
+	{")",R_BRACKET}             // right bracket
+
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -77,8 +84,23 @@ static bool make_token(char *e) {
 				 * to record the token in the array ``tokens''. For certain 
 				 * types of tokens, some extra actions should be performed.
 				 */
+				tokens[nr_token].type=rules[i].token_type;
+				if(tokens[nr_token].type == NUM)
+				{
+					strncpy(tokens[nr_token].str,substr_start,substr_len);
+				}
+				++nr_token;
 
 				switch(rules[i].token_type) {
+					case NOTYPE:
+					case EQ:
+					case ADD:
+					case SUB:
+					case MUL:
+					case DIV:
+					case NUM:
+					case L_BRACKET:
+					case R_BRACKET:break;
 					default: panic("please implement me");
 				}
 
