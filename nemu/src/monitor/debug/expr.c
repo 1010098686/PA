@@ -190,9 +190,9 @@ int find_dominant(int p,int q)
 	}
 	int min=0;
 	for(i=0;i<=last;++i)
-		if(priority(i)<priority(min)) min=i;
+		if(priority(temp[i])<priority(temp[min])) min=i;
 	for(i=last;i>=0;--i)
-		if(priority(i)==priority(min)) 
+		if(priority(temp[i])==priority(temp[min])) 
 		{
 			int result=temp[i];
 			free(temp);
