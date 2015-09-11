@@ -30,7 +30,7 @@ static struct rule {
 	{"-",SUB},                      // sub
 	{"\\*",MUL},                   // multiply
 	{"/",DIV},                      // divide
-	{"\\d+",NUM},                   // numbers
+	{"[0-9]+",NUM},                   // numbers
 	{"\\(",L_BRACKET},             // left bracket
 	{"\\)",R_BRACKET}             // right bracket
 
