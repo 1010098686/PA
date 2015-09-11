@@ -229,6 +229,7 @@ bool check_parentheses(int p,int q)
 						}
 					if(j==i) return false;
 				}
+			return true;
 		}
 
 	}
