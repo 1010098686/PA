@@ -53,7 +53,7 @@ static struct {
     { "si","Let the program execute for n steps",cmd_si},
 	{ "info","Display the state of registers",cmd_info},
 	{ "x","Caculate the value of expression and display the content of the address",cmd_x},
-	{ "q","Calculate an expression",cmd_p}
+	{ "p","Calculate an expression",cmd_p}
 	/* TODO: Add more commands */
 
 };
