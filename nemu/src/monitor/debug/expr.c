@@ -178,7 +178,7 @@ int priority(int i)
 int find_dominant(int p,int q)
 {
 	int i;
-	int* temp=(int*)malloc(sizeof(int)*(p-p));
+	int* temp=(int*)malloc(sizeof(int)*(q-p));
 	int last=0; 
 	for(i=p;i<=q;++i)
 	{
