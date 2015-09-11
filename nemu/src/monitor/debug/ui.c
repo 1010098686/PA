@@ -8,7 +8,8 @@
 #include <readline/history.h>
 
 void cpu_exec(uint32_t);
-
+uint32_t expr(char* e,bool* success);
+void init_regex();
 /* We use the ``readline'' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
 	static char *line_read = NULL;
@@ -40,6 +41,7 @@ static int cmd_help(char *args);
 static int cmd_si(char *args);
 static int cmd_info(char* args);
 static int cmd_x(char* args);
+static int cmd_p(char* args);
 static struct {
 	char *name;
 	char *description;
@@ -50,7 +52,8 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
     { "si","Let the program execute for n steps",cmd_si},
 	{ "info","Display the state of registers",cmd_info},
-	{ "x","Caculate the value of expression and display the content of the address",cmd_x}
+	{ "x","Caculate the value of expression and display the content of the address",cmd_x},
+	{ "q","Calculate an expression",cmd_p}
 	/* TODO: Add more commands */
 
 };
@@ -142,6 +145,22 @@ static int cmd_x(char *args)
 	}
 	printf("\n");
 	return 0;
+}
+static int cmd_p(char* args)
+{
+	init_regex();
+	bool success=true;
+	int result=expr(args,&success);
+	if(!success) 
+	{
+		printf("you input an invalid expression!\n");
+		return -1;
+	}
+	else
+	{
+		printf("%d\n",result);
+		return 0;
+	}
 }
 
 
