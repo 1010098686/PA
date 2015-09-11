@@ -192,8 +192,13 @@ int find_dominant(int p,int q)
 	for(i=0;i<=last;++i)
 		if(priority(i)<priority(min)) min=i;
 	for(i=last;i>=0;--i)
-		if(priority(i)==priority(min)) return i;
-	return min;
+		if(priority(i)==priority(min)) 
+		{
+			free(temp);
+			return temp[i];
+		}
+	free(temp);
+	return temp[min];
 }
 
 bool check_parentheses(int p,int q)
