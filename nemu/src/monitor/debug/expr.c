@@ -31,8 +31,8 @@ static struct rule {
 	{"\\*",MUL},                   // multiply
 	{"/",DIV},                      // divide
 	{"\\d+",NUM},                   // numbers
-	{"(",L_BRACKET},             // left bracket
-	{")",R_BRACKET}             // right bracket
+	{"\\(",L_BRACKET},             // left bracket
+	{"\\)",R_BRACKET}             // right bracket
 
 };
 
