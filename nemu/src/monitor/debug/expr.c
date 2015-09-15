@@ -9,12 +9,12 @@
 #include<string.h>
 #define BAD_EXP -9999
 enum {
-	NOTYPE = 256, EQ,SUB,ADD,MUL,DIV,NUM,L_BRACKET,R_BRACKET
+	NOTYPE = 256, EQ,SUB,ADD,MUL,DIV,NUM,HEXNUM,REG,NEQ,AND,OR,NOT,L_BRACKET,R_BRACKET,MINUS,POINTER
 
 	/* TODO: Add more token types */
 
 };
-
+uint32_t swaddr_read(swaddr_t addr,size_t len);
 static struct rule {
 	char *regex;
 	int token_type;
@@ -25,7 +25,13 @@ static struct rule {
 	 */
 
 	{" +",	NOTYPE},				// spaces
-	{"\\+", ADD},					// plus
+	{"$[(eax)(ebx)(ecx)(edx)(ebp)(esp)(edi)(esi)]",REG}, // register
+	{"0[xX][0-9a-fA-F]+",HEXNUM},		    // hex number
+	{"\\+", ADD},                   // plus
+	{"&&",AND},                     // and
+	{"\\|\\|",OR},                  // or
+	{"!",NOT},                      // not
+	{"!=",NEQ},                     // not equal
 	{"==", EQ},                     // equal
 	{"-",SUB},                      // sub
 	{"\\*",MUL},                   // multiply
@@ -87,13 +93,13 @@ static bool make_token(char *e) {
 				 * types of tokens, some extra actions should be performed.
 				 */
 				tokens[nr_token].type=rules[i].token_type;
-				if(tokens[nr_token].type == NUM)
+				if(tokens[nr_token].type == NUM || tokens[nr_token].type==HEXNUM)
 				{
 					strncpy(tokens[nr_token].str,substr_start,substr_len);
 				}
 				++nr_token;
 
-				switch(rules[i].token_type) {
+			/*	switch(rules[i].token_type) {
 					case NOTYPE:
 					case EQ:
 					case ADD:
@@ -104,7 +110,7 @@ static bool make_token(char *e) {
 					case L_BRACKET:
 					case R_BRACKET:break;
 					default: panic("please implement me");
-				}
+				}*/
 
 				break;
 			}
@@ -125,6 +131,7 @@ int find_dominant(int p,int q);
 bool isoperator(int index);
 bool isinbrackets(int index,int p,int q);
 int priority(int i);
+static int getnum(char ch);
 
 uint32_t expr(char *e, bool *success) {
 	if(!make_token(e)) {
@@ -133,11 +140,24 @@ uint32_t expr(char *e, bool *success) {
 	}
     
 	/* TODO: Insert codes to evaluate the expression. */
+	int i;
+	for(i=0;i<nr_token;++i)
+		if(tokens[i].type==MUL&& (i==0||isoperator(i-1)|| tokens[i-1].type==L_BRACKET))
+			tokens[i].type=POINTER;
+		else if(tokens[i].type==SUB&& (i==0||isoperator(i-1)||tokens[i-1].type==L_BRACKET))
+			tokens[i].type=MINUS;
     return eval(0,nr_token-1);
 	//panic("please implement me");
 	return 0;
 }
 
+static int getnum(char ch)
+{
+	if(ch>='0' && ch<='9') return ch-'0';
+	else if(ch>='a'&&ch<='f') return ch-'a'+10;
+	else if(ch>='A'&& ch<='F') return ch-'A'+10;
+	return 0;
+}
 bool isoperator(int index)
 {
 	if(tokens[index].type==ADD || tokens[index].type==SUB || tokens[index].type==MUL || tokens[index].type==DIV) return true;
@@ -172,6 +192,7 @@ int priority(int i)
 {
 	if(tokens[i].type==MUL || tokens[i].type==DIV) return 2;
 	else if(tokens[i].type==ADD || tokens[i].type==SUB) return 1;
+	else if(tokens[i].type==MINUS || tokens[i].type==POINTER) return 3;
 	else return 3;
 }
 
@@ -245,7 +266,31 @@ int eval(int p,int q)
 	}
 	else if(p==q)
 	{
-		return atoi(tokens[p].str);
+		if(tokens[p].type==NUM) return atoi(tokens[p].str);
+		else if(tokens[p].type==HEXNUM)
+		{
+			int sum=0;
+			int len=strlen(tokens[p].str);
+			char* str=(char*)malloc(sizeof(char)*len+1);
+			strcpy(str,tokens[p].str);
+			int i;
+			for(i=2;i<len;++i)
+				sum=sum*16+getnum(str[i]);
+			return sum;
+		}
+		else if(tokens[p].type==REG)
+		{
+			if(strcmp(tokens[p].str,"eax")==0) return cpu.eax;
+			else if(strcmp(tokens[p].str,"$ebx")==0) return cpu.ebx;
+			else if(strcmp(tokens[p].str,"$ecx")==0) return cpu.ecx;
+			else if(strcmp(tokens[p].str,"$edx")==0) return cpu.edx;
+			else if(strcmp(tokens[p].str,"$ebp")==0) return cpu.ebp;
+			else if(strcmp(tokens[p].str,"$esp")==0) return cpu.esp;
+			else if(strcmp(tokens[p].str,"$esi")==0) return cpu.esi;
+			else if(strcmp(tokens[p].str,"$edi")==0) return cpu.edi;
+			else;
+		}
+		else;
 	}
 	else if(check_parentheses(p,q))
 	{
@@ -254,15 +299,29 @@ int eval(int p,int q)
 	else 
 	{
 		int op=find_dominant(p,q);
-		int val1=eval(p,op-1);
-		int val2=eval(op+1,q);
-		switch(tokens[op].type)
+		if(tokens[op].type==POINTER)
+			return swaddr_read(eval(p+1,q),4);
+		else if(tokens[op].type==MINUS)
+			return -eval(p+1,q);
+		else if(tokens[op].type==NOT)
+			return !eval(p+1,q);
+		else
 		{
-			case ADD:return val1+val2;break;
-			case SUB:return val1-val2;break;
-			case MUL:return val1*val2;break;
-			case DIV:return val1/val2;break;
-			default:assert(0);
+			int val1=eval(p,op-1);
+			int val2=eval(op+1,q);
+			switch(tokens[op].type)
+			{
+				case ADD:return val1+val2;break;
+				case SUB:return val1-val2;break;
+				case MUL:return val1*val2;break;
+				case DIV:return val1/val2;break;
+				case AND:return val1&&val2;break;
+				case OR:return val1||val2;break;
+				case EQ:return val1==val2;break;
+				case NEQ:return val1!=val2;break;
+				default:assert(0);
+			}
 		}
 	}
+	return 0;
 }
