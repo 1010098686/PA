@@ -92,7 +92,7 @@ static bool make_token(char *e) {
 				 * to record the token in the array ``tokens''. For certain 
 				 * types of tokens, some extra actions should be performed.
 				 */
-				if(tokens[nr_token].type==NOTYPE);
+				if(rules[i].token_type==NOTYPE);
 				else
 				{
 				 tokens[nr_token].type=rules[i].token_type;
