@@ -25,7 +25,7 @@ static struct rule {
 	 */
 
 	{" +",	NOTYPE},				// spaces
-	{"$[\\(eax\\)\\(ebx\\)\\(ecx\\)\\(edx\\)\\(ebp\\)\\(esp\\)\\(edi\\)\\(esi\\)]",REG}, // register
+	{"\\$[(eax)(ebx)(ecx)(edx)(ebp)(esp)(esi)(edi)]",REG}, // register
 	{"0[xX][0-9a-fA-F]+",HEXNUM},		    // hex number
 	{"\\+", ADD},                   // plus
 	{"&&",AND},                     // and
