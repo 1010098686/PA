@@ -92,13 +92,16 @@ static bool make_token(char *e) {
 				 * to record the token in the array ``tokens''. For certain 
 				 * types of tokens, some extra actions should be performed.
 				 */
-				tokens[nr_token].type=rules[i].token_type;
-				if(tokens[nr_token].type == NUM || tokens[nr_token].type==HEXNUM)
+				if(tokens[nr_token].type==NOTYPE);
+				else
 				{
+				 tokens[nr_token].type=rules[i].token_type;
+				 if(tokens[nr_token].type == NUM || tokens[nr_token].type==HEXNUM)
+				   {
 					strncpy(tokens[nr_token].str,substr_start,substr_len);
+				   }  
+				  ++nr_token;
 				}
-				++nr_token;
-
 			/*	switch(rules[i].token_type) {
 					case NOTYPE:
 					case EQ:
