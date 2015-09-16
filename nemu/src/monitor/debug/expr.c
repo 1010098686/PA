@@ -101,7 +101,7 @@ static bool make_token(char *e) {
 				 if(tokens[nr_token].type == NUM || tokens[nr_token].type==HEXNUM || tokens[nr_token].type==REG)
 				   {
 					   int i;
-					   for(i=0;i<=substr_len;++i) tokens[nr_token].str[i]=substr_start[i];
+					   for(i=0;i<substr_len;++i) tokens[nr_token].str[i]=substr_start[i];
 					   tokens[nr_token].str[i]='\0';
 				   }  
 				  ++nr_token;
