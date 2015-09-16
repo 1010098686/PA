@@ -100,7 +100,9 @@ static bool make_token(char *e) {
 				 tokens[nr_token].type=rules[i].token_type;
 				 if(tokens[nr_token].type == NUM || tokens[nr_token].type==HEXNUM)
 				   {
-					strncpy(tokens[nr_token].str,substr_start,substr_len);
+					   int i;
+					   for(i=0;i<=substr_len;++i) tokens[nr_token].str[i]=substr_start[i];
+					   tokens[nr_token].str[i]='\0';
 				   }  
 				  ++nr_token;
 				}
