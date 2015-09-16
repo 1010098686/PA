@@ -168,7 +168,7 @@ static int getnum(char ch)
 }
 bool isoperator(int index)
 {
-	if(tokens[index].type==ADD || tokens[index].type==SUB || tokens[index].type==MUL || tokens[index].type==DIV || tokens[index].type==MINUS || tokens[index].type==POINTER) return true;
+	if(tokens[index].type==ADD || tokens[index].type==SUB || tokens[index].type==MUL || tokens[index].type==DIV || tokens[index].type==MINUS || tokens[index].type==POINTER || tokens[index].type==EQ || tokens[index].type==NEQ || tokens[index].type==AND || tokens[index].type==OR || tokens[index].type==NOT) return true;
 	else return false;
 }
 
