@@ -25,13 +25,15 @@ static struct rule {
 	 */
 
 	{" +",	NOTYPE},				// spaces
-	{"\\$[(eax)(ebx)(ecx)(edx)(ebp)(esp)(esi)(edi)]",REG}, // register
+	{"$e[abcd]x",REG}, // register
+	{"$e[bs]p",REG},
+	{"$e[sd]i",REG},
 	{"0[xX][0-9a-fA-F]+",HEXNUM},		    // hex number
 	{"\\+", ADD},                   // plus
 	{"&&",AND},                     // and
 	{"\\|\\|",OR},                  // or
-	{"!",NOT},                      // not
-	{"!=",NEQ},                     // not equal
+	{"!=",NEQ},                      // not equal
+	{"!",NOT},                     // not 
 	{"==", EQ},                     // equal
 	{"-",SUB},                      // sub
 	{"\\*",MUL},                   // multiply
