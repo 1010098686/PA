@@ -154,7 +154,7 @@ static int cmd_p(char* args)
 	if(!success) 
 	{
 		printf("you input an invalid expression!\n");
-		return -1;
+		return 0;
 	}
 	else
 	{
