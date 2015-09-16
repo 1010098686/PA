@@ -288,7 +288,7 @@ int eval(int p,int q)
 		}
 		else if(tokens[p].type==REG)
 		{
-			if(strcmp(tokens[p].str,"eax")==0) return cpu.eax;
+			if(strcmp(tokens[p].str,"$eax")==0) return cpu.eax;
 			else if(strcmp(tokens[p].str,"$ebx")==0) return cpu.ebx;
 			else if(strcmp(tokens[p].str,"$ecx")==0) return cpu.ecx;
 			else if(strcmp(tokens[p].str,"$edx")==0) return cpu.edx;
