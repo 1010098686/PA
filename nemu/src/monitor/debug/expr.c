@@ -279,11 +279,9 @@ int eval(int p,int q)
 		{
 			int sum=0;
 			int len=strlen(tokens[p].str);
-			char* str=(char*)malloc(sizeof(char)*len+1);
-			strcpy(str,tokens[p].str);
 			int i;
 			for(i=2;i<len;++i)
-				sum=sum*16+getnum(str[i]);
+				sum=sum*16+getnum(tokens[p].str[i]);
 			return sum;
 		}
 		else if(tokens[p].type==REG)
