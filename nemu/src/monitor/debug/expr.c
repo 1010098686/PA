@@ -152,6 +152,7 @@ uint32_t expr(char *e, bool *success) {
 		else if(tokens[i].type==SUB&& (i==0||isoperator(i-1)||tokens[i-1].type==L_BRACKET))
 			tokens[i].type=MINUS;
     return eval(0,nr_token-1);
+
 	//panic("please implement me");
 	return 0;
 }
