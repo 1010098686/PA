@@ -373,7 +373,7 @@ bool judgeexp()
 		{
 			if(i==nr_token-1) return false;
 			else if(i==0 && (tokens[i+1].type!=NUM&&tokens[i+1].type!=HEXNUM&&tokens[i+1].type!=REG&&tokens[i+1].type!=L_BRACKET&&tokens[i+1].type!=MINUS&&tokens[i+1].type!=POINTER&&tokens[i+1].type!=NOT)) return false;
-			else if((!isoperator(i-1)&&tokens[i-1].type!=L_BRACKET)||(tokens[i+1].type!=NUM&&tokens[i+1].type!=HEXNUM&&tokens[i+1].type!=REG&&tokens[i+1].type!=L_BRACKET))
+			else if(i!=0&&((!isoperator(i-1)&&tokens[i-1].type!=L_BRACKET)||(tokens[i+1].type!=NUM&&tokens[i+1].type!=HEXNUM&&tokens[i+1].type!=REG&&tokens[i+1].type!=L_BRACKET)))
 				return false;
 		}
 	}
