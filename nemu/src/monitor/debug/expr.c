@@ -139,9 +139,9 @@ bool isoperator(int index);
 bool isinbrackets(int index,int p,int q);
 int priority(int i);
 static int getnum(char ch);
-
+bool judgeexp();
 uint32_t expr(char *e, bool *success) {
-	if(!make_token(e)) {
+	if(!make_token(e)||!judgeexp()) {
 		*success = false;
 		return 0;
 	}
@@ -330,4 +330,50 @@ int eval(int p,int q)
 		}
 	}
 	return 0;
+}
+bool judgeexp()
+{
+	int *bra=(int*)malloc(sizeof(int)*nr_token);
+	int i;
+	for(i=0;i<nr_token;++i) bra[i]=-1;
+	int count=-1;
+	for(i=0;i<nr_token;++i)
+	{
+		if(tokens[i].type==L_BRACKET)
+		{
+			++count;
+			bra[count]=i;
+		}
+		else if(tokens[i].type==R_BRACKET)
+		{
+			if(count==-1) 
+			{
+				free(bra);
+				return false;
+			}
+			else --count;
+		}
+	}
+	if(count!=-1) 
+	{
+		free(bra);
+		return false;
+	}
+	free(bra);
+	for(i=0;i<nr_token;++i)
+	{
+		if(tokens[i].type==ADD||tokens[i].type==SUB||tokens[i].type==MUL||tokens[i].type==DIV||tokens[i].type==EQ||tokens[i].type==NEQ||tokens[i].type==AND||tokens[i].type==OR)
+		{
+			if(i==0||i==nr_token-1) return false;
+			else if(tokens[i-1].type!=NUM&&tokens[i-1].type!=HEXNUM&&tokens[i-1].type!=REG&&tokens[i-1].type!=R_BRACKET&&tokens[i+1].type!=NUM&&tokens[i+1].type!=HEXNUM&&tokens[i+1].type!=REG&&tokens[i+1].type!=L_BRACKET)
+				return false;
+		}
+		else if(tokens[i].type==MINUS||tokens[i].type==POINTER||tokens[i].type==NOT)
+		{
+			if(i==nr_token-1) return false;
+			else if(i!=0&&!isoperator(i-1)&&tokens[i-1].type!=L_BRACKET&&tokens[i+1].type!=NUM&&tokens[i+1].type!=HEXNUM&&tokens[i+1].type!=REG&&tokens[i+1].type!=L_BRACKET)
+				return false;
+		}
+	}
+	return true;
 }
