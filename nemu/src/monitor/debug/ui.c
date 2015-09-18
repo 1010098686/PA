@@ -10,6 +10,12 @@
 void cpu_exec(uint32_t);
 uint32_t expr(char* e,bool* success);
 void init_regex();
+void init_wp_list();
+WP* new_wp();
+void free_wp(WP* wp);
+void insert_wp(char* args);
+void delete_wp(int no);
+void display_wp();
 /* We use the ``readline'' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
 	static char *line_read = NULL;
@@ -42,6 +48,8 @@ static int cmd_si(char *args);
 static int cmd_info(char* args);
 static int cmd_x(char* args);
 static int cmd_p(char* args);
+static int cmd_w(char* args);
+static int cmd_d(char* args);
 static struct {
 	char *name;
 	char *description;
@@ -53,7 +61,9 @@ static struct {
     { "si","Let the program execute for n steps",cmd_si},
 	{ "info","Display the state of registers",cmd_info},
 	{ "x","Caculate the value of expression and display the content of the address",cmd_x},
-	{ "p","Calculate an expression",cmd_p}
+	{ "p","Calculate an expression",cmd_p},
+	{ "w","set an watchpoint,when the value of expression changes the progranm stops",cmd_w},
+	{ "d","delete the watchpoint",cmd_d}
 	/* TODO: Add more commands */
 
 };
@@ -109,7 +119,7 @@ static int cmd_info(char* args)
 	}
 	else if( strcmp(args,"w") == 0)
 	{
-
+		display_wp();
 	}
 	return 0;
 }
@@ -162,9 +172,19 @@ static int cmd_p(char* args)
 		return 0;
 	}
 }
-
-
+static int cmd_w(char* args)
+{
+	insert_wp(args);
+	return 0;
+}
+static int cmd_d(char* args)
+{
+	int no=atoi(args);
+	delete_wp(no);
+	return 0;
+}
 void ui_mainloop() {
+	init_wp_list();
 	while(1) {
 		char *str = rl_gets();
 		char *str_end = str + strlen(str);
