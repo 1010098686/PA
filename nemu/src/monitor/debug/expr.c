@@ -365,13 +365,14 @@ bool judgeexp()
 		if(tokens[i].type==ADD||tokens[i].type==SUB||tokens[i].type==MUL||tokens[i].type==DIV||tokens[i].type==EQ||tokens[i].type==NEQ||tokens[i].type==AND||tokens[i].type==OR)
 		{
 			if(i==0||i==nr_token-1) return false;
-			else if(tokens[i-1].type!=NUM&&tokens[i-1].type!=HEXNUM&&tokens[i-1].type!=REG&&tokens[i-1].type!=R_BRACKET&&tokens[i+1].type!=NUM&&tokens[i+1].type!=HEXNUM&&tokens[i+1].type!=REG&&tokens[i+1].type!=L_BRACKET)
+			else if((tokens[i-1].type!=NUM&&tokens[i-1].type!=HEXNUM&&tokens[i-1].type!=REG&&tokens[i-1].type!=R_BRACKET)||(tokens[i+1].type!=NUM&&tokens[i+1].type!=HEXNUM&&tokens[i+1].type!=REG&&tokens[i+1].type!=L_BRACKET))
 				return false;
 		}
 		else if(tokens[i].type==MINUS||tokens[i].type==POINTER||tokens[i].type==NOT)
 		{
 			if(i==nr_token-1) return false;
-			else if(i!=0&&!isoperator(i-1)&&tokens[i-1].type!=L_BRACKET&&tokens[i+1].type!=NUM&&tokens[i+1].type!=HEXNUM&&tokens[i+1].type!=REG&&tokens[i+1].type!=L_BRACKET)
+			else if(i==0 && (tokens[i+1].type!=NUM&&tokens[i+1].type!=HEXNUM&&tokens[i+1].type!=REG&&tokens[i+1].type!=L_BRACKET)) return false;
+			else if((!isoperator(i-1)&&tokens[i-1].type!=L_BRACKET)||(tokens[i+1].type!=NUM&&tokens[i+1].type!=HEXNUM&&tokens[i+1].type!=REG&&tokens[i+1].type!=L_BRACKET))
 				return false;
 		}
 	}
