@@ -96,11 +96,11 @@ void delete_wp(int no)
 
 void display_wp()
 {
-	printf("NO\texp\tvalue\n");
+	printf("NO\texp\t\tvalue\n");
 	WP* p=head;
 	while(p!=NULL)
 	{
-		printf("%d\t%s\t\t\t%d\n",p->NO,p->exp,p->value);
+		printf("%d\t%s\t%d\n",p->NO,p->exp,p->value);
 		p=p->next;
 	}
 }
