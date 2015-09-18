@@ -10,7 +10,7 @@
 #define MAX_INSTR_TO_PRINT 10
 
 int nemu_state = STOP;
-
+bool haschanged(int* no);
 int exec(swaddr_t);
 
 char assembly[80];
@@ -73,7 +73,13 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		/* TODO: check watchpoints here. */
-
+		int no;
+		bool flag=haschanged(&no);
+		if(flag)
+		{
+			printf("NO.%d watchpoint has been fired\n",no);
+			nemu_state=STOP;
+		}
 
 		if(nemu_state != RUNNING) { return; }
 	}

@@ -107,3 +107,21 @@ void display_wp()
 		p=p->next;
 	}
 }
+
+bool haschanged(int* no)
+{
+	init_regex();
+	WP* p=head;
+	while(p!=NULL)
+	{
+		bool flag=true;
+		int value=expr(p->exp,&flag);
+		if(value!=p->value)
+		{
+			p->value=value;
+			*no=p->NO;
+			return true;
+		}
+	}
+	return false;
+}
