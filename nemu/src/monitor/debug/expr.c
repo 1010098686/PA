@@ -141,7 +141,7 @@ int priority(int i);
 static int getnum(char ch);
 bool judgeexp();
 uint32_t expr(char *e, bool *success) {
-	if(!make_token(e)||!judgeexp()) {
+	if(!make_token(e)) {
 		*success = false;
 		return 0;
 	}
@@ -153,7 +153,8 @@ uint32_t expr(char *e, bool *success) {
 			tokens[i].type=POINTER;
 		else if(tokens[i].type==SUB&& (i==0||isoperator(i-1)||tokens[i-1].type==L_BRACKET))
 			tokens[i].type=MINUS;
-    return eval(0,nr_token-1);
+    if(!judgeexp()) *success=false;
+	return eval(0,nr_token-1);
 
 	//panic("please implement me");
 	return 0;
