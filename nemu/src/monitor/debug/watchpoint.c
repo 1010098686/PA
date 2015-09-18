@@ -82,7 +82,7 @@ void delete_wp(int no)
 		return ;
 	}
 	p=head;
-	while(p->next->NO!=no && p->next!=NULL) p=p->next;
+	while( p->next!=NULL && p->next->NO!=no ) p=p->next;
 	if(p->next==NULL)
 	{
 		printf("fail to find NO.%d watchpoint\n",no);
