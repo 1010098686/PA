@@ -100,7 +100,7 @@ void display_wp()
 	WP* p=head;
 	while(p!=NULL)
 	{
-		printf("%d\t%s\t%d\n",p->NO,p->exp,p->value);
+		printf("%d\t%s\t\t\t%d\n",p->NO,p->exp,p->value);
 		p=p->next;
 	}
 }
