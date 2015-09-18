@@ -31,8 +31,8 @@ WP* new_wp()
 	else
 	{
 		WP* new=free_;
-		new->next=NULL;
 		free_=free_->next;
+		new->next=NULL;
 		return new;
 	}
 }
