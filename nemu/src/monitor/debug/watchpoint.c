@@ -24,7 +24,10 @@ void init_wp_list() {
 /* TODO: Implement the functionality of watchpoint */
 WP* new_wp()
 {
-	if(free_==NULL) assert(0);  //do more things to process this problem later
+	if(free_==NULL) 
+	{
+		assert(0);
+	}
 	else
 	{
 		WP* new=free_;
