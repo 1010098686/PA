@@ -240,34 +240,35 @@ bool check_parentheses(int p,int q)
 {
 	if(tokens[p].type==L_BRACKET && tokens[q].type==R_BRACKET)
 	{
-		int num=0,i;
-		for(i=p+1;i<q;++i)
+		int* bra=(int*)malloc(sizeof(int)*32);
+		int i;
+		for(i=0;i<32;++i) bra[i]=-1;
+		int count=-1;
+		for(i=p+1;i<=q-1;++i)
 		{
-			if(tokens[i].type==L_BRACKET) ++num;
-			else if(tokens[i].type==R_BRACKET) --num;
-		}
-		if(num!=0) return false;
-		else
-		{
-			for(i=p+1;i<q;++i)
-				if(tokens[i].type==L_BRACKET)
+			if(tokens[i].type==L_BRACKET)
+			{
+				++count;
+				bra[count]=i;
+			}
+			else if(tokens[i].type==R_BRACKET)
+			{
+				if(count==-1) 
 				{
-					int j=q-1;
-					for(;j>=i+1;--j)
-						if(tokens[j].type==R_BRACKET)
-						{
-							bool judge=check_parentheses(i,j);
-							if(!judge) return false;
-							else return true;
-						}
-					if(j==i) return false;
+					free(bra);
+					return false;
 				}
-			return true;
+				else
+				{
+					--count;
+				}
+			}
 		}
-
+		free(bra);
+		if(count==-1) return true;
+		else return false;
 	}
 	else return false;
-	return false;
 }
 
 int eval(int p,int q)
@@ -306,7 +307,7 @@ int eval(int p,int q)
 	{
 		return eval(p+1,q-1);
 	}
-	else 
+    else 
 	{
 		int op=find_dominant(p,q);
 		if(tokens[op].type==POINTER)
