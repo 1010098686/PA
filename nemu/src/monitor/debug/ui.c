@@ -142,10 +142,16 @@ int xtod(char* str)  //convert the string which is hex number to decimal number
 static int cmd_x(char *args)
 {
 	char* cnum=strtok(NULL," ");
-	char* expx=strtok(NULL," ");
+	char* exp=strtok(NULL," ");
 	int num=atoi(cnum);
-	char* exp=expx+2;
-	int addr=xtod(exp);
+	init_regex();
+	bool flag=true;
+	int addr=expr(exp,&flag);
+	if(!flag)
+	{
+		printf("you input an invalid expression\n");
+		return 0;
+	}
 	int i;
 	for( i=1;i<=num;++i)
 	{
