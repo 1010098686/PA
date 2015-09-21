@@ -224,6 +224,18 @@ int find_dominant(int p,int q)
 	int min=0;
 	for(i=0;i<last;++i)
 		if(priority(temp[i])<priority(temp[min])) min=i;
+	if(priority(temp[min])==3)
+	{
+		for(i=0;i<last;++i)
+		{
+			if(priority(temp[i])==priority(temp[min]))
+			{
+				int result=i;
+				free(temp);
+				return result;
+			}
+		}
+	}
 	for(i=last-1;i>=0;--i)
 		if(priority(temp[i])==priority(temp[min])) 
 		{
