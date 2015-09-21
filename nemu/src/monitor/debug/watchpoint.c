@@ -73,6 +73,11 @@ void insert_wp(char* args)
 
 void delete_wp(int no)
 {
+	if(head==NULL)
+	{
+		printf("there is no watchpoint to delete\n");
+		return ;
+	}
 	WP* p;
 	if(head->NO==no)
 	{
