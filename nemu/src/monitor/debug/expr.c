@@ -230,7 +230,7 @@ int find_dominant(int p,int q)
 		{
 			if(priority(temp[i])==priority(temp[min]))
 			{
-				int result=i;
+				int result=temp[i];
 				free(temp);
 				return result;
 			}
