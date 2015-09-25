@@ -71,8 +71,8 @@ test: $(nemu_BIN) $(testcase_BIN) entry
 submit: clean
 	cd .. && tar cvj $(shell pwd | grep -o '[^/]*$$') > $(STU_ID).tar.bz2
 
-OLD:=NULL
-NEW:=NULL
+OLD:=0
+NEW:=0
 count:
 	git checkout b718
 	$(OLD):=find ./nemu -name "*.[ch]" |xargs cat|wc -l
