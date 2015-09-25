@@ -70,3 +70,14 @@ test: $(nemu_BIN) $(testcase_BIN) entry
 
 submit: clean
 	cd .. && tar cvj $(shell pwd | grep -o '[^/]*$$') > $(STU_ID).tar.bz2
+
+OLD:=NULL
+NEW:=NULL
+count:
+	git checkout b718
+	$(OLD) = find ./nemu -name "*.[ch] |xargs cat|wc -l
+	git checkout master
+	$(NEW) = find ./nemu -name "*.[ch] |xargs cat|wc -l
+	echo $(expr $(NEW)-$(OLD))
+	
+    
