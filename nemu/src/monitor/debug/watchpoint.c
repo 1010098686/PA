@@ -127,6 +127,7 @@ bool haschanged(int* no)
 			*no=p->NO;
 			return true;
 		}
+		p=p->next;
 	}
 	return false;
 }
