@@ -78,6 +78,6 @@ count:
 	OLD=`find ./nemu -name "*.[ch]" |xargs cat|wc -l`
 	git checkout master
 	NEW=`find ./nemu -name "*.[ch]" |xargs cat|wc -l`
-	echo `expr $$NEW-$$OLD`
+	echo `expr $$NEW - $$OLD`
 	
     
