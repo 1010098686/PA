@@ -131,3 +131,4 @@ bool haschanged(int* no)
 	}
 	return false;
 }
+
