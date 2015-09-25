@@ -170,6 +170,11 @@ static int cmd_w(char* args)
 }
 static int cmd_d(char* args)
 {
+	if(args==NULL) 
+	{
+		printf("no argument\n");
+		return 0;
+	}
 	int no=atoi(args);
 	delete_wp(no);
 	return 0;
