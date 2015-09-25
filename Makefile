@@ -75,9 +75,9 @@ OLD:=NULL
 NEW:=NULL
 count:
 	git checkout b718
-	$(OLD) := find ./nemu -name "*.[ch] |xargs cat|wc -l
+	$(OLD):=find ./nemu -name "*.[ch] |xargs cat|wc -l
 	git checkout master
-	$(NEW) := find ./nemu -name "*.[ch] |xargs cat|wc -l
+	$(NEW):=find ./nemu -name "*.[ch] |xargs cat|wc -l
 	echo $(expr $(NEW)-$(OLD))
 	
     
