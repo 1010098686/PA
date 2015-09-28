@@ -31,6 +31,16 @@ typedef struct {
 	   };
 	};
 	swaddr_t eip;
+	struct 
+	{
+		int CF:1;
+		int PF:1;
+		int ZF:1;
+		int SF:1;
+		int IF:1;
+		int DF:1;
+		int OF:1;
+	}eflags;
 
 } CPU_state;
 
