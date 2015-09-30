@@ -9,7 +9,7 @@ static void do_execute()
 	cpu.esp=cpu.esp-4;
 	swaddr_write(cpu.esp,4,cpu.eip);
 	cpu.eip=cpu.eip+src;
-    sprintf(op_src->str,"0x%x",cpu.eip);	
+    sprintf(op_src->str,"0x%x",cpu.eip+5);	
 	print_asm_template1();
 }
 
