@@ -7,7 +7,7 @@ static void do_execute()
 	int32_t src=op_src->val;
 	cpu.esp=cpu.esp-4;
 	swaddr_write(cpu.esp,4,cpu.eip);
-	cpu.eip=cpu.eip+src+5;
+	cpu.eip=cpu.eip+src;
 	
 	print_asm_template1();
 }
