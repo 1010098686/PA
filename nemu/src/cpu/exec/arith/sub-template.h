@@ -2,15 +2,15 @@
 #define instr sub
 static void do_execute()
 {
-	uint8_t src=op_src->val;
+	int8_t src=op_src->val;
 	if(DATA_BYTE==2) 
 	{
-		uint16_t det=op_dest->val-src;
+		int16_t det=op_dest->val-src;
         OPERAND_W(op_dest,det);
 	}
 	else if(DATA_BYTE==4)
 	{
-		uint32_t det=op_dest->val-src;
+		int32_t det=op_dest->val-src;
 		OPERAND_W(op_dest,det);
 	}
 	print_asm_template2();
