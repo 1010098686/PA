@@ -116,6 +116,7 @@ static int cmd_info(char* args)
 		printf("esi:	0x%x	%d\n",cpu.esi,cpu.esi);
 		printf("edi:	0x%x	%d\n",cpu.edi,cpu.edi);
 		printf("esp:	0x%x	%d\n",cpu.esp,cpu.esp);
+		printf("eip:    0x%x	%d\n",cpu.eip,cpu.eip);
 	}
 	else if( strcmp(args,"w") == 0)
 	{
