@@ -5,8 +5,8 @@ static void do_execute()
 {
 	int asrc=op_src->val;
 	sprintf(op_src->str,"0x%x",cpu.eip+asrc+2);
-	if(cpu.eflags.ZF==1)
-	{
+	//if(cpu.eflags.ZF==1)
+	//{
 		
 	  if(DATA_BYTE==1)
 	   {
@@ -26,7 +26,7 @@ static void do_execute()
 		//sprintf(op_src->str,"0x%x",cpu.eip+src+2);
 		cpu.eip+=src;
 	   }
-	}
+	//}
 	print_asm_template1();
 }
 
