@@ -6,29 +6,29 @@ static void do_execute()
 {
 	if(DATA_BYTE==1)
 	{
-		uint8_t src=op_src->val;
-		uint8_t dest=op_dest->val;
-		uint8_t result=src&dest;
-		if(result&0x80) cpu.eflags.SF=1;
+		uint8_t src1=op_src->val;
+		uint8_t dest1=op_dest->val;
+		uint8_t result1=src1&dest1;
+		if(result1&0x80) cpu.eflags.SF=1;
 		else cpu.eflags.SF=0;
-		if(result==0) cpu.eflags.ZF=1;
+		if(result1==0) cpu.eflags.ZF=1;
 		else cpu.eflags.ZF=0;
-		result=result^(result>>4);
-		result=result^(result>>2);
-		result=result^(result>>1);
-		if(!(result&1)) cpu.eflags.PF=1;
+		result1=result1^(result1>>4);
+		result1=result1^(result1>>2);
+		result1=result1^(result1>>1);
+		if(!(result1&1)) cpu.eflags.PF=1;
 		else cpu.eflags.PF=0;
 	}
 	else if(DATA_BYTE==2)
 	{
-		uint16_t src=op_src->val;
-		uint16_t dest=op_dest->val;
-		uint16_t result=src&dest;
-		if(result&0x8000) cpu.eflags.SF=1;
+	    uint16_t src2=op_src->val;
+		uint16_t dest2=op_dest->val;
+		uint16_t result2=src2&dest2;
+		if(result2&0x8000) cpu.eflags.SF=1;
 		else cpu.eflags.SF=0;
-		if(result==0) cpu.eflags.ZF=1;
+		if(result2==0) cpu.eflags.ZF=1;
 		else cpu.eflags.ZF=0;
-		uint8_t rel=result&0x00ff;
+		uint8_t rel=result2&0x00ff;
 		rel=rel^(rel>>4);
 		rel=rel^(rel>>2);
 		rel=rel^(rel>>1);
@@ -37,12 +37,12 @@ static void do_execute()
 	}
 	else if(DATA_BYTE==4)
 	{
-		uint32_t src=op_src->val;
-		uint32_t dest=op_dest->val;
-		uint32_t result=src&dest;
-		cpu.eflags.SF=(result&0x80000000)?1:0;
-		cpu.eflags.ZF=(result==0)?1:0;
-		uint8_t rel=result&0x000000ff;
+		uint32_t src3=op_src->val;
+		uint32_t dest3=op_dest->val;
+		uint32_t result3=src3&dest3;
+		cpu.eflags.SF=(result3&0x80000000)?1:0;
+		cpu.eflags.ZF=(result3==0)?1:0;
+		uint8_t rel=result3&0x000000ff;
 		rel=rel^(rel>>4);
 		rel=rel^(rel>>2);
 		rel=rel^(rel>>1);
