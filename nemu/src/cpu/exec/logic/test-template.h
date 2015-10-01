@@ -40,10 +40,8 @@ static void do_execute()
 		uint32_t src=op_src->val;
 		uint32_t dest=op_dest->val;
 		uint32_t result=src&dest;
-		if(result&0x80000000) cpu.eflags.SF=1;
-		else cpu.eflags.SF=0;
-		if(result==0) cpu.eflags.ZF=1;
-		else cpu.eflags.ZF=0;
+		cpu.eflags.SF=(result&0x80000000)?1:0;
+		cpu.eflags.ZF=(result==0)?1:0;
 		uint8_t rel=result&0x000000ff;
 		rel=rel^(rel>>4);
 		rel=rel^(rel>>2);
