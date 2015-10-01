@@ -33,13 +33,13 @@ typedef struct {
 	swaddr_t eip;
 	struct 
 	{
-		int CF:1;
-		int PF:1;
-		int ZF:1;
-		int SF:1;
-		int IF:1;
-		int DF:1;
-		int OF:1;
+		unsigned int CF:1;
+		unsigned int PF:1;
+		unsigned int ZF:1;
+		unsigned int SF:1;
+		unsigned int IF:1;
+		unsigned int DF:1;
+		unsigned int OF:1;
 	}eflags;
 
 } CPU_state;
