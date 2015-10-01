@@ -20,8 +20,8 @@ static void do_execute()
 		int32_t src=op_src->val;
 		cpu.eip+=src;
 	   }
-	print_asm_template1();
 	}
+	print_asm_template1();
 }
 
 make_instr_helper(si)
