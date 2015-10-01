@@ -8,13 +8,16 @@ static void do_execute()
 		int16_t dest=op_dest->val;
 		int16_t result=dest-src;
 		if(result&0x8000) cpu.eflags.SF=1;
+		else cpu.eflags.SF=0;
 		if(result==0) cpu.eflags.ZF=1;
+		else cpu.eflags.ZF=0;
 		//calculate the PF
 		int8_t low=result&0x00ff;
 		low=(low>>4)^low;
 		low=(low>>2)^low;
 		low=(low>>1)^low;
 		if(!(low&1)) cpu.eflags.PF=1;
+		else cpu.eflags.PF=0;
 		//calculate the CF and OF
 		int16_t asrc=src;
 		asrc=~asrc;
@@ -33,6 +36,7 @@ static void do_execute()
 			if(i==15) acin=cin;
 		}
 		if(!cin) cpu.eflags.CF=1;
+		else cpu.eflags.CF=0;
 		cpu.eflags.OF=cin^acin;
 	}
 	else if(DATA_BYTE==4)
@@ -40,13 +44,16 @@ static void do_execute()
 		int32_t dest=op_dest->val;
 		int32_t result=dest-src;
 		if(result&0x80000000) cpu.eflags.SF=1;
+		else cpu.eflags.SF=0;
 		if(result==0) cpu.eflags.ZF=1;
+		else cpu.eflags.ZF=0;
 		//calculate the PF
-		int8_t low=result&0x00ff;
+		int8_t low=result&0x000000ff;
 		low=(low>>4)^low;
 		low=(low>>2)^low;
 		low=(low>>1)^low;
 		if(!(low&1)) cpu.eflags.PF=1;
+		else cpu.eflags.PF=0;
 		//calculate the CF and OF
 		int32_t asrc=src;
 		asrc=~asrc;
@@ -65,6 +72,7 @@ static void do_execute()
 			if(i==31) acin=cin;
 		}
 		if(!cin) cpu.eflags.CF=1;
+		else cpu.eflags.CF=0;
 		cpu.eflags.OF=cin^acin;
 	}
 	print_asm_template2();
