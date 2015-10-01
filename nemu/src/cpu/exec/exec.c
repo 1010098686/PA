@@ -115,7 +115,7 @@ helper_fun opcode_table [256] = {
 /* 0x48 */	inv, inv, inv, inv,
 /* 0x4c */	inv, inv, inv, inv,
 /* 0x50 */	inv, inv, inv, inv,
-/* 0x54 */	inv, push_r2rm_l, inv, inv,
+/* 0x54 */	inv, push_r_l, inv, inv,
 /* 0x58 */	inv, inv, inv, inv,
 /* 0x5c */	inv, inv, inv, inv,
 /* 0x60 */	inv, inv, inv, inv,
