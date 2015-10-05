@@ -23,3 +23,19 @@ make_helper(lea) {
 	print_asm("leal %s,%%%s", op_src->str, regsl[m.reg]);
 	return 1 + len;
 }
+uint32_t swaddr_read(swaddr_t addr,size_t len);
+make_helper(leave)
+{
+	cpu.esp=cpu.ebp;
+	if(ops_decoded.is_data_size_16)
+	{
+		uint16_t src=swaddr_read(cpu.esp,2);
+		cpu.gpr[4]._16=src;
+	}
+	else
+	{
+		uint32_t src=swaddr_read(cpu.esp,4);
+		cpu.ebp=src;
+	}
+	return 1;
+}
