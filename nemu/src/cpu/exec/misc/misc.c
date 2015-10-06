@@ -50,7 +50,8 @@ make_helper(ret)
 		uint16_t src=swaddr_read(cpu.esp,2);
 		cpu.esp+=2;
 		cpu.eip=cpu.eip&0xffff0000;
-		cpu.eip+=src;
+		unsigned asrc=src;
+		cpu.eip+=asrc;
 		cpu.eip=cpu.eip&0x0000ffff;
 	}
 	else
