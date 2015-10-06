@@ -30,13 +30,16 @@ make_helper(leave)
 	if(ops_decoded.is_data_size_16)
 	{
 		uint16_t src=swaddr_read(cpu.esp,2);
+		cpu.esp+=2;
 		cpu.gpr[4]._16=src;
 	}
 	else
 	{
 		uint32_t src=swaddr_read(cpu.esp,4);
+		cpu.esp+=4;
 		cpu.ebp=src;
 	}
+	print_asm("leave");
 	return 1;
 }
 
@@ -56,5 +59,6 @@ make_helper(ret)
 		cpu.esp+=4;
 		cpu.eip=src;
 	}
+    print_asm("ret");
 	return 1;
 }
