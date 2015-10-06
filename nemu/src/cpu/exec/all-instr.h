@@ -32,6 +32,7 @@
 #include "control/pop.h"
 #include "control/jump.h"
 #include "control/ret.h"
+#include "control/jbe.h"
 
 #include "misc/misc.h"
 

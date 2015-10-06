@@ -3,27 +3,23 @@
 #define instr je
 static void do_execute()
 {
-	int asrc=op_src->val;
-	sprintf(op_src->str,"0x%x",cpu.eip+asrc+2);
 	if(cpu.eflags.ZF==1)
 	{
 		
 	  if(DATA_BYTE==1)
 	   {
 		int8_t src=op_src->val;
-		//sprintf(op_src->str,"0x%x",cpu.eip+src+2);
 		cpu.eip+=src;
 	   }  
 	  else if(DATA_BYTE==2)
 	   {
 		int16_t src=op_src->val;
-		//sprintf(op_src->str,"0x%x",cpu.eip+src+2);
 		cpu.eip+=src;
+		cpu.eip=cpu.eip&0x0000ffff;
 	   }
 	  else if(DATA_BYTE==4)
 	   {
 		int32_t src=op_src->val;
-		//sprintf(op_src->str,"0x%x",cpu.eip+src+2);
 		cpu.eip+=src;
 	   }
 	}
