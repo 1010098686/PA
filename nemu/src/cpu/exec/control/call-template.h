@@ -10,7 +10,7 @@ static void do_execute()
 	 int32_t src=op_src->val;
 	 cpu.esp=cpu.esp-4;
 	 swaddr_write(cpu.esp,4,cpu.eip);
-	 cpu.eip=cpu.eip+src;
+	 cpu.eip=cpu.eip+src+DATA_BYTE;
 	}
 	else if(DATA_BYTE==2)
 	{
@@ -19,6 +19,7 @@ static void do_execute()
 		swaddr_write(cpu.esp,2,ip);
 		int16_t src=op_src->val;
 		cpu.eip+=src;
+		cpu.eip+=DATA_BYTE;
 		cpu.eip=cpu.eip&0x0000ffff;
 	}
    print_asm_template1();
