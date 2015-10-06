@@ -51,7 +51,7 @@ clean: clean-cpp
 
 
 ##### some convinient rules #####
-USERPROG := obj/testcase/mov-c
+USERPROG := testcase/src/add
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
