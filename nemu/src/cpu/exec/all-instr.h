@@ -31,6 +31,7 @@
 #include "control/je.h"
 #include "control/pop.h"
 #include "control/jump.h"
+#include "control/ret.h"
 
 #include "misc/misc.h"
 

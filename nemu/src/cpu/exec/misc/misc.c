@@ -39,3 +39,22 @@ make_helper(leave)
 	}
 	return 1;
 }
+
+make_helper(ret)
+{
+	if(ops_decoded.is_data_size_16)
+	{
+		uint16_t src=swaddr_read(cpu.esp,2);
+		cpu.esp+=2;
+		uint32_t asrc=src;
+		cpu.eip=asrc;
+		cpu.eip=cpu.eip&0x0000ffff;
+	}
+	else
+	{
+		uint32_t src=swaddr_read(cpu.esp,4);
+		cpu.esp+=4;
+		cpu.eip=src;
+	}
+	return 1;
+}
