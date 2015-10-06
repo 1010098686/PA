@@ -22,6 +22,7 @@ static void do_execute()
 			cpu.eip+=src;
 		}
 	}
+	print_asm_template1();
 }
 
 make_instr_helper(si)
