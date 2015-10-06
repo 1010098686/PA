@@ -12,6 +12,7 @@
 #include "arith/div.h"
 #include "arith/sub.h"
 #include "arith/cmp.h"
+#include "arith/add.h"
 
 #include "logic/and.h"
 #include "logic/or.h"
@@ -29,6 +30,7 @@
 #include "control/push.h"
 #include "control/je.h"
 #include "control/pop.h"
+#include "control/jump.h"
 
 #include "misc/misc.h"
 
