@@ -2,9 +2,39 @@
 #define instr sub
 static void do_execute()
 {
-	int8_t src=op_src->val;
-	if(DATA_BYTE==2) 
+	if(DATA_BYTE==1)
 	{
+		int8_t src=op_src->val;
+		int8_t dest=op_dest->val;
+		int8_t result=dest-src;
+		OPERAND_W(op_dest,result);
+		cpu.eflags.SF=(result&0x80)?1:0;
+		cpu.eflags.ZF=(result==0)?1:0;
+		result=result^(result>>4);
+		result=result^(result>>2);
+		result=result^(result>>1);
+		cpu.eflags.PF=(!(result&1))?1:0;
+		int8_t asrc=~src;
+		int cin=1;
+		int acin=0;
+		int i;
+		for(i=1;i<=8;++i)
+		{
+			int a1=asrc&0x01;
+			asrc=asrc>>1;
+			int a2=dest&0x01;
+			dest=dest>>1;
+			int rel=a1+a2+cin;
+			if(rel==2 || rel==3) cin=1;
+			else cin=0;
+			if(i==7) acin=cin;
+		}
+		cpu.eflags.CF=(!cin)?1:0;
+		cpu.eflags.OF=cin^acin;
+	}
+	else if(DATA_BYTE==2) 
+	{
+		int16_t src=op_src->val;
 		int16_t dest=op_dest->val;
 		int16_t result=dest-src;
         OPERAND_W(op_dest,result);
@@ -43,6 +73,7 @@ static void do_execute()
 	}
 	else if(DATA_BYTE==4)
 	{
+		int32_t src=op_src->val;
 		int32_t dest=op_dest->val;
 		int32_t result=dest-src;
 		OPERAND_W(op_dest,result);
@@ -80,4 +111,8 @@ static void do_execute()
 
 
 make_instr_helper(si2rm)
+make_instr_helper(i2rm)
+make_instr_helper(i2a)
+make_instr_helper(r2rm)
+make_instr_helper(rm2r)
 #include"cpu/exec/template-end.h"
