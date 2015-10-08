@@ -1,16 +1,4 @@
 #include"cpu/exec/helper.h"
-//#include"cpu/exec/template-start.h"
-/*#define DATA_BYTE 1
-#include"movzwl-template.h"
-#undef DATA_BYTE
-
-#define DATA_BYTE 2
-#include"movzwl-template.h"
-#undef DATA_BYTE
-
-#define DATA_BYTE 4
-#include"movzwl-template.h"
-#undef DATA_BYTE*/
 void swaddr_write(swaddr_t addr,size_t len,uint32_t data);
 make_helper(movzwl)
 {
