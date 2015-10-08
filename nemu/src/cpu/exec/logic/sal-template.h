@@ -8,7 +8,7 @@ static void do_execute()
 	DATA_TYPE_S dest = op_dest->val;
 
 	uint8_t count = src&0x1f;
-	dest >>= count;
+	dest <<= count;
 	OPERAND_W(op_dest,dest);
 
 	print_asm_template2();
