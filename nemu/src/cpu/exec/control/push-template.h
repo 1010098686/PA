@@ -21,7 +21,7 @@ static void do_execute()
 	{
 		uint8_t src=op_src->val;
 		cpu.esp-=4;
-		swaddr_write(cpu.esp,1,src);
+		swaddr_write(cpu.esp,4,src);
 	}
 	print_asm_template1();
 }
