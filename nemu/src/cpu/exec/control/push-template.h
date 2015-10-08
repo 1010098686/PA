@@ -17,6 +17,12 @@ static void do_execute()
 		cpu.esp-=2;
 		swaddr_write(cpu.esp,2,src);
 	}
+	else if(DATA_BYTE==1)
+	{
+		uint8_t src=op_src->val;
+		cpu.esp-=4;
+		swaddr_write(cpu.esp,1,src);
+	}
 	print_asm_template1();
 }
 
