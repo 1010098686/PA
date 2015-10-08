@@ -4,11 +4,11 @@ make_helper(movzb_v)
 {
 	
 	int len;
-	int len1=decode_rm_b(cpu.eip);
+	int len1=decode_rm_b(cpu.eip+1);
 	uint8_t src=op_src->val;
 	if(ops_decoded.is_data_size_16)
 	{
-		int len2=decode_r_w(cpu.eip);
+		int len2=decode_r_w(cpu.eip+len1);
 		uint16_t dest=src;
 		if(op_dest->type==OP_TYPE_REG) 
 		{
