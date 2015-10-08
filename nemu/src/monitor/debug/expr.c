@@ -28,6 +28,7 @@ static struct rule {
 	{"\\$e[abcd]x",REG}, // register
 	{"\\$e[bs]p",REG},
 	{"\\$e[sd]i",REG},
+	{"\\$eip",REG},
 	{"0[xX][0-9a-fA-F]+",HEXNUM},		    // hex number
 	{"\\+", ADD},                   // plus
 	{"&&",AND},                     // and
