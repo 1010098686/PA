@@ -1,4 +1,5 @@
 #include"cpu/exec/helper.h"
+#define instr movzb
 void swaddr_write(swaddr_t addr,size_t len,uint32_t data);
 make_helper(movzb_v)
 {
@@ -8,7 +9,8 @@ make_helper(movzb_v)
 	uint8_t src=op_src->val;
 	if(ops_decoded.is_data_size_16)
 	{
-		int len2=decode_r_w(cpu.eip+len1);
+        #define DATA_BYTE 2
+		int len2=decoded_r_w(cpu.eip+len1);
 		uint16_t dest=src;
 		if(op_dest->type==OP_TYPE_REG) 
 		{
@@ -19,10 +21,12 @@ make_helper(movzb_v)
 			swaddr_write(op_dest->addr,op_dest->size,dest);
 		}
 		len=len1+len2;
+        #undef DATA_BYTE
 	}
 	else
 	{
-		int len2=decode_r_l(cpu.eip);
+        #define DATA_BYTE 4
+		int len2=decoded_r_l(cpu.eip);
 		uint32_t dest=src;
 		if(op_dest->type==OP_TYPE_REG)
 		{
@@ -33,6 +37,7 @@ make_helper(movzb_v)
 			swaddr_write(op_dest->addr,op_dest->size,dest);
 		}
 		len=len1+len2;
+        #undef DATA_BYTE
 	}
 	print_asm_template2();
 	return len;

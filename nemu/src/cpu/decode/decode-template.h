@@ -132,11 +132,17 @@ make_helper(concat(decode_i2r_, SUFFIX)) {
 make_helper(concat(decode_rm_, SUFFIX)) {
 	return decode_rm_internal(eip, op_src, op_src2);		/* op_src2 not use here */
 }
-
+make_helper(concat(decoded_rm_,SUFFIX))
+{
+	return decode_rm_internal(eip,op_dest,op_src2);         //op_src2 not uesd 
+}
 make_helper(concat(decode_r_, SUFFIX)) {
 	return decode_r_internal(eip, op_src);
 }
-
+make_helper(concat(decoded_r_,SUFFIX))
+{
+	return decode_r_internal(eip,op_dest); 
+}
 #if DATA_BYTE == 2 || DATA_BYTE == 4 || DATA_BYTE==1
 make_helper(concat(decode_si2rm_, SUFFIX)) {
 	int len = decode_rm_internal(eip, op_dest, op_src2);	/* op_src2 not use here */
