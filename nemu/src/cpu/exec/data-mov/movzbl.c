@@ -7,7 +7,7 @@ make_helper(movzb_v)
 	if(ops_decoded.is_data_size_16)
 	{
         #define DATA_BYTE 2
-		len=decode_mov_rm2r(cpu.eip+1,1,2);
+		len=decode_mov_rm2r(cpu.eip+2,1,2);
 		uint8_t src=op_src->val;
 		uint16_t dest=src;
 		if(op_dest->type==OP_TYPE_REG) 
@@ -23,7 +23,7 @@ make_helper(movzb_v)
 	else
 	{
         #define DATA_BYTE 4
-		len=decode_mov_rm2r(cpu.eip+1,1,4);
+		len=decode_mov_rm2r(cpu.eip+2,1,4);
 		uint8_t src=op_src->val;
 		uint32_t dest=src;
 		if(op_dest->type==OP_TYPE_REG)
