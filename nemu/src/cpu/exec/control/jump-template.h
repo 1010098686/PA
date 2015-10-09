@@ -4,25 +4,21 @@
 
 static void do_execute()
 {
-	if(DATA_BYTE==1)
-	{
-		int8_t src=op_src->val;
-		cpu.eip+=src;
-	}
-	else if(DATA_BYTE==2)
-	{
-		int16_t src=op_src->val;
-		cpu.eip+=src;
-		cpu.eip=cpu.eip&0x0000ffff;
-	}
-	else if(DATA_BYTE==4)
-	{
-		int32_t src=op_src->val;
-		cpu.eip+=src;
-	}
-	print_asm_template1();
+  if(ops_decoded.opcode==0xeb || ops_decoded.opcode==0xe9)
+  {
+	  DATA_TYPE_S src=op_src->val;
+	  cpu.eip+=src;
+	  if(DATA_BYTE==2) cpu.eip=cpu.eip&0x0000ffff;
+  }
+  else if(ops_decoded.opcode==0xff)
+  {
+	  if(DATA_BYTE==2) cpu.eip=op_src->val&0x0000ffff;
+	  else if(DATA_BYTE==4) cpu.eip=op_src->val;
+  }
+
 }
 
 make_instr_helper(si)
+make_instr_helper(rm)
 
 #include"cpu/exec/template-end.h"
