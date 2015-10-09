@@ -117,6 +117,10 @@ static int cmd_info(char* args)
 		printf("edi:	0x%x	%d\n",cpu.edi,cpu.edi);
 		printf("esp:	0x%x	%d\n",cpu.esp,cpu.esp);
 		printf("eip:    0x%x	%d\n",cpu.eip,cpu.eip);
+		printf("CF:		%d\n",cpu.eflags.CF);
+		printf("OF:		%d\n",cpu.eflags.OF);
+		printf("SF:		%d\n",cpu.eflags.SF);
+		printf("ZF:		%d\n",cpu.eflags.ZF);
 	}
 	else if( strcmp(args,"w") == 0)
 	{
