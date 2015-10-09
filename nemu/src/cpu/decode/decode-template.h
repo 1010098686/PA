@@ -78,7 +78,23 @@ static int concat3(decode_rm_, SUFFIX, _internal) (swaddr_t eip, Operand *rm, Op
 #endif
 	return len;
 }
-
+/*int decode_mov_rm2r(swaddr_t eip,int data_byte1,int data_byte2)
+{
+	switch(data_byte1)
+	{
+		case 1:op_src->size=1;break;
+		case 2:op_src->size=2;break;
+		case 4:op_src->size=4;break;
+	}
+	int len = read_ModR_M(eip,op_src,op_dest);
+	switch(data_byte2)
+	{
+		case 1:op_dest->val=reg_b(op_dest->reg);break;
+		case 2:op_dest->val=reg_w(op_dest->reg);break;
+		case 4:op_dest->val=reg_l(op_dest->reg);break;
+	}
+	return len;
+}*/
 /* Eb <- Gb
  * Ev <- Gv
  */

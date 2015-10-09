@@ -3,8 +3,7 @@ void swaddr_write(swaddr_t addr,size_t len,uint32_t data);
 make_helper(movzwl)
 {
 	
-	int len1=decode_rm_w(cpu.eip);
-	int len2=decode_r_l(cpu.eip);
+	int len=decode_mov_rm2r(cpu.eip,2,4);
 	uint16_t src=op_src->val;
 	uint32_t dest=src;
 	if(op_dest->type==OP_TYPE_REG)
@@ -16,6 +15,6 @@ make_helper(movzwl)
 		swaddr_write(op_dest->addr,op_dest->size,dest);
 	}
 	print_asm_template2();
-	return len1+len2;
+	return len;
 }
 #include"cpu/exec/template-end.h"
