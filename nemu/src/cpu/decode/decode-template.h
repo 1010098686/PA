@@ -34,10 +34,9 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	 */
 	//panic("please implement me");
     op_src->type = OP_TYPE_IMM;
-	op_src->simm=instr_fetch(eip,DATA_BYTE);
-	if(DATA_BYTE==1) op_src->val=op_src->simm | 0xffffff00;
-	else if(DATA_BYTE==2) op_src->val=op_src->simm | 0xffff0000;
-	else if(DATA_BYTE==4) op_src->val=op_src->simm;
+	DATA_TYPE_S temp=instr_fetch(eip,DATA_BYTE);
+	op_src->simm=temp;
+	op_src->val=op_src->simm;
 
 #ifdef DEBUG
 	snprintf(op_src->str, OP_STR_SIZE, "$0x%x", op_src->val);
