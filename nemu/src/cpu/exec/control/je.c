@@ -15,4 +15,4 @@
 make_helper(je_si_b);
 make_helper(je_si_w);
 make_helper(je_si_l);
-
+make_helper_v(je_si)
