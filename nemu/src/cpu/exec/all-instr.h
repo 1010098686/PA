@@ -39,6 +39,7 @@
 #include "control/jbe.h"
 #include "control/setne.h"
 #include "control/jle.h"
+#include "control/jg.h"
 
 #include "misc/misc.h"
 
