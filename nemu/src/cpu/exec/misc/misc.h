@@ -6,4 +6,5 @@ make_helper(int3);
 make_helper(lea);
 make_helper(leave);
 make_helper(ret);
+make_helper(cltd);
 #endif

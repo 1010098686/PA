@@ -63,3 +63,19 @@ make_helper(ret)
     print_asm("ret");
 	return 1;
 }
+make_helper(cltd)
+{
+	if(ops_decoded.is_data_size_16)
+	{
+	 if(cpu.eax&0x80000000) cpu.edx=0xffffffff;
+	 else cpu.edx=0x00000000;
+	}
+	else
+	{
+		if(cpu.gpr[0]._16&0x8000) cpu.gpr[2]._16=0xffff;
+		else cpu.gpr[2]._16=0x0000;
+	}
+
+	print_asm("cltd");
+	return 1;
+}
