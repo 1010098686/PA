@@ -13,7 +13,7 @@ static void do_execute()
   else if(ops_decoded.opcode==0xff)
   {
 	  if(DATA_BYTE==2) cpu.eip=op_src->val&0x0000ffff;
-	  else if(DATA_BYTE==4) cpu.eip=op_src->val;
+	  else if(DATA_BYTE==4) cpu.eip=op_src->val-2;
   }
   print_asm_template1();
 }
