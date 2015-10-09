@@ -40,6 +40,7 @@
 #include "control/setne.h"
 #include "control/jle.h"
 #include "control/jg.h"
+#include "control/jne.h"
 
 #include "misc/misc.h"
 
