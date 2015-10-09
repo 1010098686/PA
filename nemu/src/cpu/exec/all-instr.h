@@ -44,6 +44,7 @@
 #include "control/jne.h"
 #include "control/jge.h"
 #include "control/jl.h"
+#include "control/ja.h"
 
 #include "misc/misc.h"
 
