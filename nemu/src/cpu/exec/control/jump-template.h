@@ -12,8 +12,20 @@ static void do_execute()
   }
   else if(ops_decoded.opcode==0xff)
   {
-	  if(DATA_BYTE==2) cpu.eip=op_src->val&0x0000ffff;
-	  else if(DATA_BYTE==4) cpu.eip=op_src->val-2;
+	  
+	  if(DATA_BYTE==2) 
+	  {
+		  uint16_t src=op_src->val;
+		  int len=decode_rm_w(cpu.eip+1);
+		  cpu.eip=src&0x0000ffff;
+		  cpu.eip-=len;
+	  }
+	  else if(DATA_BYTE==4) 
+	  {
+		  uint32_t src=op_src->val;
+		  int len=decode_rm_l(cpu.eip+1);
+		  cpu.eip=src-len;
+	  }
   }
   print_asm_template1();
 }
