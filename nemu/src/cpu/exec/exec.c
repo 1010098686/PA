@@ -136,7 +136,7 @@ helper_fun opcode_table [256] = {
 /* 0x9c */	inv, inv, inv, inv,
 /* 0xa0 */	mov_moffs2a_b, mov_moffs2a_v, mov_a2moffs_b, mov_a2moffs_v,
 /* 0xa4 */	inv, inv, inv, inv,
-/* 0xa8 */	test_i2r_b, test_i2r_v, inv, inv,
+/* 0xa8 */	test_i2r_b, test_i2r_v, stos, stos,
 /* 0xac */	inv, inv, inv, inv,
 /* 0xb0 */	mov_i2r_b, mov_i2r_b, mov_i2r_b, mov_i2r_b,
 /* 0xb4 */	mov_i2r_b, mov_i2r_b, mov_i2r_b, mov_i2r_b,
@@ -154,7 +154,7 @@ helper_fun opcode_table [256] = {
 /* 0xe4 */	inv, inv, inv, inv,
 /* 0xe8 */	call_i_v, jump_si_v, inv, jump_si_b,
 /* 0xec */	inv, inv, inv, inv,
-/* 0xf0 */	inv, inv, inv, inv,
+/* 0xf0 */	inv, inv, inv, rep,
 /* 0xf4 */	inv, inv, group3_b, group3_v,
 /* 0xf8 */	inv, inv, inv, inv,
 /* 0xfc */	cld, inv, group4, group5

@@ -30,6 +30,7 @@
 #include "logic/sal.h"
 
 #include "string/rep.h"
+#include "string/stos.h"
 
 #include "control/call.h"
 #include "control/push.h"
