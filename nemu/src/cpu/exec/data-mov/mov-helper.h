@@ -14,7 +14,7 @@
        {\
 		   return idex(eip,concat6(decode_,type,_,SUFFIX1,_,SUFFIX2),do_mov_execute);\
 	   }
-
+extern char assemly[];
 #define print_asm_mov(...)
 #define print_asm_template2_mov()\
 	print_asm_mov(str(instr) str(SUFFIX1) str(SUFFIX2),"%s, %s",op_src->str,op_dest->str)
