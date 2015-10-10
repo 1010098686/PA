@@ -51,7 +51,7 @@ clean: clean-cpp
 
 
 ##### some convinient rules #####
-USERPROG := obj/testcase/string
+USERPROG := obj/testcase/matrix-mul
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
