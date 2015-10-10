@@ -15,6 +15,6 @@ make_helper(movzwl)
 		swaddr_write(op_dest->addr,op_dest->size,dest);
 	}
 	print_asm_template2();
-	return len;
+	return len+1;
 }
 #include"cpu/exec/template-end.h"
