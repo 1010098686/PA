@@ -101,5 +101,6 @@ make_helper(cmps)
 	}
 	cpu.esi=cpu.esi+incdec;
 	cpu.edi=cpu.edi+incdec;
+	print_asm("cmps");
 	return 1;
 }
