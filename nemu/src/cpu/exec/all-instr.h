@@ -3,6 +3,7 @@
 #include "data-mov/mov.h"
 #include "data-mov/xchg.h"
 #include "data-mov/movz.h"
+#include "data-mov/movs.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
