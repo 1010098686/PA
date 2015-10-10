@@ -31,6 +31,7 @@
 
 #include "string/rep.h"
 #include "string/stos.h"
+#include "string/cmps.h"
 
 #include "control/call.h"
 #include "control/push.h"
