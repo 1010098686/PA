@@ -28,6 +28,6 @@ make_helper(movsb)
 	}
 	cpu.esi+=incdec;
 	cpu.edi+=incdec;
-	print_asm("movsb");
+	print_asm("movs");
 	return 1;
 }
