@@ -10,6 +10,20 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 
 FLOAT f2F(float a) {
 	int b=a;
+	/*int e=(a&0x7f800000)>>23;
+	int m=(a&0x7fffff)|0x800000;
+	e=e-127;
+	if(e>=32) return 0x80000000;
+	else if(e<0) return 0;
+	else if(e>=23)
+	{
+		m=m<<(e-23);
+	}
+	else 
+	{
+		m=m>>(23-e);
+	}
+	if(a&0x80000000) b=~m+1;*/	
 	return int2F(b);
 }
 
