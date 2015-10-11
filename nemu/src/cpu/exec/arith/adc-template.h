@@ -4,9 +4,9 @@
 
 static void do_execute()
 {
-	DATA_TYPE src=op_src->val;
+	DATA_TYPE src=op_src->val+cpu.eflags.CF;
 	DATA_TYPE dest=op_dest->val;
-	DATA_TYPE result=src+dest+cpu.eflags.CF;
+	DATA_TYPE result=src+dest;
 	OPERAND_W(op_dest,result);
 	if(DATA_BYTE==1) cpu.eflags.SF=(result&0x80)?1:0;
 	else if(DATA_BYTE==2) cpu.eflags.SF=(result&0x8000)?1:0;
