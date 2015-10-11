@@ -9,7 +9,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 }
 
 FLOAT f2F(float a) {
-	int* p=&a;
+	int* p=(int*)&a;
 	int b=*p;
 	/*int rel=0;
 	int e=(a&0x7f800000)>>23;
