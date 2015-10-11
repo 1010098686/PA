@@ -9,8 +9,10 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 }
 
 FLOAT f2F(float a) {
-	int b=a;
-	/*int e=(a&0x7f800000)>>23;
+	int* p=&a;
+	int b=*p;
+	/*int rel=0;
+	int e=(a&0x7f800000)>>23;
 	int m=(a&0x7fffff)|0x800000;
 	e=e-127;
 	if(e>=32) return 0x80000000;
