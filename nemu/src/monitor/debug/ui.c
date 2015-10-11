@@ -126,6 +126,10 @@ static int cmd_info(char* args)
 	{
 		display_wp();
 	}
+	else 
+	{
+		printf("the command info needs an parameter\n");
+	}
 	return 0;
 }
 
