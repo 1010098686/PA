@@ -6,8 +6,7 @@ static void do_execute()
 {
 	if(cpu.eflags.ZF==0 && cpu.eflags.CF==0)
 	{
-		DATA_TYPE_S src=op_src->val;
-		cpu.eip+=src;
+		cpu.eip+=op_src->val;
 		if(DATA_BYTE==2)
 			cpu.eip=cpu.eip&0x0000ffff;
 	}

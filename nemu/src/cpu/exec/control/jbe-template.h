@@ -7,19 +7,16 @@ static void do_execute()
 	{
 		if(DATA_BYTE==1)
 		{
-			int8_t src=op_src->val;
-			cpu.eip+=src;
+			cpu.eip+=op_src->val;
 		}
 		else if(DATA_BYTE==2)
 		{
-			int16_t src=op_src->val;
-			cpu.eip+=src;
+			cpu.eip+=op_src->val;
 			cpu.eip=cpu.eip&0x0000ffff;
 		}
 		else if(DATA_BYTE==4)
 		{
-			int32_t src=op_src->val;
-			cpu.eip+=src;
+			cpu.eip+=op_src->val;
 		}
 	}
 	print_asm_template1();
