@@ -23,21 +23,19 @@ make_helper(lea) {
 	print_asm("leal %s,%%%s", op_src->str, regsl[m.reg]);
 	return 1 + len;
 }
-uint32_t swaddr_read(swaddr_t addr,size_t len);
+
 make_helper(leave)
 {
-	cpu.esp=cpu.ebp;
+	cpu.esp = cpu.ebp;
 	if(ops_decoded.is_data_size_16)
 	{
-		uint16_t src=swaddr_read(cpu.esp,2);
-		cpu.esp+=2;
-		cpu.gpr[5]._16=src;
+		cpu.ebp = swaddr_read(cpu.esp,2);
+		cpu.esp += 2;
 	}
 	else
 	{
-		uint32_t src=swaddr_read(cpu.esp,4);
-		cpu.esp+=4;
-		cpu.ebp=src;
+		cpu.ebp = swaddr_read(cpu.esp,4);
+		cpu.esp += 4;
 	}
 	print_asm("leave");
 	return 1;
@@ -47,40 +45,50 @@ make_helper(ret)
 {
 	if(ops_decoded.is_data_size_16)
 	{
-		uint16_t src=swaddr_read(cpu.esp,2);
-		cpu.esp+=2;
-		cpu.eip=src;
-		cpu.eip=cpu.eip&0x0000ffff;
+		cpu.eip = swaddr_read(cpu.esp,2);
+		cpu.eip &= 0x0000ffff;
+		cpu.esp += 2;
 	}
 	else
 	{
-		uint32_t src=swaddr_read(cpu.esp,4);
-		cpu.esp+=4;
-		cpu.eip=src;
+		cpu.eip = swaddr_read(cpu.esp,4);
+		cpu.esp += 4;
 	}
-    print_asm("ret");
+	if(ops_decoded.opcode == 0xc2 || ops_decoded.opcode == 0xca)
+	{
+		cpu.esp += instr_fetch(eip + 1,2);
+	}
+	print_asm("ret");
 	return 1;
 }
+
 make_helper(cltd)
 {
+	uint32_t flag = 0;
 	if(ops_decoded.is_data_size_16)
 	{
-	 if(cpu.gpr[0]._16&0x8000) cpu.gpr[2]._16=0xffff;
-	 else cpu.gpr[2]._16=0x0000;
+		flag = (cpu.eax >> 15) & 0x1;
+		if(flag == 1)
+			cpu.edx |= 0x0000ffff;
+		else
+			cpu.edx &= 0xffff0000;
+		print_asm("cwtl");
 	}
 	else
 	{
-		if(cpu.eax&0x80000000) cpu.edx=0xffffffff;
-		else cpu.edx=0x00000000;
+		flag = (cpu.eax >> 31) & 0x1;
+		if(flag == 1)
+			cpu.edx = 0xffffffff;
+		else
+			cpu.edx = 0;
+		print_asm("cltd");
 	}
-
-	print_asm("cltd");
 	return 1;
 }
 
 make_helper(cld)
 {
-	cpu.eflags.DF=0;
+	cpu.eflags.DF = 0;
 	print_asm("cld");
 	return 1;
 }
