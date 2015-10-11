@@ -106,6 +106,7 @@ static int cmd_si(char* args)
 
 static int cmd_info(char* args)
 {
+	if(args==NULL) return 0;
 	if (strcmp(args,"r") == 0)
 	{
 		printf("eax:	0x%x	%d\n",cpu.eax,cpu.eax);
