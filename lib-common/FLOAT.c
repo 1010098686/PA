@@ -11,9 +11,9 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 FLOAT f2F(float a) {
 	int* p=(int*)&a;
 	int b=*p;
-	/*int rel=0;
-	int e=(a&0x7f800000)>>23;
-	int m=(a&0x7fffff)|0x800000;
+	int rel=0;
+	int e=(b&0x7f800000)>>23;
+	int m=(b&0x7fffff)|0x800000;
 	e=e-127;
 	if(e>=32) return 0x80000000;
 	else if(e<0) return 0;
@@ -25,8 +25,9 @@ FLOAT f2F(float a) {
 	{
 		m=m>>(23-e);
 	}
-	if(a&0x80000000) b=~m+1;*/	
-	return int2F(b);
+	if(b&0x80000000) rel=~m+1;
+	rel=m;
+	return int2F(rel);
 }
 
 FLOAT Fabs(FLOAT a) {
