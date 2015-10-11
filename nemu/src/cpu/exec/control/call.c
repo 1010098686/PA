@@ -12,10 +12,10 @@
 #include"call-template.h"
 #undef DATA_BYTE
 
-make_helper(call_i_l);
-make_helper(call_i_w);
-make_helper(call_i_b);
-make_helper_v(call_i)
+make_helper(call_si_l);
+make_helper(call_si_w);
+make_helper(call_si_b);
+make_helper_v(call_si)
 make_helper(call_rm_b);
 make_helper(call_rm_w);
 make_helper(call_rm_l);
