@@ -1,76 +1,45 @@
-#include "cpu/exec/template-start.h"
-
+#include"cpu/exec/template-start.h"
 #define instr cmp
-
 static void do_execute()
 {
-    uint32_t f1,f2,f3,t,count = 0,flag = 0;
-	t = op_dest->val - op_src->val;
-	if(DATA_BYTE == 1)
-		flag = 8;
-	else if(DATA_BYTE == 2)
-		flag = 16;
-	else if(DATA_BYTE == 4)
-		flag = 32;
-	f1 = (op_dest->val >> (flag - 1)) & 0x1;
-	f2 = (op_src->val >> (flag - 1)) & 0x1;
-	f3 = (t >> (flag - 1)) & 0x1;
-	if((f1 != f2) && (f2 == f3))
-		cpu.eflags.OF = 1;
-	else
-		cpu.eflags.OF = 0;
-	if(t == 0)
-		cpu.eflags.ZF = 1;
-	else
-		cpu.eflags.ZF = 0;
-	if(f3 == 0)
-		cpu.eflags.SF = 0;
-	else
-		cpu.eflags.SF = 1;
-	int i;
-	for(i = 1;i <= 8;++i)
-	{
-		int temp = t & 0x1;
-		if(temp == 1)
-			++count;
-		t >>= 1;
-	}
-	if(count % 2 == 0)
-		cpu.eflags.PF = 1;
-	else
-		cpu.eflags.PF = 0;
-	count = 1;
-	f1 = op_dest->val;
-	f2 = ~op_src->val;
-	for(i = 1;i <= flag;++i)
-	{
-		int p1 = f1 & 0x1;
-		int p2 = f2 & 0x1;
-		int result = p1 + p2 + count;
-		if(result > 1)
-			count = 1;
-		else
-			count = 0;
-		f1 >>= 1;
-		f2 >>= 1;
-	}
-	if(count == 1)
-		cpu.eflags.CF = 0;
-	else
-		cpu.eflags.CF = 1;
+		DATA_TYPE src=op_src->val;
+		DATA_TYPE dest=op_dest->val;
+		DATA_TYPE result=dest-src;
+		switch(DATA_BYTE)
+		{
+			case 1:cpu.eflags.SF=(result&0x80)?1:0;break;
+			case 2:cpu.eflags.SF=(result&0x8000)?1:0;break;
+			case 4:cpu.eflags.SF=(result&0x80000000)?1:0;break;
+		}
+		cpu.eflags.ZF=(result==0)?1:0;
+		int8_t rel=result;
+		rel=rel^(rel>>4);
+		rel=rel^(rel>>2);
+		rel=rel^(rel>>1);
+		cpu.eflags.PF=(!(rel&1))?1:0;
+		DATA_TYPE asrc=~src;
+		int cin=1;
+		int acin=0;
+		int i;
+		for(i=1;i<=8*DATA_BYTE;++i)
+		{
+			int a1=asrc&0x1;
+			asrc=asrc>>1;
+			int a2=dest&0x1;
+			dest=dest>>1;
+			int r=a1+a2+cin;
+			if(r==2 || r==3) cin=1;
+			else cin=0;
+			if(i==(8*DATA_BYTE-1)) acin=cin;
+		}
+		cpu.eflags.CF=(!cin)?1:0;
+		cpu.eflags.OF=cin^acin;
 	print_asm_template2();
 }
 
-make_instr_helper(i2a)
-
-make_instr_helper(i2rm)
-
 make_instr_helper(si2rm)
-
+make_instr_helper(i2a)
+make_instr_helper(i2rm)
 make_instr_helper(r2rm)
-
 make_instr_helper(rm2r)
-
-
-
-#include "cpu/exec/template-end.h"
+#include"cpu/exec/template-end.h"
