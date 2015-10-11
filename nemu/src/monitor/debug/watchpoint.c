@@ -115,7 +115,7 @@ void display_wp()
 
 bool haschanged(int* no)
 {
-	init_regex();
+	//init_regex();
 	WP* p=head;
 	while(p!=NULL)
 	{
