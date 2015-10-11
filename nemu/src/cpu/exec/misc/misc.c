@@ -31,7 +31,7 @@ make_helper(leave)
 	{
 		uint16_t src=swaddr_read(cpu.esp,2);
 		cpu.esp+=2;
-		cpu.gpr[4]._16=src;
+		cpu.gpr[5]._16=src;
 	}
 	else
 	{
@@ -49,9 +49,7 @@ make_helper(ret)
 	{
 		uint16_t src=swaddr_read(cpu.esp,2);
 		cpu.esp+=2;
-		cpu.eip=cpu.eip&0xffff0000;
-		unsigned asrc=src;
-		cpu.eip+=asrc;
+		cpu.eip=src;
 		cpu.eip=cpu.eip&0x0000ffff;
 	}
 	else
