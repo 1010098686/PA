@@ -31,7 +31,7 @@ static void do_execute()
 		int rel=a1+a2+cin;
 		if(rel==2 || rel==3) cin=1;
 		else cin=0;
-		if(i==8*DATA_BYTE-1) acin=cin;
+		if(i==(8*DATA_BYTE-1)) acin=cin;
 	}
 	cpu.eflags.CF=(!cin)?1:0;
 	cpu.eflags.OF=cin^acin;
