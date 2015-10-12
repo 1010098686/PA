@@ -13,18 +13,18 @@ static void do_execute()
 			cpu.esp-=2;
 			swaddr_write(cpu.esp,2,(cpu.eip+2)&0xffff);
 			DATA_TYPE src=op_src->val;
-			int len=decode_rm_w(cpu.eip+1);
+			//int len=decode_rm_w(cpu.eip+1);
 			cpu.eip=src&0xffff;
-			cpu.eip-=(len+1);
+			cpu.eip-=2;
 		}
 		else if(DATA_BYTE==4)
 		{
 			cpu.esp-=4;
 			swaddr_write(cpu.esp,4,cpu.eip+2);
 			DATA_TYPE src=op_src->val;
-			int len=decode_rm_l(cpu.eip+1);
+			//int len=decode_rm_l(cpu.eip+1);
 			cpu.eip=src;
-			cpu.eip=cpu.eip-len-1;
+			cpu.eip=cpu.eip-2;
 		}
 	}
     else if(DATA_BYTE==4)
