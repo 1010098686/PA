@@ -1,5 +1,5 @@
 #include "cpu/exec/template-start.h"
-#include "/home/fangkang/PA_project/ics2015/lib-common/trap.h"
+//#include "/home/fangkang/PA_project/ics2015/lib-common/trap.h"
 #define instr idiv
 
 static void do_execute() {
@@ -10,7 +10,7 @@ static void do_execute() {
 #else
 	a = ((int64_t)REG(R_EDX) << (DATA_BYTE * 8)) | (int64_t)REG(R_EAX);
 #endif
-	if(b==0) nemu_assert(0);
+	//if(b==0) nemu_assert(0);
 	REG(R_EAX) = a / b;
 	REG(R_EDX) = a % b;
 
