@@ -5,12 +5,7 @@ static void do_execute()
 		DATA_TYPE src=op_src->val;
 		DATA_TYPE dest=op_dest->val;
 		DATA_TYPE result=dest-src;
-		switch(DATA_BYTE)
-		{
-			case 1:cpu.eflags.SF=(result&0x80)?1:0;break;
-			case 2:cpu.eflags.SF=(result&0x8000)?1:0;break;
-			case 4:cpu.eflags.SF=(result&0x80000000)?1:0;break;
-		}
+		cpu.eflags.SF=(MSB(result)==1)?1:0;
 		cpu.eflags.ZF=(result==0)?1:0;
 		int8_t rel=result;
 		rel=rel^(rel>>4);
