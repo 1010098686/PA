@@ -7,7 +7,7 @@ static void do_execute()
 		DATA_TYPE result=dest-src;
 		cpu.eflags.SF=(MSB(result)==1)?1:0;
 		cpu.eflags.ZF=(result==0)?1:0;
-		int8_t rel=result;
+		int8_t rel=result&0xff;
 		rel=rel^(rel>>4);
 		rel=rel^(rel>>2);
 		rel=rel^(rel>>1);
