@@ -15,14 +15,14 @@ static void do_execute()
 	  
 	  if(DATA_BYTE==2) 
 	  {
-		  uint16_t src=op_src->val;
+		  int16_t src=op_src->val;
 		  int len=decode_rm_w(cpu.eip+1);
 		  cpu.eip=src&0x0000ffff;
 		  cpu.eip-=(len+1);
 	  }
 	  else if(DATA_BYTE==4) 
 	  {
-		  uint32_t src=op_src->val;
+		  int32_t src=op_src->val;
 		  int len=decode_rm_l(cpu.eip+1);
 		  cpu.eip=src-len-1;
 	  }
