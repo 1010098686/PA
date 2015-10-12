@@ -26,7 +26,7 @@ FLOAT f2F(float a) {
 		m=m>>(23-e);
 	}
 	if(b&0x80000000) rel=~m+1;
-	rel=m;
+	else rel=m;
 	return int2F(rel);
 }
 
