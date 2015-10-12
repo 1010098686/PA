@@ -12,13 +12,13 @@ static void do_execute()
 		{
 			cpu.esp-=2;
 			swaddr_write(cpu.esp,2,(cpu.eip+2)&0xffff);
-			cpu.eip=swaddr_read(op_src->val,4)&0xffff;
+			cpu.eip=op_src->val&0xffff;
 		}
 		else if(DATA_BYTE==4)
 		{
 			cpu.esp-=4;
 			swaddr_write(cpu.esp,4,cpu.eip+2);
-			cpu.eip=swaddr_read(op_src->val,4);
+			cpu.eip=op_src->val;
 		}
 	}
     else if(DATA_BYTE==4)
