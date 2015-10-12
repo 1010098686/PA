@@ -6,22 +6,18 @@ static void do_execute()
 {
 	if(DATA_BYTE==4)
 	{
-
-	  uint32_t src=op_src->val;
 	  cpu.esp=cpu.esp-4;
-	  swaddr_write(cpu.esp,4,src);
+	  swaddr_write(cpu.esp,4,op_src->val);
 	}
 	else if(DATA_BYTE==2)
 	{
-		uint16_t src=op_src->val;
 		cpu.esp-=2;
-		swaddr_write(cpu.esp,2,src);
+		swaddr_write(cpu.esp,2,op_src->val);
 	}
 	else if(DATA_BYTE==1)
 	{
-		uint8_t src=op_src->val;
 		cpu.esp-=4;
-		swaddr_write(cpu.esp,4,src);
+		swaddr_write(cpu.esp,4,op_src->val);
 	}
 	print_asm_template1();
 }
