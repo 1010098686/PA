@@ -8,7 +8,7 @@ static inline int F2int(FLOAT a) {
 	int sign=a&0x80000000;
 	if(sign) a=a&0x7fffffff;
 	a=a>>16;
-	return (sign)?a:-a;
+	return (sign)?-a:a;
 }
 
 static inline FLOAT int2F(int a) {
