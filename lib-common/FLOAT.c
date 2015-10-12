@@ -1,10 +1,11 @@
 #include "FLOAT.h"
-
+#include"trap.h"
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
 	return (a*b)>>16;
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
+	if(b==0) nemu_assert(0);
 	return (a/b)<<16;
 }
 
