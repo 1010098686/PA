@@ -1,7 +1,10 @@
 #include "FLOAT.h"
 #include"trap.h"
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
-	return (a*b)>>16;
+	int temp=a*b;
+	int bias=0;
+	if(temp<=0) bias=0x0000ffff ;
+	return (temp+bias)>>16;
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
