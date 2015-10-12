@@ -4,7 +4,7 @@
 static void do_execute()
 {
 		DATA_TYPE src=op_src->val;
-		DATA_TYPE dest=op_src->val;
+		DATA_TYPE dest=op_dest->val;
 		DATA_TYPE result=src+dest;
 		OPERAND_W(op_dest,result);
 		cpu.eflags.SF=(MSB(result)==1)?1:0;
