@@ -6,17 +6,17 @@ typedef int FLOAT;
 
 static inline int F2int(FLOAT a) {
 	int sign=a&0x80000000;
-	if(sign) a=~a+1;
+	if(sign) a=-a;
 	a=a>>16;
 	if(sign) a=-a;
 	return a;
 }
 
 static inline FLOAT int2F(int a) {
-    int sign=(a>0)?1:-1;
-	if(sign==-1) a=-a;
+    int sign=a&0x80000000;
+	if(sign) a=-a;
 	a=a<<16;
-	if(sign==-1) a=-a;
+	if(sign) a=-a;
 	return a;
 }
 
