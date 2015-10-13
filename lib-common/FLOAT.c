@@ -35,7 +35,8 @@ FLOAT f2F(float a) {
 }
 
 FLOAT Fabs(FLOAT a) {
-	a=a&0x7fffffff;
+	int sign=a&0x80000000;
+	if(sign) a=-a;
 	return a;
 }
 
