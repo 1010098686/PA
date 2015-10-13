@@ -3,13 +3,22 @@
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
 	int temp=a*b;
 	int bias=0;
-	if(temp<0) bias=0x0000ffff ;
+	if(temp<0) bias=0x0000ffff;
 	return (temp+bias)>>16;
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
 	nemu_assert(b!=0);
-	return (a/b)<<16;
+	int sign1=a&0x80000000;
+	int sign2=b&0x80000000;
+	if(sign1) a=-a;
+	if(sign2) b=-b;
+	int rel=a/b;
+	int mod=a%b;
+	FLOAT frel=int2F(rel);
+	FLOAT fmod=int2F(mod);
+	FLOAT result=F_div_int(fmod,F2int(b));
+	return (sign1!=sign2)?-(frel+result):(frel+result);
 }
 
 FLOAT f2F(float a) {
