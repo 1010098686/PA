@@ -22,13 +22,16 @@ static inline FLOAT int2F(int a) {
 
 static inline FLOAT F_mul_int(FLOAT a, int b) {
 	FLOAT temp=int2F(b);
-	return a*temp;
+	int t=a*temp;
+	int bias=0;
+	if(t<0) bias=0x0000ffff;
+	return (t+bias)>>16;
 }
 
 static inline FLOAT F_div_int(FLOAT a, int b) {
     nemu_assert(b!=0);
 	FLOAT temp=int2F(b);
-	return a/temp;
+	return (a/temp)<<16;
 }
 
 FLOAT f2F(float);
