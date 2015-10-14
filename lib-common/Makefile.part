@@ -9,4 +9,5 @@ $(FLOAT): $(FLOAT_OBJ)
 #FLOAT_SRC :=../obj/lib-common/FLOAT.o
 
 $(FLOAT_OBJ): $(LIB_COMMON_DIR)/FLOAT.c
+	mkdir ../obj/lib-common & >/dev/null
 	gcc $(LIB_COMMON_DIR)/FLOAT.c -c -m32 -fno-builtin -o $(FLOAT_OBJ)
