@@ -9,7 +9,7 @@ FLOAT F_mul_F(FLOAT a, FLOAT b) {
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
 	nemu_assert(b!=0);
-	return (a/b)<<16;
+	return (a<<16)/b;
 }
 
 FLOAT f2F(float a) {
