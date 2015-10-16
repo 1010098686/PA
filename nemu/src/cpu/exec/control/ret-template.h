@@ -3,9 +3,7 @@
 
 static void do_execute()
 {
-	DATA_TYPE imm=op_src->val;
-	if(ops_decoded.is_data_size_16)
-	{
+	    DATA_TYPE imm=op_src->val;
 		uint16_t src=swaddr_read(cpu.esp,2);
 		cpu.esp+=2;
 		int len=decode_i_w(cpu.eip+1);
@@ -15,16 +13,7 @@ static void do_execute()
 		cpu.eip=cpu.eip&0x0000ffff;
 		cpu.eip+=imm;
 		cpu.eip-=len;
-	}
-	else
-	{
-		uint32_t src=swaddr_read(cpu.esp,4);
-		cpu.esp+=4;
-		int len=decode_i_l(cpu.eip+1);
-		cpu.eip=src;
-		cpu.eip+=imm;
-		cpu.eip-=len;
-	}
+
 	print_asm_template1();
 }
 
