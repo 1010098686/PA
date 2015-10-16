@@ -11,7 +11,7 @@ static void do_execute()
 		if(DATA_BYTE==2)
 		{
 			cpu.esp-=2;
-			swaddr_write(cpu.esp,2,(cpu.eip+1)&0xffff);
+			swaddr_write(cpu.esp,2,(cpu.eip+3)&0xffff);
 			DATA_TYPE src=op_src->val;
 			int len=decode_rm_w(cpu.eip+1);
 			cpu.eip=src&0xffff;
@@ -36,7 +36,7 @@ static void do_execute()
 	else if(DATA_BYTE==2)
 	{
 		cpu.esp-=2;
-		swaddr_write(cpu.esp,2,(cpu.eip+2)&0xffff);
+		swaddr_write(cpu.esp,2,(cpu.eip+4)&0xffff);
 		cpu.eip=(cpu.eip+op_src->val)&0xffff;
 	}
    print_asm_template1();
