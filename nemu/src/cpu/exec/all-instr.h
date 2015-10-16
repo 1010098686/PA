@@ -50,6 +50,7 @@
 #include "control/ja.h"
 #include "control/jns.h"
 #include "control/setg.h"
+#include "control/jb.h"
 
 #include "misc/misc.h"
 
