@@ -13,7 +13,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	unsigned div=(b>0)?b:-b;
 	FLOAT c=rem/div;
 	rem-=c*div;
-	c<<16;
+	c=c<<16;
 	int count=16;
 	while(rem!=0)
 	{
