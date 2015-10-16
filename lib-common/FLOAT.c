@@ -23,7 +23,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 			c=c|(1<<count);
 		}
 		if(rem==0) break;
-		rem<<1;
+		rem=rem<<1;
 		--count;
 	}
 	return ((a>0)!=(b>0))?-c:c;
