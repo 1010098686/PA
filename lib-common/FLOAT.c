@@ -9,8 +9,27 @@ FLOAT F_mul_F(FLOAT a, FLOAT b) {
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
 	nemu_assert(b!=0);
-	return (a<<16)/b;
+	unsigned rem=(a>0)?a:-a;
+	unsigned div=(b>0)?b:-b;
+	FLOAT c=rem/div;
+	rem-=c*div;
+	c<<16;
+	int count=16;
+	while(rem!=0)
+	{
+		if(rem>=div) 
+		{
+			rem-=div;
+			c=c|(1<<count);
+		}
+		if(rem==0) break;
+		rem<<1;
+		--count;
+	}
+	return ((a>0)!=(b>0))?-c:c;
 }
+
+
 
 FLOAT f2F(float a) {
 	int* p=(int*)&a;
