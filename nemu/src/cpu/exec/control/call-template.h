@@ -20,7 +20,7 @@ static void do_execute()
 		else if(DATA_BYTE==4)
 		{
 			cpu.esp-=4;
-			swaddr_write(cpu.esp,4,cpu.eip+1);
+			swaddr_write(cpu.esp,4,cpu.eip+2);
 			DATA_TYPE src=op_src->val;
 			int len=decode_rm_l(cpu.eip+1);
 			cpu.eip=src;
