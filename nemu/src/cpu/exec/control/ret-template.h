@@ -12,7 +12,7 @@ static void do_execute()
 		unsigned asrc=src;
 		cpu.eip+=asrc;
 		//cpu.eip=cpu.eip&0x0000ffff;
-		cpu.eip-=len;
+		cpu.eip-=(len+1);
 
 	print_asm_template1();
 }
