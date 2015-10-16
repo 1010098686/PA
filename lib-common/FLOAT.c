@@ -18,7 +18,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	rem-=c*div;
 	c=c<<16;
 	int count=16;
-	while(rem!=0)
+	while(count!=0)
 	{
 		if(rem>=div) 
 		{
