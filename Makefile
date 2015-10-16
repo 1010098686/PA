@@ -51,7 +51,7 @@ clean: clean-cpp
 
 
 ##### some convinient rules ####
-USERPROG := obj/testcase/sum 
+USERPROG := obj/testcase/switch 
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
