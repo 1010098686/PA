@@ -30,7 +30,7 @@ static void do_execute()
     else if(DATA_BYTE==4)
 	{
 	 cpu.esp-=4;
-	 MEM_W(cpu.esp,cpu.eip+4);
+	 MEM_W(cpu.esp,cpu.eip+5);
 	 cpu.eip+=op_src->val;
 	}
 	else if(DATA_BYTE==2)

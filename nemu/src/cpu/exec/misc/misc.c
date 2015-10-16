@@ -59,7 +59,7 @@ make_helper(ret)
 		cpu.eip=src;
 	}
     print_asm("ret");
-	return 1;
+	return 0;
 }
 make_helper(cltd)
 {
