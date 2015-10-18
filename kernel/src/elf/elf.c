@@ -41,7 +41,10 @@ uint32_t loader() {
 	int i;
 	for(i=0;i<elf->e_phnum;++i) {
 		/* Scan the program header table, load each segment into memory */
-		ph=(Elf32_Phdr*)(buf+elf->e_phoff+i*elf->e_phentsize);
+		uint8_t * tempph=(uint8_t *)malloc(sizeof(uint8_t)*elf->e_phentsize);
+		ramdisk_read(tempph,elf->e_phoff+i*elf->e_phentsize,elf->e_phentsize);
+		ph=(Elf32_Phdr*)tempph;
+		//ph=(Elf32_Phdr*)(buf+elf->e_phoff+i*elf->e_phentsize);
 		if(ph->p_type == PT_LOAD) {
 
 			/* TODO: read the content of the segment from the ELF file 
@@ -67,6 +70,7 @@ uint32_t loader() {
 			if(brk < new_brk) { brk = new_brk; }
 #endif
 		}
+		free(tempph);
 	}
 
 	volatile uint32_t entry = elf->e_entry;
