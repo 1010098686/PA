@@ -15,7 +15,7 @@ void ramdisk_read(uint8_t *, uint32_t, uint32_t);
 
 void create_video_mapping();
 uint32_t get_ucr3();
-
+void swaddr_write(swaddr_t addr,size_t len,uint32_t data);
 uint32_t loader() {
 	Elf32_Ehdr *elf;
 	Elf32_Phdr *ph = NULL;
@@ -31,25 +31,32 @@ uint32_t loader() {
 	elf = (void*)buf;
 
 	/* TODO: fix the magic number with the correct one */
-	const uint32_t elf_magic = 0xBadC0de;
+	const uint32_t elf_magic = 0x7f454c46;
 	uint32_t *p_magic = (void *)buf;
 	nemu_assert(*p_magic == elf_magic);
 
 	/* Load each program segment */
-	panic("please implement me");
-	for(; true; ) {
+	//panic("please implement me");
+	int i;
+	for(i=0;i<elf->e_phnum;++i) {
 		/* Scan the program header table, load each segment into memory */
+		ph=elf+elf->e_phoff+i*elf->phentsize;
 		if(ph->p_type == PT_LOAD) {
 
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
-			 
+			uint8_t content=(uint8_t*)malloc(sizeof(uint8_t)*ph->p_filesz); 
+			ramdisk_read(content,ph->p_offset,ph->filesz);
+			int j;
+			for(j=0;j<ph->p_filesz;++j)
+				swaddr_write(ph->vaddr+i,1,content[i]);
 			 
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
-
+			for(j=ph->vaddr+ph->p_filesz;j<ph->p_vaddr+ph->p_memsz;++j)
+				swaddr_write(j,1,0);
 
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
