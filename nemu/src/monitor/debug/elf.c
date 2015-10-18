@@ -84,7 +84,7 @@ void load_elf_tables(int argc, char *argv[]) {
 
 uint32_t getobjectaddr(char* str)
 {
-	char* call[2]={"load","add"};
+	char* call[2]={"load","/home/fangkang/PA_project/ics2015/obj/testcase/add"};
 	load_elf_tables(2,call);
 	int i;
 	for(i=0;i<nr_symtab_entry;++i)
