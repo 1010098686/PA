@@ -41,7 +41,7 @@ uint32_t loader() {
 	int i;
 	for(i=0;i<elf->e_phnum;++i) {
 		/* Scan the program header table, load each segment into memory */
-		ph=(Elf32_Phdr*)(elf+elf->e_phoff+i/**elf->e_phentsize*/);
+		ph=(Elf32_Phdr*)(elf+elf->e_phoff+i*elf->e_phentsize);
 		if(ph->p_type == PT_LOAD) {
 
 			/* TODO: read the content of the segment from the ELF file 
@@ -57,7 +57,7 @@ uint32_t loader() {
 			 */
 			uint8_t* zero=(uint8_t*)malloc(sizeof(uint8_t)*(ph->p_memsz-ph->p_filesz));
 			for(j=0;j<ph->p_memsz-ph->p_filesz;++j) zero[i]=0;
-			ramdisk_write(zero,ph->p_vaddr,ph->p_memsz-ph->p_filesz);
+			ramdisk_write(zero,ph->p_vaddr+ph->p_filesz,ph->p_memsz-ph->p_filesz);
 			free(zero);
 
 #ifdef IA32_PAGE
