@@ -16,6 +16,7 @@ void free_wp(WP* wp);
 void insert_wp(char* args);
 void delete_wp(int no);
 void display_wp();
+void printstackframe();
 /* We use the ``readline'' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
 	static char *line_read = NULL;
@@ -50,6 +51,7 @@ static int cmd_x(char* args);
 static int cmd_p(char* args);
 static int cmd_w(char* args);
 static int cmd_d(char* args);
+static int cmd_bt(char* args);
 static struct {
 	char *name;
 	char *description;
@@ -63,7 +65,8 @@ static struct {
 	{ "x","Caculate the value of expression and display the content of the address",cmd_x},
 	{ "p","Calculate an expression",cmd_p},
 	{ "w","set an watchpoint,when the value of expression changes the progranm stops",cmd_w},
-	{ "d","delete the watchpoint",cmd_d}
+	{ "d","delete the watchpoint",cmd_d},
+	{ "bt","print the frame of stack",cmd_bt}
 	/* TODO: Add more commands */
 
 };
@@ -187,6 +190,11 @@ static int cmd_d(char* args)
 	}
 	int no=atoi(args);
 	delete_wp(no);
+	return 0;
+}
+static int cmd_bt(char* args)
+{
+	printstackframe();
 	return 0;
 }
 void ui_mainloop() {

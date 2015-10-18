@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <elf.h>
 #include <string.h>
+#include "cpu/reg.h"
 
 char *exec_file = NULL;
 
@@ -84,8 +85,8 @@ void load_elf_tables(int argc, char *argv[]) {
 
 uint32_t getobjectaddr(char* str)
 {
-	char* call[2]={"load","/home/fangkang/PA_project/ics2015/obj/testcase/add"};
-	load_elf_tables(2,call);
+	//char* call[2]={"load","/home/fangkang/PA_project/ics2015/obj/testcase/add"};
+	//load_elf_tables(2,call);
 	int i;
 	for(i=0;i<nr_symtab_entry;++i)
 	{
@@ -93,4 +94,30 @@ uint32_t getobjectaddr(char* str)
 			return symtab[i].st_value;
 	}
 	return 0xffffffff;
+}
+uint32_t swaddr_read(swaddr_t addr,size_t len);
+
+void printstackframe()
+{
+	uint32_t ebp=cpu.ebp;
+	char* funcname=NULL;
+	while(ebp!=0)
+	{
+		int i;
+		for(i=0;i<nr_symtab_entry;++i)
+		{
+			if(ELF32_ST_TYPE(symtab[i].st_info)==STT_FUNC)
+			{
+				if(cpu.eip>=symtab[i].st_value && cpu.eip<symtab[i].st_value+symtab[i].st_size)
+					funcname=strtab+symtab[i].st_name;
+			}
+		}
+		printf("eip:\t0x%x\n",cpu.eip);
+		printf("func:\t%s\n",funcname);
+		printf("argument1:\t0x%x\n",swaddr_read(ebp+8,4));
+		printf("argument2:\t0x%x\n",swaddr_read(ebp+12,4));
+		printf("argument3:\t0x%x\n",swaddr_read(ebp+16,4));
+		printf("argument4:\t0x%x\n",swaddr_read(ebp+20,4));
+		ebp=swaddr_read(ebp,4);
+	}
 }
