@@ -100,6 +100,11 @@ uint32_t swaddr_read(swaddr_t addr,size_t len);
 void printstackframe()
 {
 	uint32_t ebp=cpu.ebp;
+	if(ebp==0)
+	{
+		printf("there is no stack frame now!\n");
+		return ;
+	}
 	char* funcname=NULL;
 	while(ebp!=0)
 	{
