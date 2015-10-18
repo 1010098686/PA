@@ -56,7 +56,7 @@ uint32_t loader() {
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
 			uint8_t* zero=(uint8_t*)malloc(sizeof(uint8_t)*(ph->p_memsz-ph->p_filesz));
-			for(j=0;j<ph->p_memsz-ph->p_filesz;++j) zero[i]=0;
+			for(j=0;j<ph->p_memsz-ph->p_filesz;++j) zero[j]=0;
 			ramdisk_write(zero,ph->p_vaddr+ph->p_filesz,ph->p_memsz-ph->p_filesz);
 			free(zero);
 
