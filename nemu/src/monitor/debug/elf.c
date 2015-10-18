@@ -108,7 +108,7 @@ void printstackframe()
 		{
 			if(ELF32_ST_TYPE(symtab[i].st_info)==STT_FUNC)
 			{
-				if(cpu.eip>=symtab[i].st_value && cpu.eip<symtab[i].st_value+symtab[i].st_size)
+				if(ebp>=symtab[i].st_value && ebp<symtab[i].st_value+symtab[i].st_size)
 					funcname=strtab+symtab[i].st_name;
 			}
 		}
