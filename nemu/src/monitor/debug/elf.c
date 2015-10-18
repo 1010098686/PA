@@ -1,6 +1,7 @@
 #include "common.h"
 #include <stdlib.h>
 #include <elf.h>
+#include <string.h>
 
 char *exec_file = NULL;
 
@@ -81,3 +82,15 @@ void load_elf_tables(int argc, char *argv[]) {
 	fclose(fp);
 }
 
+uint32_t getobjectaddr(char* str)
+{
+	char* call[2]={"load","add"};
+	load_elf_tables(2,call);
+	int i;
+	for(i=0;i<nr_symtab_entry;++i)
+	{
+		if(symtab[i].st_info==STT_OBJECT && strcmp(str,strtab+symtab[i].st_name)==0)
+			return symtab[i].st_value;
+	}
+	return 0xffffffff;
+}

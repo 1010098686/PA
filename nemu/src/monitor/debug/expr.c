@@ -9,7 +9,7 @@
 #include<string.h>
 #define BAD_EXP -9999
 enum {
-	NOTYPE = 256, EQ,SUB,ADD,MUL,DIV,NUM,HEXNUM,REG,NEQ,AND,OR,NOT,L_BRACKET,R_BRACKET,MINUS,POINTER
+	NOTYPE = 256, EQ,SUB,ADD,MUL,DIV,NUM,HEXNUM,REG,NEQ,AND,OR,NOT,L_BRACKET,R_BRACKET,MINUS,POINTER,OBJECT
 
 	/* TODO: Add more token types */
 
@@ -41,8 +41,8 @@ static struct rule {
 	{"/",DIV},                      // divide
 	{"[0-9]+",NUM},                   // numbers
 	{"\\(",L_BRACKET},             // left bracket
-	{"\\)",R_BRACKET}             // right bracket
-
+	{"\\)",R_BRACKET},             // right bracket
+    {"\\([a-z]\\*_\\)\\+",OBJECT}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -99,7 +99,7 @@ static bool make_token(char *e) {
 				else
 				{
 				 tokens[nr_token].type=rules[i].token_type;
-				 if(tokens[nr_token].type == NUM || tokens[nr_token].type==HEXNUM || tokens[nr_token].type==REG)
+				 if(tokens[nr_token].type == NUM || tokens[nr_token].type==HEXNUM || tokens[nr_token].type==REG || tokens[nr_token].type==OBJECT)
 				   {
 					   int i;
 					   for(i=0;i<substr_len;++i) tokens[nr_token].str[i]=substr_start[i];
@@ -141,6 +141,7 @@ bool isinbrackets(int index,int p,int q);
 int priority(int i);
 static int getnum(char ch);
 bool judgeexp();
+uint32_t getobjectaddr(char* str);
 uint32_t expr(char *e, bool *success) {
 	*success=true;
 	if(!make_token(e)) {
@@ -315,6 +316,7 @@ int eval(int p,int q)
 			else if(strcmp(tokens[p].str,"$eip")==0) return cpu.eip;
 			else;
 		}
+		else if(tokens[p].type==OBJECT) return getobjectaddr(tokens[p].str);
 		else;
 	}
 	else if(check_parentheses(p,q))
@@ -384,16 +386,17 @@ bool judgeexp()
 		if(tokens[i].type==ADD||tokens[i].type==SUB||tokens[i].type==MUL||tokens[i].type==DIV||tokens[i].type==EQ||tokens[i].type==NEQ||tokens[i].type==AND||tokens[i].type==OR)
 		{
 			if(i==0||i==nr_token-1) return false;
-			else if((tokens[i-1].type!=NUM&&tokens[i-1].type!=HEXNUM&&tokens[i-1].type!=REG&&tokens[i-1].type!=R_BRACKET)||(tokens[i+1].type!=NUM&&tokens[i+1].type!=HEXNUM&&tokens[i+1].type!=REG&&tokens[i+1].type!=L_BRACKET&&tokens[i+1].type!=MINUS&&tokens[i+1].type!=POINTER&&tokens[i+1].type!=NOT))
+			else if((tokens[i-1].type!=NUM&&tokens[i-1].type!=HEXNUM&&tokens[i-1].type!=REG&&tokens[i-1].type!=R_BRACKET&&tokens[i-1].type!=OBJECT)||(tokens[i+1].type!=NUM&&tokens[i+1].type!=HEXNUM&&tokens[i+1].type!=REG&&tokens[i+1].type!=L_BRACKET&&tokens[i+1].type!=MINUS&&tokens[i+1].type!=POINTER&&tokens[i+1].type!=NOT&&tokens[i+1].type!=OBJECT))
 				return false;
 		}
 		else if(tokens[i].type==MINUS||tokens[i].type==POINTER||tokens[i].type==NOT)
 		{
 			if(i==nr_token-1) return false;
-			else if(i==0 && (tokens[i+1].type!=NUM&&tokens[i+1].type!=HEXNUM&&tokens[i+1].type!=REG&&tokens[i+1].type!=L_BRACKET&&tokens[i+1].type!=MINUS&&tokens[i+1].type!=POINTER&&tokens[i+1].type!=NOT)) return false;
-			else if(i!=0&&((!isoperator(i-1)&&tokens[i-1].type!=L_BRACKET)||(tokens[i+1].type!=NUM&&tokens[i+1].type!=HEXNUM&&tokens[i+1].type!=REG&&tokens[i+1].type!=L_BRACKET&&tokens[i+1].type!=MINUS&&tokens[i+1].type!=POINTER&&tokens[i+1].type!=NOT)))
+			else if(i==0 && (tokens[i+1].type!=NUM&&tokens[i+1].type!=HEXNUM&&tokens[i+1].type!=REG&&tokens[i+1].type!=L_BRACKET&&tokens[i+1].type!=MINUS&&tokens[i+1].type!=POINTER&&tokens[i+1].type!=NOT&&tokens[i+1].type!=OBJECT)) return false;
+			else if(i!=0&&((!isoperator(i-1)&&tokens[i-1].type!=L_BRACKET)||(tokens[i+1].type!=NUM&&tokens[i+1].type!=HEXNUM&&tokens[i+1].type!=REG&&tokens[i+1].type!=L_BRACKET&&tokens[i+1].type!=MINUS&&tokens[i+1].type!=POINTER&&tokens[i+1].type!=NOT&&tokens[i+1].type!=OBJECT)))
 				return false;
 		}
 	}
 	return true;
 }
+
