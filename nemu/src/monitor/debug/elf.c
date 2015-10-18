@@ -124,8 +124,8 @@ void printstackframe()
 		printf("argument2:\t0x%x\n",swaddr_read(ebp+12,4));
 		printf("argument3:\t0x%x\n",swaddr_read(ebp+16,4));
 		printf("argument4:\t0x%x\n",swaddr_read(ebp+20,4));
-		ebp=swaddr_read(ebp,4);
 		addr=swaddr_read(ebp+4,4);
+		ebp=swaddr_read(ebp,4);
 		funcname=NULL;
 	}
 }
