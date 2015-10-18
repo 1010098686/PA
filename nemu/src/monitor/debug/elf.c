@@ -89,7 +89,7 @@ uint32_t getobjectaddr(char* str)
 	int i;
 	for(i=0;i<nr_symtab_entry;++i)
 	{
-		if(symtab[i].st_info==STT_OBJECT && strcmp(str,strtab+symtab[i].st_name)==0)
+		if(ELF32_ST_TYPE(symtab[i].st_info)==STT_OBJECT && strcmp(str,strtab+symtab[i].st_name)==0)
 			return symtab[i].st_value;
 	}
 	return 0xffffffff;
