@@ -104,11 +104,12 @@ void printstackframe()
 	while(ebp!=0)
 	{
 		int i;
+		uint32_t ret_addr=swaddr_read(ebp+4,4);
 		for(i=0;i<nr_symtab_entry;++i)
 		{
 			if(ELF32_ST_TYPE(symtab[i].st_info)==STT_FUNC)
 			{
-				if(ebp>=symtab[i].st_value && ebp<symtab[i].st_value+symtab[i].st_size)
+				if(ret_addr>=symtab[i].st_value && ret_addr<symtab[i].st_value+symtab[i].st_size)
 					funcname=strtab+symtab[i].st_name;
 			}
 		}
