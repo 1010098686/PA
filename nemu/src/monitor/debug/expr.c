@@ -42,7 +42,7 @@ static struct rule {
 	{"[0-9]+",NUM},                   // numbers
 	{"\\(",L_BRACKET},             // left bracket
 	{"\\)",R_BRACKET},             // right bracket
-    {"\\([a-z]\\*_\\)\\+",OBJECT}
+    {"[a-z_]\\+",OBJECT}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
