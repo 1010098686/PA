@@ -36,7 +36,7 @@ static void do_execute()
 	else if(DATA_BYTE==2)
 	{
 		cpu.esp-=2;
-		swaddr_write(cpu.esp,2,(cpu.eip+4)&0xffff);
+		swaddr_write(cpu.esp,2,(cpu.eip+3)&0xffff);
 		cpu.eip=(cpu.eip+op_src->val)&0xffff;
 	}
    print_asm_template1();
