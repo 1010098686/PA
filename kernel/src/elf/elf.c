@@ -2,7 +2,6 @@
 #include "memory.h"
 #include <string.h>
 #include <elf.h>
-#include <stdlib.h>
 
 #define ELF_OFFSET_IN_DISK 0
 
