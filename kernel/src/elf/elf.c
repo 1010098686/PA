@@ -38,6 +38,7 @@ uint32_t loader() {
 
 	/* Load each program segment */
 	//panic("please implement me");
+	uint8_t content[4096];
 	int i;
 	for(i=0;i<elf->e_phnum;++i) {
 		/* Scan the program header table, load each segment into memory */
@@ -47,7 +48,6 @@ uint32_t loader() {
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
-			uint8_t content[4096]={0};
 			ramdisk_read(content,ph->p_offset,ph->p_filesz);
 			ramdisk_write(content,ph->p_vaddr,ph->p_filesz);
 			/* TODO: zero the memory region 
