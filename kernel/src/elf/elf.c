@@ -41,9 +41,9 @@ uint32_t loader() {
 	int i;
 	for(i=0;i<elf->e_phnum;++i) {
 		/* Scan the program header table, load each segment into memory */
-		//int size=sizeof(Elf32_Ehdr);
-		//ph=(void*)(elf+(elf->e_phoff)/size+(i*elf->e_phentsize)/size);
-		ph=(void*)(buf+elf->e_phoff+i*elf->e_phentsize);
+		int size=sizeof(Elf32_Ehdr);
+		ph=(void*)(elf+(elf->e_phoff+i*elf->e_phentsize)/size);
+		//ph=(void*)(buf+elf->e_phoff+i*elf->e_phentsize);
         //ph=(void*)(elf+elf->e_phoff+i*elf->e_phentsize);
 		if(ph->p_type == PT_LOAD) {
 
