@@ -37,13 +37,13 @@ uint32_t loader() {
 
 	/* Load each program segment */
 	//panic("please implement me");
-	uint8_t content[4096];
-	int size=sizeof(Elf32_Ehdr);
+	uint8_t content[120000];
+	//int size=sizeof(Elf32_Ehdr);
 	int i;
 	for(i=0;i<elf->e_phnum;++i) {
 		/* Scan the program header table, load each segment into memory */
-		ph=(void*)(elf+elf->e_phoff/size+i*elf->e_phentsize);
-		//ph=(void*)(buf+elf->e_phoff+i*elf->e_phentsize);
+		//ph=(void*)(elf+elf->e_phoff/size+i*elf->e_phentsize);
+		ph=(void*)(buf+elf->e_phoff+i*elf->e_phentsize);
 		if(ph->p_type == PT_LOAD) {
 
 			/* TODO: read the content of the segment from the ELF file 
@@ -55,7 +55,7 @@ uint32_t loader() {
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
 			int j;
-			for(j=0;j<4096;++j) content[j]=0;
+			for(j=0;j<120000;++j) content[j]=0;
 			ramdisk_write(content,ph->p_vaddr+ph->p_filesz,ph->p_memsz-ph->p_filesz);
 
 #ifdef IA32_PAGE
