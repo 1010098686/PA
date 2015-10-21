@@ -29,7 +29,7 @@ uint32_t loader() {
 #endif
 
 	elf = (void*)buf;
-
+    
 	/* TODO: fix the magic number with the correct one */
 	const uint32_t elf_magic = 0x464c457f;
 	uint32_t *p_magic = (void *)buf;
@@ -38,13 +38,16 @@ uint32_t loader() {
 	/* Load each program segment */
 	//panic("please implement me");
 	uint8_t content[4096];
+	uint8_t tempph[4096];
 	int i;
 	for(i=0;i<elf->e_phnum;++i) {
 		/* Scan the program header table, load each segment into memory */
 		//int size=sizeof(Elf32_Ehdr);
 		//ph=(void*)(elf+(elf->e_phoff)/size+(i*elf->e_phentsize)/size);
-		ph=(Elf32_Phdr*)(buf+elf->e_phoff+i*elf->e_phentsize);
+		//ph=(void*)(buf+elf->e_phoff+i*elf->e_phentsize);
         //ph=(void*)(elf+elf->e_phoff+i*elf->e_phentsize);
+		ramdisk_read(tempph,elf->e_phoff+i*elf->e_phentsize,elf->e_phentsize);
+		ph=(void*)tempph;
 		if(ph->p_type == PT_LOAD) {
 
 			/* TODO: read the content of the segment from the ELF file 
