@@ -38,12 +38,15 @@ uint32_t loader() {
 	/* Load each program segment */
 	//panic("please implement me");
 	uint8_t content[4096];
-	int size=sizeof(Elf32_Ehdr);
+	uint8_t tempph[4096];
+	ramdisk_read(tempph,elf->e_phoff,elf->e_phnum*elf->e_phentsize);
+	//int size=sizeof(Elf32_Ehdr);
 	int i;
 	for(i=0;i<elf->e_phnum;++i) {
 		/* Scan the program header table, load each segment into memory */
-		ph=(void*)(elf+elf->e_phoff/size+i*elf->e_phentsize);
+		//ph=(void*)(elf+elf->e_phoff/size+i*elf->e_phentsize);
 		//ph=(void*)(buf+elf->e_phoff+i*elf->e_phentsize);
+		ph=(void*)&tempph[i];
 		if(ph->p_type == PT_LOAD) {
 
 			/* TODO: read the content of the segment from the ELF file 
