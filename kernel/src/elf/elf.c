@@ -37,7 +37,7 @@ uint32_t loader() {
 
 	/* Load each program segment */
 	//panic("please implement me");
-	uint8_t content[120000];
+	uint8_t content[4096];
 	//int size=sizeof(Elf32_Ehdr);
 	int i;
 	for(i=0;i<elf->e_phnum;++i) {
@@ -55,7 +55,7 @@ uint32_t loader() {
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
 			int j;
-			for(j=0;j<120000;++j) content[j]=0;
+			for(j=0;j<4096;++j) content[j]=0;
 			ramdisk_write(content,ph->p_vaddr+ph->p_filesz,ph->p_memsz-ph->p_filesz);
 
 #ifdef IA32_PAGE
