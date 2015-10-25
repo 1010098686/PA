@@ -5,6 +5,7 @@ make_helper(exec);
 make_helper(rep) {
 	int len;
 	int count = 0;
+	int opcode=ops_decoded.opcode;
 	if(instr_fetch(eip + 1, 1) == 0xc3) {
 		/* repz ret */
 		exec(eip + 1);
@@ -26,7 +27,8 @@ make_helper(rep) {
 				);
 
 			/* TODO: Jump out of the while loop if necessary. */
-
+			if(opcode==0xf3 && cpu.eflags.ZF==1) break;
+			if(opcode==0xf2 && cpu.eflags.ZF==0) break;
 		}
 		len = 1;
 	}
