@@ -6,7 +6,7 @@ make_helper(rep) {
 	int len;
 	int count = 0;
 	int opcode=ops_decoded.opcode;
-	printf("%x\n",opcode);
+	//printf("%x\n",opcode);
 	if(instr_fetch(eip + 1, 1) == 0xc3) {
 		/* repz ret */
 		exec(eip + 1);
@@ -17,7 +17,7 @@ make_helper(rep) {
 			exec(eip + 1);
 			count ++;
 			cpu.ecx --;
-			printf("%x\n",ops_decoded.opcode);
+			//printf("%x\n",ops_decoded.opcode);
 			assert(ops_decoded.opcode == 0xa4	// movsb
 				|| ops_decoded.opcode == 0xa5	// movsw
 				|| ops_decoded.opcode == 0xaa	// stosb
