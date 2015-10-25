@@ -1,4 +1,4 @@
-#include "/home/fangkang/PA_project/ics2015/lib-common/trap.h"
+#include "trap.h"
 
 int add(int a, int b) {
 	int c = a + b;
