@@ -5,6 +5,7 @@
 #include "data-mov/movz.h"
 #include "data-mov/movs.h"
 #include "data-mov/cmove.h"
+#include "data-mov/cmovns.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
