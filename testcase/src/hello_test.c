@@ -14,8 +14,8 @@ void *sbrk(int incr) {
 }
 
 int main() {
-	sprintf(buf, "%s", "ab\n");
-	nemu_assert(strcmp(buf, "ab\n") == 0);
+	sprintf(buf, "%s", "ab \n");
+	nemu_assert(strcmp(buf, "ab \n") == 0);
 
 	
 
