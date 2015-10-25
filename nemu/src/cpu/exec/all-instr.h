@@ -55,6 +55,7 @@
 #include "control/setg.h"
 #include "control/jb.h"
 #include "control/js.h"
+#include "control/jae.h"
 
 #include "misc/misc.h"
 
