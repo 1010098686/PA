@@ -116,7 +116,7 @@ void printstackframe()
 					funcname=strtab+symtab[i].st_name;
 			}
 		}
-		printf("eip:\t0x%x\n",cpu.eip);
+		printf("eip:\t0x%x\n",addr);
 		printf("func:\t%s\n",funcname);
 		printf("argument1:\t0x%x\n",swaddr_read(ebp+8,4));
 		printf("argument2:\t0x%x\n",swaddr_read(ebp+12,4));
