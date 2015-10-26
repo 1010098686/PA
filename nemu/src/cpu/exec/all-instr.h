@@ -4,10 +4,7 @@
 #include "data-mov/xchg.h"
 #include "data-mov/movz.h"
 #include "data-mov/movs.h"
-#include "data-mov/cmove.h"
-#include "data-mov/cmovns.h"
-#include "data-mov/cmovge.h"
-#include "data-mov/cmovs.h"
+#include "data-mov/cmovcc.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
@@ -40,23 +37,12 @@
 
 #include "control/call.h"
 #include "control/push.h"
-#include "control/je.h"
 #include "control/pop.h"
 #include "control/jump.h"
 #include "control/ret.h"
-#include "control/jbe.h"
-#include "control/setne.h"
-#include "control/jle.h"
-#include "control/jg.h"
-#include "control/jne.h"
-#include "control/jge.h"
-#include "control/jl.h"
-#include "control/ja.h"
-#include "control/jns.h"
-#include "control/setg.h"
-#include "control/jb.h"
-#include "control/js.h"
-#include "control/jae.h"
+#include "control/setcc.h"
+#include "control/jcc.h"
+
 
 #include "misc/misc.h"
 
