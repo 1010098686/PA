@@ -7,6 +7,7 @@
 #include "data-mov/cmove.h"
 #include "data-mov/cmovns.h"
 #include "data-mov/cmovge.h"
+#include "data-mov/cmovs.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
