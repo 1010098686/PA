@@ -4,7 +4,7 @@
 
 static void do_execute()
 {
-   bool flag=false;
+   int flag=0;
    switch(ops_decoded.opcode)
    {
      case 0x77:flag=(cpu.eflags.CF==0 && cpu.eflags.ZF==0);break;
@@ -40,7 +40,7 @@ static void do_execute()
      case 0x8a:flag=(cpu.eflags.PF==1);break;
      case 0x78:flag=(cpu.eflags.SF==1);break;
      case 0x88:flag=(cpu.eflags.SF==1);break;
-     default :flag=false;
+     default :flag=0;
      }
      if(flag)
      {
