@@ -71,7 +71,7 @@ static inline int check_reg_index(int index) {
 #define cache_index(addr) ((addr)&0x00001fc0)>>6
 #define cache_tag(addr) ((addr)&0xffffe000)>>13
 #define cache_offset(addr) ((addr)&0x0000003f)
-static inline bool hit(hwaddr_t addr,int*num)
+static inline int hit(hwaddr_t addr,int* num)
  {
     int i;
     for(i=0;i<8;++i) 
@@ -79,10 +79,10 @@ static inline bool hit(hwaddr_t addr,int*num)
       if(cpu.cache.cache_group[cache_index(addr)].cache_block[i].tag==cache_tag(addr) && cpu.cache.cache_group[cache_index(addr)].cache_block[i].valid==1) 
       {
         *num=i;
-        return true;
+        return 1;
       }
     }
-    return false;
+    return 0;
 }
 
    
