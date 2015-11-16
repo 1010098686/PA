@@ -73,11 +73,10 @@ static inline int check_reg_index(int index) {
 #define cache_offset(addr) ((addr)&0x0000003f)
 static inline bool hit(hwaddr_t addr,int*num)
  {
-    int _index=cache_index(addr);
     int i;
     for(i=0;i<8;++i) 
     {
-      if(cpu.cache.cache_group[_index].cache_block[i].tag==cache_tag(addr) && cpu.cache.cache_group[_index].cache_block[i].valid==1) 
+      if(cpu.cache.cache_group[cache_index(addr)].cache_block[i].tag==cache_tag(addr) && cpu.cache.cache_group[cache_index(addr)].cache_block[i].valid==1) 
       {
         *num=i;
         return true;

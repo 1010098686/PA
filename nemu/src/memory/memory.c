@@ -1,7 +1,7 @@
 #include "common.h"
 #include<stdlib.h>
 #include<time.h>
-#include "nemu.h"
+#include"nemu.h"
 uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
 /* Memory accessing interfaces */
@@ -34,7 +34,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
           cpu.cache.cache_group[cache_index(newaddr)].cache_block[_index].valid=1;
           for(i=0;i<64;++i)
           {
-            uint8_t temp=dram_read(newaddr+i,1)&0xff;
+            uint8_t temp=dram_read(newaddr+i,1)&0x000000ff;
             cpu.cache.cache_group[cache_index(newaddr)].cache_block[_index].data[i]=temp;
           }
 	return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
@@ -50,7 +50,7 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
           int i;
           for(i=offset;i<offset+len;++i)
           {
-             uint8_t temp=data_bk&0xff;
+             uint8_t temp=data_bk&0x000000ff;
              data_bk=data_bk>>8;
              cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[i]=temp;
           }
