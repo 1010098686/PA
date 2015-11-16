@@ -19,6 +19,6 @@ typedef struct
   Cache_group cache_group[128];
 } Cache;
 
- Cache cache;
+ extern Cache cache;
 
 #endif
