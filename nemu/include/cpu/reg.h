@@ -49,7 +49,7 @@ typedef struct {
 	    struct
 	    {
 	      unsigned int valid:1;
-	      unsigned int tag:14;
+	      unsigned int tag:19;
 	      uint8_t data[64];
 	    }cache_block[8];
 	  }cache_group[128];
@@ -68,9 +68,9 @@ static inline int check_reg_index(int index) {
 #define reg_w(index) (cpu.gpr[check_reg_index(index)]._16)
 #define reg_b(index) (cpu.gpr[check_reg_index(index) & 0x3]._8[index >> 2])
 
-#define cache_index(addr) ((addr)&0x0001fc0)>>6
-#define cache_tag(addr) ((addr)&0xfffe000)>>13
-#define cache_offset(addr) ((addr)&0x000003f)
+#define cache_index(addr) ((addr)&0x00001fc0)>>6
+#define cache_tag(addr) ((addr)&0xffffe000)>>13
+#define cache_offset(addr) ((addr)&0x0000003f)
 static inline bool hit(hwaddr_t addr,int*num)
  {
     int _index=cache_index(addr);

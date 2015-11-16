@@ -21,7 +21,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
         }
         else
         {
-          hwaddr_t newaddr=addr&0xfffffc0;
+          hwaddr_t newaddr=addr&0xffffffc0;
           int _index=-1;
           int i;
           for(i=0;i<8;++i) if(cpu.cache.cache_group[cache_index(newaddr)].cache_block[i].valid==0) _index=i;
