@@ -7,13 +7,13 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
-        /*int num;
+        int num;
         if(hit(addr,&num))
         {
-          int offset=(addr&0xffff3f)|len;
+          int offset=(addr&0x00003f)+len;
           int i;
           uint32_t result=0;
-          for(i=offset-1;i>=(addr&0xffff3f);--i)
+          for(i=offset-1;i>=(addr&0x00003f);--i)
           {
             result=(result<<8)+cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[i];
           }
@@ -31,13 +31,14 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
             _index=rand()%8;
           }
           cpu.cache.cache_group[cache_index(newaddr)].cache_block[_index].tag=tag(newaddr);
+          cpu.cache.cache_group[cache_index(newaddr)].cache_block[_index].valid=1;
           for(i=0;i<64;++i)
           {
             uint8_t temp=dram_read(newaddr+i,1)&0xff;
             cpu.cache.cache_group[cache_index(newaddr)].cache_block[_index].data[i]=temp;
-          }*/
+          }
 	return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
-	//}
+	}
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
