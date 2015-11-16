@@ -21,13 +21,13 @@ typedef struct
 
  extern Cache cache;
  
- #define index(addr) ((addr)&0x001fc0)>>6
+ #define cache_index(addr) ((addr)&0x001fc0)>>6
  #define tag(addr) ((addr)&0xffe000)>>13
  
  
  static inline bool hit(hwaddr_t addr,int*num)
  {
-    int _index=index(addr);
+    int _index=cache_index(addr);
     int i;
     for(i=0;i<8;++i) 
     {
