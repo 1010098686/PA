@@ -5,6 +5,7 @@
 extern uint8_t entry [];
 extern uint32_t entry_len;
 extern char *exec_file;
+Cache cache;
 
 void load_elf_tables(int, char *[]);
 void init_regex();
@@ -95,4 +96,11 @@ void restart() {
 	cpu.eflags.OF=0;
 	/* Initialize DRAM. */
 	init_ddr3();
+	int i;
+	for(i=0;i<128;++i)
+	{
+	   int j;
+	   for(j=0;j<8;++j)
+	     cache.cache_group[i].cache_block[j].valid=0;
+        }
 }
