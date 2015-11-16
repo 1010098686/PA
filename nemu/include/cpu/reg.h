@@ -85,6 +85,7 @@ static inline bool hit(hwaddr_t addr,int*num)
     return false;
 }
 
+   
 extern const char* regsl[];
 extern const char* regsw[];
 extern const char* regsb[];
