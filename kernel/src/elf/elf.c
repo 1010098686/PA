@@ -51,14 +51,14 @@ uint32_t loader() {
 			 */
 			ramdisk_read(content,ph->p_offset,ph->p_filesz);
 			//ramdisk_write(content,ph->p_vaddr,ph->p_filesz);
-			memcpy((void*)0+ph->p_offset,content,ph->p_filesz);
+			memcpy((void*)(ph->p_offset),content,ph->p_filesz);
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
 			int j;
 			for(j=0;j<ph->p_memsz-ph->p_filesz;++j) content[j]=0;
 			//ramdisk_write(content,ph->p_vaddr+ph->p_filesz,ph->p_memsz-ph->p_filesz);
-			memcpy((void*)0+ph->p_vaddr+ph->p_filesz,content,ph->p_memsz-ph->p_filesz);
+			memcpy((void*)(ph->p_vaddr+ph->p_filesz),content,ph->p_memsz-ph->p_filesz);
 
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
