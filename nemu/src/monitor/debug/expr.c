@@ -327,7 +327,7 @@ int eval(int p,int q)
 	{
 		int op=find_dominant(p,q);
 		if(tokens[op].type==POINTER)
-			return swaddr_read(eval(op+1,q),4);
+			return swaddr_read(eval(op+1,q),1);
 		else if(tokens[op].type==MINUS)
 			return -eval(op+1,q);
 		else if(tokens[op].type==NOT)
