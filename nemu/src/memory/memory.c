@@ -42,6 +42,19 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
+        int num;
+        if(hit(addr,&num))
+        {
+          int offset=cache_offset(addr);
+          uint32_t data_bk = data;
+          int i;
+          for(i=offset;i<offset+len;++i)
+          {
+             uint8_t temp=data_bk&0xff;
+             data_bk=data_bk>>8;
+             cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[i]=temp;
+          }
+        }
 	dram_write(addr, len, data);
 }
 
