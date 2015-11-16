@@ -5,7 +5,7 @@
 extern uint8_t entry [];
 extern uint32_t entry_len;
 extern char *exec_file;
-Cache cache;
+
 
 void load_elf_tables(int, char *[]);
 void init_regex();
