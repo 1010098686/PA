@@ -48,7 +48,7 @@ typedef struct {
 	  {
 	    struct
 	    {
-	      unsigned int valid:1;
+	      unsigned int valid;
 	      unsigned int tag;
 	      uint8_t data[64];
 	    }cache_block[8];

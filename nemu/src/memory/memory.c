@@ -24,7 +24,10 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
           hwaddr_t newaddr=addr&0xffffffc0;
           int _index=-1;
           int i;
-          for(i=0;i<8;++i) if(cpu.cache.cache_group[cache_index(newaddr)].cache_block[i].valid==0) _index=i;
+          for(i=0;i<8;++i) 
+          {
+            if(cpu.cache.cache_group[cache_index(newaddr)].cache_block[i].valid==0) _index=i;
+          }
           if(_index==-1) 
           {
             srand(time(NULL));
