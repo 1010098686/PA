@@ -1,7 +1,7 @@
 #include "common.h"
 #include<stdlib.h>
 #include<time.h>
-#include"nemu.h"
+#include "nemu.h"
 uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
 /* Memory accessing interfaces */
