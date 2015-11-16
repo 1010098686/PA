@@ -10,10 +10,10 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
         int num;
         if(hit(addr,&num))
         {
-          int offset=(addr&0x00003f)+len;
+          int offset=addr&0x00003f;
           int i;
           uint32_t result=0;
-          for(i=offset-1;i>=(addr&0x00003f);--i)
+          for(i=offset+len-1;i>=offset;--i)
           {
             result=(result<<8)+cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[i];
           }
