@@ -69,15 +69,15 @@ static inline int check_reg_index(int index) {
 #define reg_b(index) (cpu.gpr[check_reg_index(index) & 0x3]._8[index >> 2])
 
 #define cache_index(addr) ((addr)&0x001fc0)>>6
-#define tag(addr) ((addr)&0xffe000)>>13
-
+#define cache_tag(addr) ((addr)&0xffe000)>>13
+#define cache_offset(addr) ((addr)&0x00003f)
 static inline bool hit(hwaddr_t addr,int*num)
  {
     int _index=cache_index(addr);
     int i;
     for(i=0;i<8;++i) 
     {
-      if(cpu.cache.cache_group[_index].cache_block[i].tag==tag(addr) && cpu.cache.cache_group[_index].cache_block[i].valid==1) 
+      if(cpu.cache.cache_group[_index].cache_block[i].tag==cache_tag(addr) && cpu.cache.cache_group[_index].cache_block[i].valid==1) 
       {
         *num=i;
         return true;
