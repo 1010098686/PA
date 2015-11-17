@@ -52,6 +52,7 @@ static int cmd_p(char* args);
 static int cmd_w(char* args);
 static int cmd_d(char* args);
 static int cmd_bt(char* args);
+static int cmd_cache(char* args);
 static struct {
 	char *name;
 	char *description;
@@ -66,7 +67,8 @@ static struct {
 	{ "p","Calculate an expression",cmd_p},
 	{ "w","set an watchpoint,when the value of expression changes the progranm stops",cmd_w},
 	{ "d","delete the watchpoint",cmd_d},
-	{ "bt","print the frame of stack",cmd_bt}
+	{ "bt","print the frame of stack",cmd_bt},
+	{ "cache","use an address to search cache",cmd_cache}
 	/* TODO: Add more commands */
 
 };
@@ -196,6 +198,23 @@ static int cmd_bt(char* args)
 {
 	printstackframe();
 	return 0;
+}
+static int cmd_cache(char* args)
+{
+  bool flag=false;
+  hwaddr_t addr=expr(args,&flag);
+  int num;
+  if(hit(addr,&num))
+  {
+    int i;
+    for(i=0;i<64;++i) printf("%x ",cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[i]);
+    printf("\n");
+   }
+   else
+   {
+     printf("fail to search the cache\n");
+   }
+   return 0;
 }
 void ui_mainloop() {
 	init_wp_list();
