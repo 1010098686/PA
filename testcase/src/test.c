@@ -5,6 +5,8 @@ int main()
 {
   int i;
   for(i=0;i<10;++i) nemu_assert(ans[i]==-i);
+  for(i=0;i<10;++i) ans[i]=i;
+  for(i=0;i<10;++i) nemu_assert(ans[i]==i);
   HIT_GOOD_TRAP;
   return 0;
 }
