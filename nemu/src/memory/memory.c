@@ -15,7 +15,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
           uint32_t result=0;
           for(i=offset+len-1;i>=offset;--i)
           {
-            result=(result<<8)|cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[i];
+            result=(result<<8)+cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[i];
           }
           return result;
         }
