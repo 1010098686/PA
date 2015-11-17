@@ -10,14 +10,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
         int num;
         if(hit(addr,&num))
         {
-          int offset=cache_offset(addr);
-          int i;
-          uint32_t result=0;
-          for(i=offset+len-1;i>=offset;--i)
-          {
-            result=(result<<8)+cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[i];
-          }
-          return result;
+          return cache_read(addr,len);
         }
         else
         {
@@ -48,15 +41,7 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
         int num;
         if(hit(addr,&num))
         {
-          int offset=cache_offset(addr);
-          uint32_t data_bk = data;
-          int i;
-          for(i=offset;i<offset+len;++i)
-          {
-             uint8_t temp=data_bk&0x000000ff;
-             data_bk=data_bk>>8;
-             cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[i]=temp;
-          }
+          cache_write(addr,len,data);
         }
 	dram_write(addr, len, data);
 }

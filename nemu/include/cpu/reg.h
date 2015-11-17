@@ -84,8 +84,35 @@ static inline int hit(hwaddr_t addr,int* num)
     }
     return 0;
 }
-
-   
+static inline uint32_t cache_read(hwaddr_t addr,size_t len)
+{
+   int num;
+   if(hit(addr,&num))
+   {
+     int offset=cache_offset(addr);
+     uint32_t result =0;
+     int i;
+     for(i=offset+len-1;i>=offset;--i)
+     result=(result<<8)+cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[i];
+     return result;
+   }
+   return 0;
+}
+static inline void cache_write(hwaddr_t addr,size_t len,uint32_t data)
+{
+  int num;
+  if(hit(addr,&num))
+  {
+    int offset=cache_offset(addr);
+    int i;
+    for(i=offset;i<offset+len;++i)
+    {
+       uint8_t temp=data&0x000000ff;
+       data=data>>8;
+       cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[i]=temp;
+    }
+  }
+}  
 extern const char* regsl[];
 extern const char* regsw[];
 extern const char* regsb[];
