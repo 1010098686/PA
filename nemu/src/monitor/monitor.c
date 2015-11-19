@@ -101,6 +101,6 @@ void restart() {
 	{
 	   int j;
 	   for(j=0;j<8;++j)
-	     cpu.cache.cache_group[i].cache_block[j].valid=0;
+	     cache.cache_group[i].cache_block[j].valid=0;
         }
 }

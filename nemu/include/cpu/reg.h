@@ -43,18 +43,7 @@ typedef struct {
 		unsigned int DF:1;
 		unsigned int OF:1;
 	}eflags;
-	struct
-	{
-	  struct
-	  {
-	    struct
-	    {
-	      unsigned int valid;
-	      unsigned int tag;
-	      uint8_t data[64];
-	    }cache_block[8];
-	  }cache_group[128];
-	}cache;
+	
 
 } CPU_state;
 
@@ -69,60 +58,11 @@ static inline int check_reg_index(int index) {
 #define reg_w(index) (cpu.gpr[check_reg_index(index)]._16)
 #define reg_b(index) (cpu.gpr[check_reg_index(index) & 0x3]._8[index >> 2])
 
-#define cache_index(addr) ((addr)&0x00001fc0)>>6
-#define cache_tag(addr) ((addr)&0xffffe000)>>13
-#define cache_offset(addr) ((addr)&0x0000003f)
-static inline int hit(hwaddr_t addr,int* num)
- {
-    int i;
-    for(i=0;i<8;++i) 
-    {
-      if(cpu.cache.cache_group[cache_index(addr)].cache_block[i].tag==cache_tag(addr) && cpu.cache.cache_group[cache_index(addr)].cache_block[i].valid==1) 
-      {
-        *num=i;
-        return 1;
-      }
-    }
-    return 0;
-}
-static inline void cache_read(hwaddr_t addr,uint8_t* result)
-{
-   int num=-1;
-   int i;
-   for(i=0;i<8;++i) if(cpu.cache.cache_group[cache_index(addr)].cache_block[i].tag==cache_tag(addr) && cpu.cache.cache_group[cache_index(addr)].cache_block[i].valid==1) num=i;
-   int offset=cache_offset(addr);
-   *result = cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[offset];
-   
-}
-static inline void cache_write(hwaddr_t addr,uint8_t data)
-{
-  int num=-1;
-  int i;
-  for(i=0;i<8;++i) if(cpu.cache.cache_group[cache_index(addr)].cache_block[i].tag==cache_tag(addr) && cpu.cache.cache_group[cache_index(addr)].cache_block[i].valid==1) num=i;
-  int offset=cache_offset(addr);
-  cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[offset]=data;
-  
-}
-uint32_t dram_read(hwaddr_t, size_t);
-static inline void cache_misspro(hwaddr_t addr)
-{
-   int num=-1;
-   int i;
-   hwaddr_t newaddr=addr&0xffffffc0;
-   for(i=0;i<8;++i)
-   {
-      if(cpu.cache.cache_group[cache_index(addr)].cache_block[i].valid==0) num=i;
-   }
-   if(num==-1)
-   {
-     srand(time(NULL));
-     num=rand()%8;
-    }
-    cpu.cache.cache_group[cache_index(addr)].cache_block[num].valid=1;
-    cpu.cache.cache_group[cache_index(addr)].cache_block[num].tag=cache_tag(addr);
-    for(i=0;i<64;++i)
-      cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[i]=dram_read(newaddr+i,1);
-} 
+
+
+
+
+
 extern const char* regsl[];
 extern const char* regsw[];
 extern const char* regsb[];

@@ -207,9 +207,9 @@ static int cmd_cache(char* args)
   if(hit(addr,&num))
   {
     int i;
-    printf("valid:%d\n",cpu.cache.cache_group[cache_index(addr)].cache_block[num].valid);
-    printf("tag:0x%x\n",cpu.cache.cache_group[cache_index(addr)].cache_block[num].tag);
-    for(i=0;i<64;++i) printf("%x ",cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[i]);
+    printf("valid:%d\n",cache.cache_group[cache_index(addr)].cache_block[num].valid);
+    printf("tag:0x%x\n",cache.cache_group[cache_index(addr)].cache_block[num].tag);
+    for(i=0;i<64;++i) printf("%x ",cache.cache_group[cache_index(addr)].cache_block[num].data[i]);
     printf("\n");
    }
    else
