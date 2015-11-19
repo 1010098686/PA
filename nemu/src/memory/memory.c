@@ -17,7 +17,8 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
            {
              uint8_t temp=0;
              cache_read(addr+i,&temp);
-             uint32_t atemp=temp<<(i*8);
+             uint32_t atemp=temp;
+             atemp=atemp<<(i*8);
              result+=atemp;
            }
            else
@@ -25,7 +26,8 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
              cache_misspro(addr+i);
              uint8_t temp=0;
              cache_read(addr+i,&temp);
-             uint32_t atemp=temp<<(i*8);
+             uint32_t atemp=temp;
+             atemp=atemp<<(i*8);
              result+=atemp;
            }
         }
@@ -45,6 +47,7 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
             uint8_t temp=data_bk&0x000000ff;
             data_bk=data_bk>>8;
             cache_write(addr+i,temp);
+            dram_write(addr+i,1,temp);
           }
           else 
           {
