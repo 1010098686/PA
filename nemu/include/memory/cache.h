@@ -39,8 +39,7 @@ static inline int hit(hwaddr_t addr,int* num)
 static inline void cache_read(hwaddr_t addr,uint8_t* result)
 {
    int num=-1;
-   int i;
-   for(i=0;i<8;++i) if(cache.cache_group[cache_index(addr)].cache_block[i].tag==cache_tag(addr) && cache.cache_group[cache_index(addr)].cache_block[i].valid==1) num=i;
+   hit(addr,&num);
    int offset=cache_offset(addr);
    *result = cache.cache_group[cache_index(addr)].cache_block[num].data[offset];
    
@@ -48,8 +47,7 @@ static inline void cache_read(hwaddr_t addr,uint8_t* result)
 static inline void cache_write(hwaddr_t addr,uint8_t data)
 {
   int num=-1;
-  int i;
-  for(i=0;i<8;++i) if(cache.cache_group[cache_index(addr)].cache_block[i].tag==cache_tag(addr) && cache.cache_group[cache_index(addr)].cache_block[i].valid==1) num=i;
+  hit(addr,&num);
   int offset=cache_offset(addr);
   cache.cache_group[cache_index(addr)].cache_block[num].data[offset]=data;
   
