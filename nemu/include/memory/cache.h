@@ -1,6 +1,6 @@
 #ifndef CACHE_H
 #define CACHE_H
-
+#include"nemu.h"
 typedef struct 
 {
   unsigned int valid;
@@ -22,9 +22,11 @@ extern Cache cache;
 #define cache_index(addr) ((addr)&0x00001fc0)>>6
 #define cache_tag(addr) ((addr)&0xffffe000)>>13
 #define cache_offset(addr) ((addr)&0x0000003f)
-
+static void cache_misspro(hwaddr_t addr);
+static void cachel2_write(hwaddr_t, uint8_t);
+static void cachel2_read(hwaddr_t,uint8_t*);
 static inline int hit(hwaddr_t addr,int* num)
- {
+{
     int i;
     for(i=0;i<8;++i) 
     {
@@ -39,20 +41,32 @@ static inline int hit(hwaddr_t addr,int* num)
 static inline void cache_read(hwaddr_t addr,uint8_t* result)
 {
    int num=-1;
-   hit(addr,&num);
-   int offset=cache_offset(addr);
-   *result = cache.cache_group[cache_index(addr)].cache_block[num].data[offset];
+   if(hit(addr,&num))
+   {
+    int offset=cache_offset(addr);
+    *result = cache.cache_group[cache_index(addr)].cache_block[num].data[offset];
+   }
+   else 
+   {
+     cache_misspro(addr);
+     hit(addr,&num);
+     int offset=cache_offset(addr);
+     *result=cache.cache_group[cache_index(addr)].cache_block[num].data[offset];
+    }
    
 }
 static inline void cache_write(hwaddr_t addr,uint8_t data)
 {
   int num=-1;
-  hit(addr,&num);
-  int offset=cache_offset(addr);
-  cache.cache_group[cache_index(addr)].cache_block[num].data[offset]=data;
+  if(hit(addr,&num))
+  {
+   int offset=cache_offset(addr);
+   cache.cache_group[cache_index(addr)].cache_block[num].data[offset]=data;
+  }
+  cachel2_write(addr,data);
   
 }
-uint32_t dram_read(hwaddr_t, size_t);
+
 static inline void cache_misspro(hwaddr_t addr)
 {
    int num=-1;
@@ -70,6 +84,10 @@ static inline void cache_misspro(hwaddr_t addr)
     cache.cache_group[cache_index(addr)].cache_block[num].valid=1;
     cache.cache_group[cache_index(addr)].cache_block[num].tag=cache_tag(addr);
     for(i=0;i<64;++i)
-      cache.cache_group[cache_index(addr)].cache_block[num].data[i]=dram_read(newaddr+i,1);
+    {
+      uint8_t temp;
+      cachel2_read(newaddr+i,&temp);
+      cache.cache_group[cache_index(addr)].cache_block[num].data[i]=temp;
+    }
 } 
 #endif

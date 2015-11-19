@@ -5,5 +5,6 @@
 #include "memory/memory.h"
 #include "cpu/reg.h"
 #include "memory/cache.h"
+#include "memory/cachel2.h"
 
 #endif

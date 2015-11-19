@@ -7,29 +7,16 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
-        int num;
         int i;
         uint32_t result=0;
         for(i=0;i<len;++i)
         {
+             uint8_t temp=0;
+             cache_read(addr+i,&temp);
+             uint32_t atemp=temp;
+             atemp=atemp<<(i*8);
+             result+=atemp;
            
-           if(hit(addr+i,&num)) 
-           {
-             uint8_t temp=0;
-             cache_read(addr+i,&temp);
-             uint32_t atemp=temp;
-             atemp=atemp<<(i*8);
-             result+=atemp;
-           }
-           else
-           {
-             cache_misspro(addr+i);
-             uint8_t temp=0;
-             cache_read(addr+i,&temp);
-             uint32_t atemp=temp;
-             atemp=atemp<<(i*8);
-             result+=atemp;
-           }
         }
         return result;
 	//return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
@@ -37,24 +24,13 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
-        int num;
         int i;
         uint32_t data_bk=data;
         for(i=0;i<len;++i)
         {
-          if(hit(addr+i,&num))
-          {
             uint8_t temp=data_bk&0x000000ff;
             data_bk=data_bk>>8;
             cache_write(addr+i,temp);
-            dram_write(addr+i,1,temp);
-          }
-          else 
-          {
-             uint8_t temp=data_bk&0x000000ff;
-             data_bk=data_bk>>8;
-             dram_write(addr+i,1,temp);
-          }
         }
 	//dram_write(addr, len, data);
 }
