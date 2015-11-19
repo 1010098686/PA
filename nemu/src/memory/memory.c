@@ -12,18 +12,21 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
         uint32_t result=0;
         for(i=0;i<len;++i)
         {
+           
            if(hit(addr+i,&num)) 
            {
              uint8_t temp=0;
              cache_read(addr+i,&temp);
-             result=(result<<8)+temp;
+             uint32_t atemp=temp<<(i*8);
+             result+=atemp;
            }
            else
            {
              cache_misspro(addr+i);
              uint8_t temp=0;
              cache_read(addr+i,&temp);
-             result=(result<<8)+temp;
+             uint32_t atemp=temp<<(i*8);
+             result+=atemp;
            }
         }
         return result;
