@@ -87,21 +87,19 @@ static inline int hit(hwaddr_t addr,int* num)
 }
 static inline void cache_read(hwaddr_t addr,uint8_t* result)
 {
-   int num;
-   if(hit(addr,&num))
-   {
-     int offset=cache_offset(addr);
-     *result = cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[offset];
-   }
+   int num=-1;
+   hit(addr,&num);
+   int offset=cache_offset(addr);
+   *result = cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[offset];
+   
 }
 static inline void cache_write(hwaddr_t addr,uint8_t data)
 {
-  int num;
-  if(hit(addr,&num))
-  {
-    int offset=cache_offset(addr);
-    cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[offset]=data;
-  }
+  int num=-1;
+  hit(addr,&num);
+  int offset=cache_offset(addr);
+  cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[offset]=data;
+  
 }
 uint32_t dram_read(hwaddr_t, size_t);
 static inline void cache_misspro(hwaddr_t addr)
