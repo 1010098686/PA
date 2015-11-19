@@ -8,42 +8,49 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
         int num;
-        if(hit(addr,&num))
+        int i;
+        uint32_t result=0;
+        for(i=0;i<len;++i)
         {
-          return cache_read(addr,len);
+           if(hit(addr+i,&num)) 
+           {
+             uint8_t temp=0;
+             cache_read(addr+i,&temp);
+             result=(result<<8)+temp;
+           }
+           else
+           {
+             cache_misspro(addr+i);
+             uint8_t temp=0;
+             cache_read(addr+i,&temp);
+             result=(result<<8)+temp;
+           }
         }
-        else
-        {
-          hwaddr_t newaddr=addr&0xffffffc0;
-          int _index=-1;
-          int i;
-          for(i=0;i<8;++i) 
-          {
-            if(cpu.cache.cache_group[cache_index(newaddr)].cache_block[i].valid==0) _index=i;
-          }
-          if(_index==-1) 
-          {
-            srand(time(NULL));
-            _index=rand()%8;
-          }
-          cpu.cache.cache_group[cache_index(newaddr)].cache_block[_index].tag=cache_tag(newaddr);
-          cpu.cache.cache_group[cache_index(newaddr)].cache_block[_index].valid=1;
-          for(i=0;i<64;++i)
-          {
-            uint8_t temp=dram_read(newaddr+i,1)&0x000000ff;
-            cpu.cache.cache_group[cache_index(newaddr)].cache_block[_index].data[i]=temp;
-          }
-	return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
-	}
+        return result;
+	//return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
+	
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
         int num;
-        if(hit(addr,&num))
+        int i;
+        uint32_t data_bk=data;
+        for(i=0;i<len;++i)
         {
-          cache_write(addr,len,data);
+          if(hit(addr+i,&num))
+          {
+            uint8_t temp=data_bk&0x000000ff;
+            data_bk=data_bk>>8;
+            cache_write(addr+i,temp);
+          }
+          else 
+          {
+             uint8_t temp=data_bk&0x000000ff;
+             data_bk=data_bk>>8;
+             dram_write(addr+i,1,temp);
+          }
         }
-	dram_write(addr, len, data);
+	//dram_write(addr, len, data);
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {

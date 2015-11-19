@@ -3,7 +3,8 @@
 #define __REG_H__
 
 #include "common.h"
-
+#include<stdlib.h>
+#include<time.h>
 enum { R_EAX, R_ECX, R_EDX, R_EBX, R_ESP, R_EBP, R_ESI, R_EDI };
 enum { R_AX, R_CX, R_DX, R_BX, R_SP, R_BP, R_SI, R_DI };
 enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
@@ -84,35 +85,44 @@ static inline int hit(hwaddr_t addr,int* num)
     }
     return 0;
 }
-static inline uint32_t cache_read(hwaddr_t addr,size_t len)
+static inline void cache_read(hwaddr_t addr,uint8_t* result)
 {
    int num;
    if(hit(addr,&num))
    {
      int offset=cache_offset(addr);
-     uint32_t result =0;
-     int i;
-     for(i=offset+len-1;i>=offset;--i)
-     result=(result<<8)+cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[i];
-     return result;
+     *result = cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[offset];
    }
-   return 0;
 }
-static inline void cache_write(hwaddr_t addr,size_t len,uint32_t data)
+static inline void cache_write(hwaddr_t addr,uint8_t data)
 {
   int num;
   if(hit(addr,&num))
   {
     int offset=cache_offset(addr);
-    int i;
-    for(i=offset;i<offset+len;++i)
-    {
-       uint8_t temp=data&0x000000ff;
-       data=data>>8;
-       cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[i]=temp;
-    }
+    cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[offset]=data;
   }
-}  
+}
+uint32_t dram_read(hwaddr_t, size_t);
+static inline void cache_misspro(hwaddr_t addr)
+{
+   int num=-1;
+   int i;
+   hwaddr_t newaddr=addr&0xffffffc0;
+   for(i=0;i<8;++i)
+   {
+      if(cpu.cache.cache_group[cache_index(addr)].cache_block[i].valid==0) num=i;
+   }
+   if(num==-1)
+   {
+     srand(time(NULL));
+     num=rand()%8;
+    }
+    cpu.cache.cache_group[cache_index(addr)].cache_block[num].valid=1;
+    cpu.cache.cache_group[cache_index(addr)].cache_block[num].tag=cache_tag(addr);
+    for(i=0;i<64;++i)
+      cpu.cache.cache_group[cache_index(addr)].cache_block[num].data[i]=dram_read(newaddr+i,1);
+} 
 extern const char* regsl[];
 extern const char* regsw[];
 extern const char* regsb[];
