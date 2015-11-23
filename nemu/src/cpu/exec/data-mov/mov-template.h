@@ -4,8 +4,30 @@
 
 static void do_execute() {
         
-	OPERAND_W(op_dest, op_src->val);
-	print_asm_template2();
+	if(ops_decoded.opcode==0x8e) 
+	{
+	  if(op_dest->reg==0)
+	  {
+	    cpu.ES.seg_selector=op_src->val;
+	  }
+	  else if(op_dest->reg==1)
+	  {
+	    cpu.CS.seg_selector=op_src->val;
+	  }
+	  else if(op_dest->reg==2)
+	  {
+	    cpu.SS.seg_selector=op_src->val;
+	  }
+	  else if(op_dest->reg==3)
+	  {
+	    cpu.DS.seg_selector=op_src->val;
+	  }
+	}   
+	else 
+	{
+	  OPERAND_W(op_dest, op_src->val);
+	  print_asm_template2();
+	}  
 }
 
 make_instr_helper(i2r)

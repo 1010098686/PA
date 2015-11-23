@@ -9,4 +9,5 @@ make_helper(ret);
 make_helper(cltd);
 make_helper(cld);
 make_helper(lgdt);
+make_helper(ljmp);
 #endif

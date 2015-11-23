@@ -72,7 +72,7 @@ typedef struct {
           uint16_t seg_selector;
           uint32_t base_addr;
           uint32_t limit;
-        }DS,CS,SS,ES;
+        }CS,SS,DS,ES;
 
 } CPU_state;
 

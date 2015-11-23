@@ -86,7 +86,7 @@ make_helper(cld)
 }
 make_helper(lgdt)
 {
-   uint32_t addr=swaddr_read(cpu.eip+1,4,2);
+   uint32_t addr=swaddr_read(cpu.eip+1,4,0);
    uint32_t limit=swaddr_read(addr,2,2);
    uint32_t base_addr=swaddr_read(addr+2,4,2);
    cpu.GDTR.limit=limit;
@@ -94,4 +94,10 @@ make_helper(lgdt)
    print_asm("lgdt");
    return 5;
 }   
-    
+make_helper(ljmp)
+{
+   uint32_t addr = swaddr_read(cpu.eip+1,4,0);
+   cpu.CS.seg_selector=swaddr_read(addr,2,2);
+   cpu.eip=swaddr_read(addr+2,4,2)-5;
+   return 5;
+}
