@@ -43,7 +43,27 @@ typedef struct {
 		unsigned int DF:1;
 		unsigned int OF:1;
 	}eflags;
-	
+	union {
+	   struct {
+		uint32_t protect_enable      : 1;
+		uint32_t monitor_coprocessor : 1;
+		uint32_t emulation           : 1;
+		uint32_t task_switched       : 1;
+		uint32_t extension_type      : 1;
+		uint32_t numeric_error       : 1;
+		uint32_t pad0                : 10;
+		uint32_t write_protect       : 1; 
+		uint32_t pad1                : 1; 
+		uint32_t alignment_mask      : 1;
+		uint32_t pad2                : 10;
+		uint32_t no_write_through    : 1;
+		uint32_t cache_disable       : 1;
+		uint32_t paging              : 1;
+	          };
+	   uint32_t val;
+        } CR0;
+        uint16_t GDTR;
+        uint16_t CS,DS,SS,ES;
 
 } CPU_state;
 
