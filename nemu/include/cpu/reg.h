@@ -62,8 +62,17 @@ typedef struct {
 	          };
 	   uint32_t val;
         } CR0;
-        uint16_t GDTR;
-        uint16_t CS,DS,SS,ES;
+        struct
+        {
+           uint32_t base_addr;
+           uint16_t limit;
+        }GDTR;
+        struct
+        {
+          uint16_t seg_selector;
+          uint32_t base_addr;
+          uint32_t limit;
+        }DS,CS,SS,ES;
 
 } CPU_state;
 

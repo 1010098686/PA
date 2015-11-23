@@ -8,4 +8,5 @@ make_helper(leave);
 make_helper(ret);
 make_helper(cltd);
 make_helper(cld);
+make_helper(lgdt);
 #endif

@@ -88,7 +88,16 @@ int read_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
 	m.val = instr_fetch(eip, 1);
 	reg->type = OP_TYPE_REG;
 	reg->reg = m.reg;
-
+        switch(m.mod)
+        {
+          case 0:rm->sreg=2;break;
+          case 1:if(m.R_M==5) rm->sreg=1;
+                 else rm->sreg=2;
+                 break;
+          case 2:if(m.R_M==5) rm->sreg=1;
+                 else rm->sreg=2;
+                 break;
+        }
 	if(m.mod == 3) {
 		rm->type = OP_TYPE_REG;
 		rm->reg = m.R_M;
