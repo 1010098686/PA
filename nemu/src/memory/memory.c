@@ -58,14 +58,14 @@ uint32_t swaddr_read(swaddr_t addr, size_t len,uint8_t sreg) {
 	  case 3: selector=cpu.ES.seg_selector;break;
 	}
 	uint16_t index=(selector&0xfff8)>>3;
-	SegDesc* segdesc=NULL;
-	memcpy(segdesc,(void*)cpu.GDTR.base_addr+index*8,8);
-	uint32_t base_addr=segdesc->base_15_0 + segdesc->base_23_16 + segdesc->base_31_24;
-	uint32_t dpl=segdesc->privilege_level;
+	SegDesc segdesc;
+	memcpy((void*)&segdesc,(void*)cpu.GDTR.base_addr+index*8,8);
+	uint32_t base_addr=segdesc.base_15_0 + segdesc.base_23_16 + segdesc.base_31_24;
+	uint32_t dpl=segdesc.privilege_level;
 	uint32_t cpl=selector&0xfffc;
 	if(cpl<dpl) panic("error\n");
 	lnaddr_t linear_addr=base_addr+addr;
-	lnaddr_t limit_addr=segdesc->limit_15_0 + segdesc->limit_19_16;
+	lnaddr_t limit_addr=segdesc.limit_15_0 + segdesc.limit_19_16;
 	if(linear_addr+len>limit_addr) panic("error\n");
 	return lnaddr_read(linear_addr, len);
 }
@@ -83,14 +83,14 @@ void swaddr_write(swaddr_t addr, size_t len, uint32_t data,uint8_t sreg) {
 	  case 3: selector=cpu.ES.seg_selector;break;
 	}
 	uint16_t index=(selector&0xfff8)>>3;
-	SegDesc* segdesc=NULL;
-	memcpy(segdesc,(void*)cpu.GDTR.base_addr+index*8,8);
-	uint32_t base_addr=segdesc->base_15_0 + segdesc->base_23_16 + segdesc->base_31_24;
-	uint32_t dpl=segdesc->privilege_level;
+	SegDesc segdesc;
+	memcpy((void*)&segdesc,(void*)cpu.GDTR.base_addr+index*8,8);
+	uint32_t base_addr=segdesc.base_15_0 + segdesc.base_23_16 + segdesc.base_31_24;
+	uint32_t dpl=segdesc.privilege_level;
 	uint32_t cpl=selector&0xfffc;
 	if(cpl<dpl) panic("error\n");
 	lnaddr_t linear_addr=base_addr+addr;
-	lnaddr_t limit_addr=segdesc->limit_15_0 + segdesc->limit_19_16;
+	lnaddr_t limit_addr=segdesc.limit_15_0 + segdesc.limit_19_16;
 	if(linear_addr+len>limit_addr) panic("error\n");
 	lnaddr_write(addr, len, data);
 }
