@@ -14,7 +14,7 @@ enum {
 	/* TODO: Add more token types */
 
 };
-uint32_t swaddr_read(swaddr_t addr,size_t len);
+uint32_t swaddr_read(swaddr_t addr,size_t len,uint8_t sreg);
 static struct rule {
 	char *regex;
 	int token_type;
@@ -327,7 +327,7 @@ int eval(int p,int q)
 	{
 		int op=find_dominant(p,q);
 		if(tokens[op].type==POINTER)
-			return swaddr_read(eval(op+1,q),4);
+			return swaddr_read(eval(op+1,q),4,2);
 		else if(tokens[op].type==MINUS)
 			return -eval(op+1,q);
 		else if(tokens[op].type==NOT)

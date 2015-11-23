@@ -4,7 +4,7 @@
 static void do_execute()
 {
 	    DATA_TYPE imm=op_src->val;
-		uint16_t src=swaddr_read(cpu.esp,2);
+		uint16_t src=swaddr_read(cpu.esp,2,1);
 		cpu.esp+=2;
 		cpu.esp+=imm;
 		int len=decode_i_w(cpu.eip+1);

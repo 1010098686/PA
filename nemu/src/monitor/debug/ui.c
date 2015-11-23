@@ -155,7 +155,7 @@ static int cmd_x(char *args)
 	int i;
 	for( i=1;i<=num;++i)
 	{
-		int content=swaddr_read(addr,4);
+		int content=swaddr_read(addr,4,2);
 		printf("0x%.8x\t",content);
 		addr+=4;
 	}

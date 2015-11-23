@@ -23,19 +23,19 @@ make_helper(lea) {
 	print_asm("leal %s,%%%s", op_src->str, regsl[m.reg]);
 	return 1 + len;
 }
-uint32_t swaddr_read(swaddr_t addr,size_t len);
+uint32_t swaddr_read(swaddr_t addr,size_t len,uint8_t sreg);
 make_helper(leave)
 {
 	cpu.esp=cpu.ebp;
 	if(ops_decoded.is_data_size_16)
 	{
-		uint16_t src=swaddr_read(cpu.esp,2);
+		uint16_t src=swaddr_read(cpu.esp,2,1);
 		cpu.esp+=2;
 		cpu.gpr[5]._16=src;
 	}
 	else
 	{
-		uint32_t src=swaddr_read(cpu.esp,4);
+		uint32_t src=swaddr_read(cpu.esp,4,1);
 		cpu.esp+=4;
 		cpu.ebp=src;
 	}
@@ -47,14 +47,14 @@ make_helper(ret)
 {
 	if(ops_decoded.is_data_size_16)
 	{
-		uint16_t src=swaddr_read(cpu.esp,2);
+		uint16_t src=swaddr_read(cpu.esp,2,1);
 		cpu.esp+=2;
 		cpu.eip=src;
 		cpu.eip=cpu.eip&0x0000ffff;
 	}
 	else
 	{
-		uint32_t src=swaddr_read(cpu.esp,4);
+		uint32_t src=swaddr_read(cpu.esp,4,1);
 		cpu.esp+=4;
 		cpu.eip=src;
 	}
@@ -86,8 +86,8 @@ make_helper(cld)
 }
 make_helper(lgdt)
 {
-   uint16_t limit= swaddr_read(cpu.eip+1,2);
-   uint32_t base_addr=swaddr_read(cpu.eip+3,4);
+   uint16_t limit= swaddr_read(cpu.eip+1,2,2);
+   uint32_t base_addr=swaddr_read(cpu.eip+3,4,2);
    cpu.GDTR.limit=limit;
    cpu.GDTR.base_addr=base_addr;
    print_asm("lgdt");

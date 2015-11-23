@@ -65,7 +65,7 @@ typedef struct {
         struct
         {
            uint32_t base_addr;
-           uint16_t limit;
+           uint32_t limit;
         }GDTR;
         struct
         {

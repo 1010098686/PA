@@ -1,13 +1,13 @@
 #include"cpu/exec/helper.h"
 
-uint32_t swaddr_read(swaddr_t addr,size_t len);
+uint32_t swaddr_read(swaddr_t addr,size_t len,uint8_t sreg);
 make_helper(cmps)
 {
 	int incdec=0;
 	if(ops_decoded.opcode==0xa6)
 	{
-		uint8_t src=swaddr_read(cpu.esi,1);
-		uint8_t dest=swaddr_read(cpu.edi,1);
+		uint8_t src=swaddr_read(cpu.esi,1,2);
+		uint8_t dest=swaddr_read(cpu.edi,1,2);
 		int8_t result=src-dest;
 		cpu.eflags.SF=(result&0x80)?1:0;
 		cpu.eflags.ZF=(result==0)?1:0;
@@ -38,8 +38,8 @@ make_helper(cmps)
 	{
 		if(ops_decoded.is_data_size_16)
 		{
-			uint16_t src=swaddr_read(cpu.esi,2);
-			uint16_t dest=swaddr_read(cpu.edi,2);
+			uint16_t src=swaddr_read(cpu.esi,2,2);
+			uint16_t dest=swaddr_read(cpu.edi,2,2);
 			uint16_t result=src-dest;
 			cpu.eflags.SF=(result&0x8000)?1:0;
 			cpu.eflags.ZF=(result==0)?1:0;
@@ -69,8 +69,8 @@ make_helper(cmps)
 		}
 		else 
 		{
-			uint32_t src=swaddr_read(cpu.esi,4);
-			uint32_t dest=swaddr_read(cpu.edi,4);
+			uint32_t src=swaddr_read(cpu.esi,4,2);
+			uint32_t dest=swaddr_read(cpu.edi,4,2);
 			uint32_t result=src-dest;
 			cpu.eflags.SF=(result&0x80000000)?1:0;
 			cpu.eflags.ZF=(result==0)?1:0;
