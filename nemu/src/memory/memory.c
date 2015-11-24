@@ -45,8 +45,8 @@ lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg,int* flag)
    }
    if(addr+len>limit) 
    {
-     *flag=0;
-     return 0;
+     //*flag=0;
+     //return 0;
    }
    *flag=1;
    return base_addr+addr;
