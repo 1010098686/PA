@@ -98,7 +98,7 @@ uint32_t swaddr_read(swaddr_t addr, size_t len,uint8_t sreg) {
 	{
 	  int flag;
 	  lnaddr_t li_addr=seg_translate(addr,len,sreg,&flag);
-	  if(!flag) panic("error\n");
+	  if(!flag) panic("swaddr_read error\n");
 	  else return lnaddr_read(li_addr, len);
 	}
 	else return lnaddr_read(addr,len);
@@ -112,7 +112,7 @@ void swaddr_write(swaddr_t addr, size_t len, uint32_t data,uint8_t sreg) {
 	{
 	  int flag;
 	  lnaddr_t li_addr = seg_translate(addr,len,sreg,&flag);
-	  if(!flag) panic("error\n");
+	  if(!flag) panic("swaddr_write error\n");
 	  else lnaddr_write(li_addr, len,data);
 	}
 	else lnaddr_write(addr, len, data);
