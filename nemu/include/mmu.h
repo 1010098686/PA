@@ -91,7 +91,7 @@ typedef union SegmentDescriptor {
 	};
 	struct
 	{
-	 uint32_t high,low;
+	 uint32_t low,high;
 	};
 } SegDesc;
 
