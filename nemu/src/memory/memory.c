@@ -31,7 +31,7 @@ lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg,int* flag)
    if(cpl<dpl) {*flag=0;return 0;}
    lnaddr_t linear_addr=base_addr+addr;
    lnaddr_t limit_addr=(uint32_t)segdesc.limit_15_0 + (((uint32_t)segdesc.limit_19_16)<<16);
-   if(linear_addr+len>base_addr+limit_addr){ *flag=0;return 0;}
+   if(addr+len>limit_addr){ *flag=0;return 0;}
    *flag=1;
    return linear_addr;
 }
