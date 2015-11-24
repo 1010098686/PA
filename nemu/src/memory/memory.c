@@ -6,6 +6,35 @@
 #include "mmu.h"
 uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
+uint32_t lnaddr_read(lnaddr_t addr, size_t len);
+lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg,int* flag)
+{
+  uint16_t selector=0; 
+  switch(sreg)
+   {
+   case 0: selector=cpu.CS.seg_selector;break;
+   case 1: selector=cpu.SS.seg_selector;break;
+   case 2: selector=cpu.DS.seg_selector;break;
+   case 3: selector=cpu.ES.seg_selector;break;
+   default:*flag=0;return 0;break;
+   }
+   uint16_t index=(selector&0xfff8)>>3;
+   SegDesc segdesc;
+   uint32_t desc_addr=cpu.GDTR.base_addr+index*8;
+   uint32_t low=lnaddr_read(desc_addr,4);
+   uint32_t high=lnaddr_read(desc_addr+4,4);
+   segdesc.low=low;
+   segdesc.high=high;
+   uint32_t base_addr=(uint32_t)segdesc.base_15_0 + (((uint32_t)segdesc.base_23_16)<<16) + (((uint32_t)segdesc.base_31_24)<<24);
+   uint32_t dpl=segdesc.privilege_level;
+   uint32_t cpl=selector&0x0003;
+   if(cpl<dpl) {*flag=0;return 0;}
+   lnaddr_t linear_addr=base_addr+addr;
+   lnaddr_t limit_addr=(uint32_t)segdesc.limit_15_0 + (((uint32_t)segdesc.limit_19_16)<<16);
+   if(linear_addr+len>limit_addr){ *flag=0;return 0;}
+   *flag=1;
+   return linear_addr;
+}
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
@@ -51,31 +80,10 @@ uint32_t swaddr_read(swaddr_t addr, size_t len,uint8_t sreg) {
 #endif
 	if(cpu.CR0.protect_enable==1)
 	{
-	  uint16_t selector=0;
-	  switch(sreg)
-	  {
-	    case 0: selector=cpu.CS.seg_selector;break;
-	    case 1: selector=cpu.SS.seg_selector;break;
-	    case 2: selector=cpu.DS.seg_selector;break;
-	    case 3: selector=cpu.ES.seg_selector;break;
-	  }
-	  uint16_t index=(selector&0xfff8)>>3;
-	  SegDesc segdesc;
-	  //memcpy((void*)&segdesc,(void*)0+cpu.GDTR.base_addr+index*8,8);
-	  //*((void*)&segdesc)=(SegDesc)lnaddr_read(cpu.GDTR.base_addr+index*8,8);
-	  uint32_t desc_addr=cpu.GDTR.base_addr+index*8;
-	  uint32_t low=lnaddr_read(desc_addr,4);
-	  uint32_t high=lnaddr_read(desc_addr+4,4);
-	  segdesc.low=low;
-	  segdesc.high=high;
-	  uint32_t base_addr=segdesc.base_15_0 + segdesc.base_23_16 + segdesc.base_31_24;
-	  uint32_t dpl=segdesc.privilege_level;
-	  uint32_t cpl=selector&0xfffc;
-	  if(cpl<dpl) panic("error\n");
-	  lnaddr_t linear_addr=base_addr+addr;
-	  lnaddr_t limit_addr=segdesc.limit_15_0 + segdesc.limit_19_16;
-	  if(linear_addr+len>limit_addr) panic("error\n");
-	  return lnaddr_read(linear_addr, len);
+	  int flag;
+	  lnaddr_t li_addr=seg_translate(addr,len,sreg,&flag);
+	  if(!flag) panic("error\n");
+	  else return lnaddr_read(li_addr, len);
 	}
 	else return lnaddr_read(addr,len);
 }
@@ -86,32 +94,11 @@ void swaddr_write(swaddr_t addr, size_t len, uint32_t data,uint8_t sreg) {
 #endif
 	if(cpu.CR0.protect_enable==1)
 	{
-	  uint16_t selector=0;
-	  switch(sreg)
-	  {
-	    case 0: selector=cpu.CS.seg_selector;break;
-	    case 1: selector=cpu.SS.seg_selector;break;
-	    case 2: selector=cpu.DS.seg_selector;break;
-	    case 3: selector=cpu.ES.seg_selector;break;
-	  }
-	  uint16_t index=(selector&0xfff8)>>3;
-	  SegDesc segdesc;
-	  //memcpy((void*)&segdesc,(void*)0+cpu.GDTR.base_addr+index*8,8);
-	  //*((void*)&segdesc)=(SegDesc)lnaddr_read(cpu.GDTR.base_addr+index*8,8);
-	  uint32_t desc_addr=cpu.GDTR.base_addr+index*8;
-	  uint32_t low=lnaddr_read(desc_addr,4);
-	  uint32_t high=lnaddr_read(desc_addr+4,4);
-	  segdesc.low=low;
-	  segdesc.high=high;
-	  uint32_t base_addr=segdesc.base_15_0 + segdesc.base_23_16 + segdesc.base_31_24;
-	  uint32_t dpl=segdesc.privilege_level;
-	  uint32_t cpl=selector&0xfffc;
-	  if(cpl<dpl) panic("error\n");
-	  lnaddr_t linear_addr=base_addr+addr;
-	  lnaddr_t limit_addr=segdesc.limit_15_0 + segdesc.limit_19_16;
-	  if(linear_addr+len>limit_addr) panic("error\n");
-	  lnaddr_write(linear_addr, len,data);
+	  int flag;
+	  lnaddr_t li_addr = seg_translate(addr,len,sreg,&flag);
+	  if(!flag) panic("error\n");
+	  else lnaddr_write(li_addr, len,data);
 	}
-	lnaddr_write(addr, len, data);
+	else lnaddr_write(addr, len, data);
 }
 
