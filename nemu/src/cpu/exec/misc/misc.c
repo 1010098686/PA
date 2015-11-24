@@ -96,9 +96,8 @@ make_helper(lgdt)
 }   
 make_helper(ljmp)
 {
-   uint32_t addr = swaddr_read(cpu.eip+1,4,0);
-   cpu.CS.seg_selector=swaddr_read(addr,2,2);
-   cpu.eip=swaddr_read(addr+2,4,2)-5;
-   print_asm("ljump 0x%x",addr);
-   return 5;
+   cpu.CS.seg_selector=swaddr_read(cpu.eip+1,2,0);
+   cpu.eip=swaddr_read(cpu.eip+3,4,0)-7;
+   print_asm("ljump ");
+   return 7;
 }
