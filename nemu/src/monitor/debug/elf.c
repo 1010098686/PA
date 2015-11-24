@@ -93,7 +93,7 @@ uint32_t getobjectaddr(char* str)
 	}
 	return 0xffffffff;
 }
-uint32_t swaddr_read(swaddr_t addr,size_t len);
+uint32_t swaddr_read(swaddr_t addr,size_t len,uint8_t sreg);
 
 void printstackframe()
 {
@@ -118,13 +118,13 @@ void printstackframe()
 		}
 		printf("eip:\t0x%x\n",addr);
 		printf("func:\t%s\n",funcname);
-		printf("argument1:\t0x%x\n",swaddr_read(ebp+8,4));
-		printf("argument2:\t0x%x\n",swaddr_read(ebp+12,4));
-		printf("argument3:\t0x%x\n",swaddr_read(ebp+16,4));
-		printf("argument4:\t0x%x\n",swaddr_read(ebp+20,4));
+		printf("argument1:\t0x%x\n",swaddr_read(ebp+8,4,1));
+		printf("argument2:\t0x%x\n",swaddr_read(ebp+12,4,1));
+		printf("argument3:\t0x%x\n",swaddr_read(ebp+16,4,1));
+		printf("argument4:\t0x%x\n",swaddr_read(ebp+20,4,1));
 		printf("\n");
-		addr=swaddr_read(ebp+4,4);
-		ebp=swaddr_read(ebp,4);
+		addr=swaddr_read(ebp+4,4,1);
+		ebp=swaddr_read(ebp,4,1);
 		funcname=NULL;
 	}
 }
