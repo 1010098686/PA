@@ -9,7 +9,7 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 uint32_t lnaddr_read(lnaddr_t addr, size_t len);
 lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg,int* flag)
 {
-  uint16_t selector=0; 
+  /*uint16_t selector=0; 
   switch(sreg)
    {
    case 0: selector=cpu.CS.seg_selector;break;
@@ -33,7 +33,23 @@ lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg,int* flag)
    lnaddr_t limit_addr=(uint32_t)segdesc.limit_15_0 + (((uint32_t)segdesc.limit_19_16)<<16);
    if(addr+len>limit_addr){ *flag=0;return 0;}
    *flag=1;
-   return linear_addr;
+   return linear_addr;*/
+   uint32_t base_addr,limit;
+   switch(sreg)
+   {
+     case 0:base_addr=cpu.CS.base_addr;limit=cpu.CS.limit;break;
+     case 1:base_addr=cpu.SS.base_addr;limit=cpu.SS.limit;break;
+     case 2:base_addr=cpu.DS.base_addr;limit=cpu.DS.limit;break;
+     case 3:base_addr=cpu.ES.base_addr;limit=cpu.ES.limit;break;
+     default:*flag=0;return 0;
+   }
+   if(addr+len>limit) 
+   {
+     *flag=0;
+     return 0;
+   }
+   *flag=1;
+   return base_addr+addr;
 }
 /* Memory accessing interfaces */
 

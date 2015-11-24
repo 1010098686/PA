@@ -1,7 +1,7 @@
 #include "cpu/exec/template-start.h"
-
+#include "mmu.h"
 #define instr mov
-
+uint32_t lnaddr_read(lnaddr_t addr,size_t len);
 static void do_execute() {
         
 	if(ops_decoded.opcode==0x8e) 
@@ -9,18 +9,54 @@ static void do_execute() {
 	  if(op_dest->reg==0)
 	  {
 	    cpu.ES.seg_selector=op_src->val;
+	    SegDesc segdesc;
+	    int index=(cpu.ES.seg_selector&0xfff8)>>3;
+	    lnaddr_t seg_addr = cpu.GDTR.base_addr+index*8;
+	    uint32_t low=lnaddr_read(seg_addr,4);
+	    uint32_t high=lnaddr_read(seg_addr+4,4);
+	    segdesc.low=low;
+	    segdesc.high=high;
+	    cpu.ES.base_addr=(uint32_t)segdesc.base_15_0 + (((uint32_t)segdesc.base_23_16)<<16) + (((uint32_t)segdesc.base_31_24)<<24);
+	    cpu.ES.limit=(uint32_t)segdesc.limit_15_0 + (((uint32_t)segdesc.limit_19_16)<<16);
 	  }
 	  else if(op_dest->reg==1)
 	  {
 	    cpu.CS.seg_selector=op_src->val;
+	    SegDesc segdesc;
+	    int index=(cpu.CS.seg_selector&0xfff8)>>3;
+	    lnaddr_t seg_addr = cpu.GDTR.base_addr+index*8;
+	    uint32_t low=lnaddr_read(seg_addr,4);
+	    uint32_t high=lnaddr_read(seg_addr+4,4);
+	    segdesc.low=low;
+	    segdesc.high=high;
+	    cpu.CS.base_addr=(uint32_t)segdesc.base_15_0 + (((uint32_t)segdesc.base_23_16)<<16) + (((uint32_t)segdesc.base_31_24)<<24);
+	    cpu.CS.limit=(uint32_t)segdesc.limit_15_0 + (((uint32_t)segdesc.limit_19_16)<<16);
 	  }
 	  else if(op_dest->reg==2)
 	  {
 	    cpu.SS.seg_selector=op_src->val;
+	    SegDesc segdesc;
+	    int index=(cpu.SS.seg_selector&0xfff8)>>3;
+	    lnaddr_t seg_addr = cpu.GDTR.base_addr+index*8;
+	    uint32_t low=lnaddr_read(seg_addr,4);
+	    uint32_t high=lnaddr_read(seg_addr+4,4);
+	    segdesc.low=low;
+	    segdesc.high=high;
+	    cpu.SS.base_addr=(uint32_t)segdesc.base_15_0 + (((uint32_t)segdesc.base_23_16)<<16) + (((uint32_t)segdesc.base_31_24)<<24);
+	    cpu.SS.limit=(uint32_t)segdesc.limit_15_0 + (((uint32_t)segdesc.limit_19_16)<<16);
 	  }
 	  else if(op_dest->reg==3)
 	  {
 	    cpu.DS.seg_selector=op_src->val;
+	    SegDesc segdesc;
+	    int index=(cpu.DS.seg_selector&0xfff8)>>3;
+	    lnaddr_t seg_addr = cpu.GDTR.base_addr+index*8;
+	    uint32_t low=lnaddr_read(seg_addr,4);
+	    uint32_t high=lnaddr_read(seg_addr+4,4);
+	    segdesc.low=low;
+	    segdesc.high=high;
+	    cpu.DS.base_addr=(uint32_t)segdesc.base_15_0 + (((uint32_t)segdesc.base_23_16)<<16) + (((uint32_t)segdesc.base_31_24)<<24);
+	    cpu.DS.limit=(uint32_t)segdesc.limit_15_0 + (((uint32_t)segdesc.limit_19_16)<<16);
 	  }
 	}   
 	else 
