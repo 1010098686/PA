@@ -91,7 +91,7 @@ make_helper(lgdt)
    uint32_t base_addr=swaddr_read(addr+2,4,2);
    cpu.GDTR.limit=limit;
    cpu.GDTR.base_addr=base_addr;
-   print_asm("lgdt");
+   print_asm("lgdt 0x%x",addr);
    return 6;
 }   
 make_helper(ljmp)
