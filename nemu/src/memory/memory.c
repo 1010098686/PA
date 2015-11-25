@@ -43,10 +43,10 @@ lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg,int* flag)
      case 3:base_addr=cpu.ES.base_addr;limit=cpu.ES.limit;break;
      default:*flag=0;return 0;
    }
-   if(addr+len>limit) 
+   if(addr+len>limit*4096) 
    {
-     //*flag=0;
-     //return 0;
+     *flag=0;
+     return 0;
    }
    *flag=1;
    return base_addr+addr;
