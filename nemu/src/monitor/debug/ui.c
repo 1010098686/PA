@@ -132,6 +132,15 @@ static int cmd_info(char* args)
 	{
 		display_wp();
 	}
+	else if(strcmp(args,"seg")==0)
+	{
+	   printf("CS:0X%x\t0x%x\n",cpu.CS.base_addr,cpu.CS.limit);
+	   printf("SS:0x%x\t0x%x\n",cpu.SS.base_addr,cpu.SS.limit);
+	   printf("DS:0x%x\t0x%x\n",cpu.DS.base_addr,cpu.DS.limit);
+	   printf("ES:0x%x\t0x%x\n",cpu.ES.base_addr,cpu.ES.limit);
+	   printf("GDTR:0x%x\t0x%x\n",cpu.GDTR.base_addr,cpu.GDTR.limit);
+	   printf("CR0:0x%x\n",cpu.CR0.val);
+	}
 	else 
 	{
 		printf("the command info needs an parameter\n");
