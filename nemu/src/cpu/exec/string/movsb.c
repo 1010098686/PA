@@ -7,22 +7,22 @@ make_helper(movsb)
 	int incdec=0;
 	if(ops_decoded.opcode==0xa4)
 	{
-		uint8_t src=swaddr_read(cpu.esi,1,2);
-		swaddr_write(cpu.edi,1,src,2);
+		uint8_t src=swaddr_read(cpu.esi,1,3);
+		swaddr_write(cpu.edi,1,src,3);
 		incdec=(cpu.eflags.DF==0)?1:-1;
 	}
 	else
 	{
 		if(ops_decoded.is_data_size_16)
 		{
-			uint16_t src=swaddr_read(cpu.esi,2,2);
-			swaddr_write(cpu.edi,2,src,2);
+			uint16_t src=swaddr_read(cpu.esi,2,3);
+			swaddr_write(cpu.edi,2,src,3);
 			incdec=(cpu.eflags.DF==0)?2:-2;
 		}
 		else
 		{
-			uint32_t src=swaddr_read(cpu.esi,4,2);
-			swaddr_write(cpu.edi,4,src,2);
+			uint32_t src=swaddr_read(cpu.esi,4,3);
+			swaddr_write(cpu.edi,4,src,3);
 			incdec=(cpu.eflags.DF==0)?4:-4;
 		}
 	}
