@@ -79,6 +79,7 @@ uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
 static inline void cachel2_misspro(hwaddr_t addr)
 {
+  panic("test");
   int num=-1;
   int i;
   hwaddr_t newaddr=addr&0xffffffc0;
@@ -90,7 +91,6 @@ static inline void cachel2_misspro(hwaddr_t addr)
     num=rand()%16;
     if(cachel2.cachel2_group[cachel2_index(addr)].cachel2_block[num].dirty==1)
     {
-       panic("test");
        int j;
        for(j=0;j<64;++j)
        {
