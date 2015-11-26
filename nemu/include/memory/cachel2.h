@@ -93,8 +93,8 @@ static inline void cachel2_misspro(hwaddr_t addr)
        int j;
        for(j=0;j<64;++j)
        {
-         uint32_t temp=cachel2.cachel2_group[cachel2_index(addr)].cachel2_block[num].data[i];
-         dram_write(newaddr+i,1,temp);
+         uint32_t temp=cachel2.cachel2_group[cachel2_index(addr)].cachel2_block[num].data[j];
+         dram_write(newaddr+j,1,temp);
        }
     }
     
