@@ -99,6 +99,7 @@ void restart() {
 	cpu.CR0.protect_enable=0;
 	cpu.CR0.monitor_coprocessor=0;
 	cpu.CR0.emulation=0;
+	cpu.CR0.paging=0;
 	cpu.CS.base_addr=0;
 	cpu.CS.limit=0xffffffff;
 	/* Initialize DRAM. */
