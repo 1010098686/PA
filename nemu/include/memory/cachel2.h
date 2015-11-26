@@ -61,6 +61,7 @@ static inline void cachel2_write(hwaddr_t addr,uint8_t data)
   int num=-1;
   if(cachel2_hit(addr,&num))
   {
+   panic("test");
    int offset=cachel2_offset(addr);
    cachel2.cachel2_group[cachel2_index(addr)].cachel2_block[num].data[offset]=data;
    cachel2.cachel2_group[cachel2_index(addr)].cachel2_block[num].dirty=1;
