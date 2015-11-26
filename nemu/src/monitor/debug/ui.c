@@ -140,6 +140,7 @@ static int cmd_info(char* args)
 	   printf("ES:0x%x\t0x%x\n",cpu.ES.base_addr,cpu.ES.limit);
 	   printf("GDTR:0x%x\t0x%x\n",cpu.GDTR.base_addr,cpu.GDTR.limit);
 	   printf("CR0:0x%x\n",cpu.CR0.val);
+	   printf("CR3:0x%x\n",cpu.CR3.val);
 	}
 	else 
 	{
