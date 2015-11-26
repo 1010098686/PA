@@ -90,6 +90,7 @@ static inline void cachel2_misspro(hwaddr_t addr)
     num=rand()%16;
     if(cachel2.cachel2_group[cachel2_index(addr)].cachel2_block[num].dirty==1)
     {
+       panic("test");
        int j;
        for(j=0;j<64;++j)
        {
