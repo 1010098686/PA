@@ -101,3 +101,9 @@ make_helper(ljmp)
    print_asm("ljump ");
    return 7;
 }
+make_helper(std)
+{
+  cpu.eflags.DF=1;
+  print_asm("std");
+  return 1;
+}
