@@ -9,31 +9,6 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 uint32_t lnaddr_read(lnaddr_t addr, size_t len);
 lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg,int* flag)
 {
-  /*uint16_t selector=0; 
-  switch(sreg)
-   {
-   case 0: selector=cpu.CS.seg_selector;break;
-   case 1: selector=cpu.SS.seg_selector;break;
-   case 2: selector=cpu.DS.seg_selector;break;
-   case 3: selector=cpu.ES.seg_selector;break;
-   default:*flag=0;return 0;break;
-   }
-   uint16_t index=(selector&0xfff8)>>3;
-   SegDesc segdesc;
-   uint32_t desc_addr=cpu.GDTR.base_addr+index*8;
-   uint32_t low=lnaddr_read(desc_addr,4);
-   uint32_t high=lnaddr_read(desc_addr+4,4);
-   segdesc.low=low;
-   segdesc.high=high;
-   uint32_t base_addr=(uint32_t)segdesc.base_15_0 + (((uint32_t)segdesc.base_23_16)<<16) + (((uint32_t)segdesc.base_31_24)<<24);
-   uint32_t dpl=segdesc.privilege_level;
-   uint32_t cpl=selector&0x0003;
-   if(cpl<dpl) {*flag=0;return 0;}
-   lnaddr_t linear_addr=base_addr+addr;
-   lnaddr_t limit_addr=(uint32_t)segdesc.limit_15_0 + (((uint32_t)segdesc.limit_19_16)<<16);
-   if(addr+len>limit_addr){ *flag=0;return 0;}
-   *flag=1;
-   return linear_addr;*/
    uint32_t base_addr,limit;
    switch(sreg)
    {
@@ -50,6 +25,17 @@ lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg,int* flag)
    }
    *flag=1;
    return base_addr+addr;
+}
+hwaddr_t page_translate(lnaddr_t addr,int* flag)
+{
+   PDE pdir;
+   pdir.val=dram_read((uint32_t)cpu.CR3.page_directory_base+((addr&0xffc00000)>>22),4);
+   if(pdir.present==0) { *flag=0; return 0;}
+   PTE ptable;
+   ptable.val=dram_read((uint32_t)pdir.page_frame+((addr&0x003ff000)>>12),4);
+   if(ptable.present==0) {*flag=0; return 0;}
+   *flag=1;
+   return (((uint32_t)ptable.page_frame)<<12)+(addr&0x00000fff);
 }
 /* Memory accessing interfaces */
 
@@ -83,11 +69,39 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
-	return hwaddr_read(addr, len);
+	if(cpu.CR0.protect_enable==1 && cpu.CR0.paging==1)
+	{
+	  int i;
+	  uint32_t result=0;
+	  for(i=0;i<len;++i)
+	  {
+	    int flag;
+	    hwaddr_t ph_addr=page_translate(addr+i,&flag);
+	    if(flag==0) panic("lnaddr read error");
+	    uint32_t temp=hwaddr_read(ph_addr,1);
+	    result=result+(temp<<(i*8));
+	  }
+	  return result;
+	}
+        else return hwaddr_read(addr, len);
 }
 
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
-	hwaddr_write(addr, len, data);
+	if(cpu.CR0.protect_enable==1 && cpu.CR0.paging==1) 
+	{
+	  int i;
+	  uint32_t data_bk=data;
+	  for(i=0;i<len;++i)
+	  {
+	    int flag;
+	    hwaddr_t ph_addr = page_translate(addr+i,&flag);
+	    if(flag==0) panic("lnaddr write error");
+	    uint8_t temp=data_bk&0xff;
+	    data_bk=data_bk>>8;
+	    hwaddr_write(ph_addr,1,temp);
+	  }
+	 }
+	 else hwaddr_write(addr, len, data);
 }
 
 uint32_t swaddr_read(swaddr_t addr, size_t len,uint8_t sreg) {

@@ -37,7 +37,7 @@ uint32_t loader() {
 
 	/* Load each program segment */
 	//panic("please implement me");
-	uint8_t content[120000];
+	//uint8_t content[120000];
 	//int size=sizeof(Elf32_Ehdr);
 	int i;
 	for(i=0;i<elf->e_phnum;++i) {
@@ -49,16 +49,17 @@ uint32_t loader() {
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
-			ramdisk_read(content,ph->p_offset,ph->p_filesz);
+			uint32_t addr=mm_malloc(ph->p_vaddr,ph->p_memsz);
+			//ramdisk_read(content,ph->p_offset,ph->p_filesz);
 			//ramdisk_write(content,ph->p_vaddr,ph->p_filesz);
-			memcpy((void*)0+ph->p_vaddr,content,ph->p_filesz);
+			memcpy((void*)0+addr,ph->p_offset,ph->p_filesz);
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
-			int j;
-			for(j=0;j<ph->p_memsz-ph->p_filesz;++j) content[j]=0;
+			//int j;
+			//for(j=0;j<ph->p_memsz-ph->p_filesz;++j) content[j]=0;
 			//ramdisk_write(content,ph->p_vaddr+ph->p_filesz,ph->p_memsz-ph->p_filesz);
-			memcpy((void*)0+ph->p_vaddr+ph->p_filesz,content,ph->p_memsz-ph->p_filesz);
+			memset((void*)0+addr+ph->p_filesz,0,ph->p_memsz-ph->p_filesz);
 			
 
 
