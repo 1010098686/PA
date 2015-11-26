@@ -79,7 +79,6 @@ uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
 static inline void cachel2_misspro(hwaddr_t addr)
 {
-  panic("test");
   int num=-1;
   int i;
   hwaddr_t newaddr=addr&0xffffffc0;
