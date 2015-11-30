@@ -30,10 +30,10 @@ lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg,int* flag)
 hwaddr_t page_translate(lnaddr_t addr,int* flag)
 {
    PDE pdir;
-   pdir.val=hwaddr_read((uint32_t)cpu.CR3.page_directory_base+((addr&0xffc00000)>>22)*4,4);
+   pdir.val=hwaddr_read(cpu.CR3.page_directory_base+((addr>>22)&0x000003ff)*4,4);
    if(pdir.present==0) { *flag=-1; return 0;}
    PTE ptable;
-   ptable.val=hwaddr_read((uint32_t)pdir.page_frame+((addr&0x003ff000)>>12)*4,4);
+   ptable.val=hwaddr_read(pdir.page_frame+((addr>>12)&0x000003ff)*4,4);
    if(ptable.present==0) {*flag=0; return 0;}
    *flag=1;
    return (((uint32_t)ptable.page_frame)<<12)+(addr&0x00000fff);
