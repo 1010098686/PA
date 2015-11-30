@@ -38,11 +38,9 @@ uint32_t loader() {
 	/* Load each program segment */
 	//panic("please implement me");
 	//uint8_t content[120000];
-	//int size=sizeof(Elf32_Ehdr);
 	int i;
 	for(i=0;i<elf->e_phnum;++i) {
 		/* Scan the program header table, load each segment into memory */
-		//ph=(void*)(elf+elf->e_phoff/size+i*elf->e_phentsize);
 		ph=(void*)(buf+elf->e_phoff+i*elf->e_phentsize);
 		if(ph->p_type == PT_LOAD) {
 
