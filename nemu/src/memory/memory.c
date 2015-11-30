@@ -31,7 +31,7 @@ hwaddr_t page_translate(lnaddr_t addr,int* flag)
 {
    PDE pdir;
    pdir.val=hwaddr_read((uint32_t)cpu.CR3.page_directory_base+((addr&0xffc00000)>>22),4);
-   if(pdir.present==0) { *flag=0; return 0;}
+  // if(pdir.present==0) { *flag=0; return 0;}
    PTE ptable;
    ptable.val=hwaddr_read((uint32_t)pdir.page_frame+((addr&0x003ff000)>>12),4);
    if(ptable.present==0) {*flag=0; return 0;}
