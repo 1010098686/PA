@@ -31,7 +31,7 @@ hwaddr_t page_translate(lnaddr_t addr,int* flag)
 {
    PDE pdir;
    pdir.val=hwaddr_read((uint32_t)cpu.CR3.page_directory_base+((addr&0xffc00000)>>22)*4,4);
-   if(pdir.present==0) { *flag=0; return 0;}
+   if(pdir.present==0) { *flag=-1; return 0;}
    PTE ptable;
    ptable.val=hwaddr_read((uint32_t)pdir.page_frame+((addr&0x003ff000)>>12)*4,4);
    if(ptable.present==0) {*flag=0; return 0;}
@@ -78,7 +78,8 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	  {
 	    int flag;
 	    hwaddr_t ph_addr=page_translate(addr+i,&flag);
-	    if(flag==0) panic("lnaddr read error:0x%x",addr+i);
+	    if(flag==-1) panic("lnaddr read error1:0x%x",addr+i);
+	    else if(flag==0) panic("lnaddr read error2:0x%x",addr+i);
 	    uint32_t temp=hwaddr_read(ph_addr,1);
 	    result=result+(temp<<(i*8));
 	  }
@@ -96,7 +97,8 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	  {
 	    int flag;
 	    hwaddr_t ph_addr = page_translate(addr+i,&flag);
-	    if(flag==0) panic("lnaddr write error:0x%x",addr+i);
+	    if(flag==-1) panic("lnaddr write error1:0x%x",addr+i);
+	    else if(flag==0) panic("lnaddr write error2:0x%x",addr+i);
 	    uint8_t temp=data_bk&0xff;
 	    data_bk=data_bk>>8;
 	    hwaddr_write(ph_addr,1,temp);
