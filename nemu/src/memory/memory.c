@@ -19,7 +19,7 @@ lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg,int* flag)
      case 3:base_addr=cpu.ES.base_addr;limit=cpu.ES.limit;break;
      default:*flag=0;return 0;
    }
-   if(addr+len>limit*4096) 
+   if(addr+len>limit*4096)
    {
      *flag=0;
      return 0;
@@ -31,9 +31,11 @@ hwaddr_t page_translate(lnaddr_t addr,int* flag)
 {
    PDE pdir;
    pdir.val=hwaddr_read(cpu.CR3.page_directory_base+((addr>>22)&0x000003ff)*4,4);
+   printf("0x%x\n",pdir.val);
    if(pdir.present==0) { *flag=-1; return 0;}
    PTE ptable;
    ptable.val=hwaddr_read(pdir.page_frame+((addr>>12)&0x000003ff)*4,4);
+   printf("0x%x\n",ptable.val);
    if(ptable.present==0) {*flag=0; return 0;}
    *flag=1;
    return (((uint32_t)ptable.page_frame)<<12)+(addr&0x00000fff);
@@ -50,11 +52,11 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
              uint32_t atemp=temp;
              atemp=atemp<<(i*8);
              result+=atemp;
-           
+
         }
         return result;
 	//return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
-	
+
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
@@ -89,7 +91,7 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 }
 
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
-	if(cpu.CR0.protect_enable==1 && cpu.CR0.paging==1) 
+	if(cpu.CR0.protect_enable==1 && cpu.CR0.paging==1)
 	{
 	  int i;
 	  uint32_t data_bk=data;
@@ -134,4 +136,3 @@ void swaddr_write(swaddr_t addr, size_t len, uint32_t data,uint8_t sreg) {
 	}
 	else lnaddr_write(addr, len, data);
 }
-
