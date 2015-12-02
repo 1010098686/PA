@@ -31,12 +31,12 @@ hwaddr_t page_translate(lnaddr_t addr,int* flag)
 {
    PDE pdir;
    pdir.val=hwaddr_read((cpu.CR3.page_directory_base<<12)+((addr>>22)&0x000003ff)*4,4);
-   printf("0x%x\n",pdir.val);
-   printf("0x%x\n",pdir.present);
+//   printf("0x%x\n",pdir.val);
+//   printf("0x%x\n",pdir.present);
    if(pdir.present==0) { *flag=-1; return 0;}
    PTE ptable;
    ptable.val=hwaddr_read((pdir.page_frame<<12)+((addr>>12)&0x000003ff)*4,4);
-   printf("0x%x\n",ptable.val);
+//   printf("0x%x\n",ptable.val);
    if(ptable.present==0) {*flag=0; return 0;}
    *flag=1;
    return (((uint32_t)ptable.page_frame)<<12)+(addr&0x00000fff);
