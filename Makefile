@@ -51,7 +51,7 @@ clean: clean-cpp
 
 
 ##### some convinient rules ####
-USERPROG := obj/testcase/bubble-sort
+USERPROG := obj/testcase/bit
 ENTRY := $(kernel_BIN)
 
 entry: $(ENTRY)
