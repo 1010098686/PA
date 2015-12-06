@@ -87,7 +87,21 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	    result=result+(temp<<(i*8));
 	  }
 	  return result;*/
-    if((addr&0x00000fff)+len >= 0x00001000); //panic("page error");
+    if((addr&0x00000fff)+len >= 0x00001000)
+    {
+      int i;
+  	  uint32_t result=0;
+  	  for(i=0;i<len;++i)
+  	  {
+  	    int flag;
+  	    hwaddr_t ph_addr=page_translate(addr+i,&flag);
+  	    if(flag==-1) panic("lnaddr read error1:0x%x",addr+i);
+  	    else if(flag==0) panic("lnaddr read error2:0x%x",addr+i);
+  	    uint32_t temp=hwaddr_read(ph_addr,1);
+  	    result=result+(temp<<(i*8));
+  	  }
+      return result;
+    }
     int flag;
     hwaddr_t ph_addr = page_translate(addr,&flag);
     if(flag!=1) panic("lnaddr_read error");
@@ -110,7 +124,22 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	    uint8_t temp=data_bk&0xff;
 	    data_bk=data_bk>>8;
 	    hwaddr_write(ph_addr,1,temp);*/
-      if((addr&0x00000fff)+len >= 0x00001000); //panic("page error");
+      if((addr&0x00000fff)+len >= 0x00001000)
+      {
+        int i;
+    	  uint32_t data_bk=data;
+    	  for(i=0;i<len;++i)
+    	  {
+    	    int flag;
+    	    hwaddr_t ph_addr = page_translate(addr+i,&flag);
+    	    if(flag==-1) panic("lnaddr write error1:0x%x",addr+i);
+    	    else if(flag==0) panic("lnaddr write error2:0x%x",addr+i);
+    	    uint8_t temp=data_bk&0xff;
+    	    data_bk=data_bk>>8;
+    	    hwaddr_write(ph_addr,1,temp);
+        }
+        return ;
+      }
       int flag;
       hwaddr_t ph_addr = page_translate(addr,&flag);
       if(flag!=1) panic("lnaddr_write error");
