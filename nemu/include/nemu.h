@@ -6,5 +6,6 @@
 #include "cpu/reg.h"
 #include "memory/cache.h"
 #include "memory/cachel2.h"
+#include "memory/tlb.h"
 
 #endif

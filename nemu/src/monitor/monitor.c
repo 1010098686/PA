@@ -110,14 +110,15 @@ void restart() {
 	   int j;
 	   for(j=0;j<8;++j)
 	     cache.cache_group[i].cache_block[j].valid=0;
-        }
-        for(i=0;i<4096;++i)
-        {
-          int j;
-          for(j=0;j<16;++j)
-            {
-            cachel2.cachel2_group[i].cachel2_block[j].valid=0;
-            cachel2.cachel2_group[i].cachel2_block[j].dirty=0;
-            }
-        }
+  }
+  for(i=0;i<4096;++i)
+  {
+    int j;
+    for(j=0;j<16;++j)
+      {
+        cachel2.cachel2_group[i].cachel2_block[j].valid=0;
+        cachel2.cachel2_group[i].cachel2_block[j].dirty=0;
+      }
+  }
+	for(i=0;i<64;++i) tlb.tlb_block[i].valid=0;
 }

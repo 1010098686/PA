@@ -5,6 +5,7 @@ void restart();
 void ui_mainloop();
 Cache cache;
 Cachel2 cachel2;
+TLB tlb;
 int main(int argc, char *argv[]) {
 
 	/* Initialize the monitor. */

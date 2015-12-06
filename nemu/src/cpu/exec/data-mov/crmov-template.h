@@ -1,5 +1,6 @@
 #include "cpu/exec/template-start.h"
 #include "cpu/decode/modrm.h"
+#include "nemu.h"
 #define instr crmov
 
 static void do_execute()
@@ -7,7 +8,7 @@ static void do_execute()
   ModR_M m;
   m.val=swaddr_read(cpu.eip+2,1,0);
   if(ops_decoded.opcode==0x120)
-  { 
+  {
    switch (m.reg)
    {
       case 0:cpu.gpr[m.R_M]._32=cpu.CR0.val;break;
@@ -20,7 +21,7 @@ static void do_execute()
      switch(m.reg)
      {
        case 0:cpu.CR0.val=cpu.gpr[m.R_M]._32;break;
-       case 3:cpu.CR3.val=cpu.gpr[m.R_M]._32;break;
+       case 3:cpu.CR3.val=cpu.gpr[m.R_M]._32;clear_tlb();break;
        default:panic("error");
       }
    }
