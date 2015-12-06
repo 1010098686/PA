@@ -75,7 +75,7 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	if(cpu.CR0.protect_enable==1 && cpu.CR0.paging==1)
 	{
-	  int i;
+	  /*int i;
 	  uint32_t result=0;
 	  for(i=0;i<len;++i)
 	  {
@@ -86,7 +86,12 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	    uint32_t temp=hwaddr_read(ph_addr,1);
 	    result=result+(temp<<(i*8));
 	  }
-	  return result;
+	  return result;*/
+    if((addr&0x00000fff)+len >= 0x00001000) panic("page error");
+    int flag;
+    hwaddr_t ph_addr = page_translate(addr,&flag);
+    if(flag!=1) panic("lnaddr_read error");
+    return hwaddr_read(ph_addr,len);
 	}
         else return hwaddr_read(addr, len);
 }
@@ -94,7 +99,7 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	if(cpu.CR0.protect_enable==1 && cpu.CR0.paging==1)
 	{
-	  int i;
+	  /*int i;
 	  uint32_t data_bk=data;
 	  for(i=0;i<len;++i)
 	  {
@@ -104,8 +109,13 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	    else if(flag==0) panic("lnaddr write error2:0x%x",addr+i);
 	    uint8_t temp=data_bk&0xff;
 	    data_bk=data_bk>>8;
-	    hwaddr_write(ph_addr,1,temp);
-	  }
+	    hwaddr_write(ph_addr,1,temp);*/
+      if((addr&0x00000fff)+len >= 0x00001000) panic("error");
+      int flag;
+      hwaddr_t ph_addr = page_translate(addr,&flag);
+      if(flag!=1) panic("lnaddr_write error");
+      hwaddr_write(ph_addr,len,data);
+	  //}
 	 }
 	 else hwaddr_write(addr, len, data);
 }
