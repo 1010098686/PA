@@ -33,6 +33,7 @@ hwaddr_t page_translate(lnaddr_t addr,int* flag)
    if(tlb_hit(addr,&num))
    {
      PTE ptable = tlb_read(addr);
+     *flag=(ptable.present==1)?1:0;
      return (((uint32_t)ptable.page_frame)<<12)+(addr&0x00000fff);
    }
    PDE pdir;
