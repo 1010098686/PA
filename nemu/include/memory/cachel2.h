@@ -91,10 +91,15 @@ static inline void cachel2_misspro(hwaddr_t addr)
     if(cachel2.cachel2_group[cachel2_index(addr)].cachel2_block[num].dirty==1)
     {
        int j;
+	   uint32_t tag = cachel2.cachel2_group[cachel2_index(addr)].cachel2_block[num].tag;
+	   tag = tag <<18;
+	   uint32_t index = cachel2_index(addr);
+	   index = index<<6;
+	   hwaddr_t waddr = tag + index;
        for(j=0;j<64;++j)
        {
          uint32_t temp=cachel2.cachel2_group[cachel2_index(addr)].cachel2_block[num].data[j];
-         dram_write(newaddr+j,1,temp);
+         dram_write(waddr+j,1,temp);
        }
     }
     
