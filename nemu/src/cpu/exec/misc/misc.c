@@ -86,9 +86,9 @@ make_helper(cld)
 }
 make_helper(lgdt)
 {
-	 Operand* rm=NULL,*reg=NULL;
-	 int len = read_ModR_M(cpu.eip+2,rm,reg);
-	 lnaddr_t addr = rm->val;
+	 Operand rm , reg;
+	 int len = read_ModR_M(cpu.eip+2,&rm,&reg);
+	 lnaddr_t addr = rm.val;
 	 cpu.GDTR.limit = lnaddr_read(addr,2);
 	 cpu.GDTR.base_addr = lnaddr_read(addr+2,4);
    print_asm("lgdt 0x%x",addr);
