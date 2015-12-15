@@ -92,7 +92,7 @@ make_helper(lgdt)
 	 lnaddr_t addr = rm.val;
 	 cpu.GDTR.limit = lnaddr_read(addr,2);
 	 cpu.GDTR.base_addr = lnaddr_read(addr+2,4);
-   print_asm("lgdt 0x%x",addr);
+   print_asm("lgdt 0x%x",rm.imm);
    return len+1;
 }
 make_helper(ljmp)
