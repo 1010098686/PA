@@ -87,6 +87,7 @@ make_helper(cld)
 make_helper(lgdt)
 {
 	 Operand rm , reg;
+	 rm.size=4;
 	 int len = read_ModR_M(cpu.eip+2,&rm,&reg);
 	 lnaddr_t addr = rm.val;
 	 cpu.GDTR.limit = lnaddr_read(addr,2);
