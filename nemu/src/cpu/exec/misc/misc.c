@@ -86,13 +86,13 @@ make_helper(cld)
 }
 make_helper(lgdt)
 {
-   uint32_t addr=swaddr_read(cpu.eip+3,4,0);
-   uint32_t limit=swaddr_read(addr,2,2);
-   uint32_t base_addr=swaddr_read(addr+2,4,2);
-   cpu.GDTR.limit=limit;
-   cpu.GDTR.base_addr=base_addr;
+	 Operand* rm=NULL,*reg=NULL;
+	 int len = read_ModR_M(cpu.eip+2,rm,reg);
+	 lnaddr_t addr = rm->val;
+	 cpu.GDTR.limit = lnaddr_read(addr,2);
+	 cpu.GDTR.base_addr = lnaddr_read(addr+2,4);
    print_asm("lgdt 0x%x",addr);
-   return 6;
+   return len+1;
 }
 make_helper(ljmp)
 {
