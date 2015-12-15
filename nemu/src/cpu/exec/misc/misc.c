@@ -93,10 +93,19 @@ make_helper(lgdt)
    cpu.GDTR.base_addr=base_addr;
    print_asm("lgdt 0x%x",addr);
    return 6;
-}   
+}
 make_helper(ljmp)
 {
    cpu.CS.seg_selector=swaddr_read(cpu.eip+5,2,0);
+	 SegDesc segdesc;
+	 int index=(cpu.SS.seg_selector&0xfff8)>>3;
+	 lnaddr_t seg_addr = cpu.GDTR.base_addr+index*8;
+	 uint32_t low=lnaddr_read(seg_addr,4);
+	 uint32_t high=lnaddr_read(seg_addr+4,4);
+	 segdesc.low=low;
+	 segdesc.high=high;
+	 cpu.SS.base_addr=(uint32_t)segdesc.base_15_0 + (((uint32_t)segdesc.base_23_16)<<16) + (((uint32_t)segdesc.base_31_24)<<24);
+	 cpu.SS.limit=(uint32_t)segdesc.limit_15_0 + (((uint32_t)segdesc.limit_19_16)<<16);
    cpu.eip=swaddr_read(cpu.eip+1,4,0)-7;
    print_asm("ljump ");
    return 7;

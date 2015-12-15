@@ -27,13 +27,13 @@ typedef struct {
 	  }gpr[8];
 
 	/* Do NOT change the order of the GPRs' definitions. */
-      struct 
+      struct
 	   {
 	     uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 	   };
 	};
 	swaddr_t eip;
-	struct 
+	struct
 	{
 		unsigned int CF:1;
 		unsigned int PF:1;
@@ -52,8 +52,8 @@ typedef struct {
 		uint32_t extension_type      : 1;
 		uint32_t numeric_error       : 1;
 		uint32_t pad0                : 10;
-		uint32_t write_protect       : 1; 
-		uint32_t pad1                : 1; 
+		uint32_t write_protect       : 1;
+		uint32_t pad1                : 1;
 		uint32_t alignment_mask      : 1;
 		uint32_t pad2                : 10;
 		uint32_t no_write_through    : 1;
@@ -67,6 +67,11 @@ typedef struct {
            uint32_t base_addr;
            uint32_t limit;
         }GDTR;
+				struct
+				{
+					uint32_t base_addr;
+					uint32_t limit;
+				}IDTR;
         struct
         {
           uint16_t seg_selector;
