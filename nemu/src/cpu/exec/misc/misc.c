@@ -138,3 +138,49 @@ make_helper(INT)
 	print_asm("INT 0x%x",no);
 	return 2;
 }
+
+make_helper(pusha)
+{
+	if(ops_decoded.is_data_size_16)
+	{
+		uint16_t temp = cpu.esp&0x0000ffff;
+		cpu.esp = cpu.esp - 2;
+		swaddr_write(cpu.esp , 2, cpu.eax&0x0000ffff,1);
+		cpu.esp = cpu.esp - 2;
+		swaddr_write(cpu.esp , 2, cpu.ecx&0x0000ffff,1);
+		cpu.esp = cpu.esp - 2;
+		swaddr_write(cpu.esp , 2, cpu.edx&0x0000ffff,1);
+		cpu.esp = cpu.esp - 2;
+		swaddr_write(cpu.esp , 2, cpu.ebx&0x0000ffff,1);
+		cpu.esp = cpu.esp - 2;
+		swaddr_write(cpu.esp , 2, temp ,1);
+		cpu.esp = cpu.esp - 2;
+		swaddr_write(cpu.esp , 2, cpu.ebp&0x0000ffff,1);
+		cpu.esp = cpu.esp - 2;
+		swaddr_write(cpu.esp , 2, cpu.esi&0x0000ffff,1);
+		cpu.esp = cpu.esp - 2;
+		swaddr_write(cpu.esp , 2, cpu.edi&0x0000ffff,1);
+	}
+	else
+	{
+		uint32_t temp = cpu.esp;
+		cpu.esp = cpu.esp - 4;
+		swaddr_write(cpu.esp , 4, cpu.eax,1);
+		cpu.esp = cpu.esp - 4;
+		swaddr_write(cpu.esp , 4, cpu.ecx,1);
+		cpu.esp = cpu.esp - 4;
+		swaddr_write(cpu.esp , 4, cpu.edx,1);
+		cpu.esp = cpu.esp - 4;
+		swaddr_write(cpu.esp , 4, cpu.ebx,1);
+		cpu.esp = cpu.esp - 4;
+		swaddr_write(cpu.esp , 4, temp ,1);
+		cpu.esp = cpu.esp - 4;
+		swaddr_write(cpu.esp , 4, cpu.ebp,1);
+		cpu.esp = cpu.esp - 4;
+		swaddr_write(cpu.esp , 4, cpu.esi,1);
+		cpu.esp = cpu.esp - 4;
+		swaddr_write(cpu.esp , 4, cpu.edi,1);
+	}
+	print_asm("pusha");
+	return 1;
+}

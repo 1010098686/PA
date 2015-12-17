@@ -9,12 +9,12 @@ extern jmp_buf jbuf;
 
 void raise_intr(uint8_t NO)
 {
-  cpu.esp = cpu.esp -4;
-  swaddr_write(cpu.esp,4,cpu.eip+2,1);
-  cpu.esp = cpu.esp - 2;
-  swaddr_write(cpu.esp,2,cpu.CS.seg_selector,1);
   cpu.esp = cpu.esp -1;
   swaddr_write(cpu.esp,1,cpu.eflags.val,1);
+  cpu.esp = cpu.esp - 2;
+  swaddr_write(cpu.esp,2,cpu.CS.seg_selector,1);
+  cpu.esp = cpu.esp -4;
+  swaddr_write(cpu.esp,4,cpu.eip+2,1);
   GateDesc gatedesc;
   lnaddr_t addr = cpu.IDTR.base_addr + NO *8;
   uint32_t low = lnaddr_read(addr,4);
