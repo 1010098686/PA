@@ -1,6 +1,6 @@
 #include "cpu/exec/helper.h"
 #include "cpu/decode/modrm.h"
-
+#include "cpu/exec/raise_intr.h"
 make_helper(nop) {
 	print_asm("nop");
 	return 1;
@@ -128,4 +128,12 @@ make_helper(lidt)
 	cpu.IDTR.base_addr = lnaddr_read(addr+2,4);
 	print_asm("lidt 0x%x",rm.addr);
 	return len+1;
+}
+
+void raise_intr(uint8_t no);
+make_helper(INT)
+{
+	uint8_t no = swaddr_read(cpu.eip+1,1,0);
+	raise_intr(no);
+	return 2;
 }

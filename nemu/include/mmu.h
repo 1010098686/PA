@@ -95,7 +95,8 @@ typedef union SegmentDescriptor {
 	};
 } SegDesc;
 
-typedef struct GateDescriptor {
+typedef union GateDescriptor {
+	struct{
 	uint32_t offset_15_0      : 16;
 	uint32_t segment          : 16;
 	uint32_t pad0             : 8;
@@ -104,6 +105,11 @@ typedef struct GateDescriptor {
 	uint32_t privilege_level  : 2;
 	uint32_t present          : 1;
 	uint32_t offset_31_16     : 16;
+	};
+	struct
+	{
+		uint32_t low,high;
+	};
 } GateDesc;
 
 #endif

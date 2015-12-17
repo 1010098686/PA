@@ -33,15 +33,19 @@ typedef struct {
 	   };
 	};
 	swaddr_t eip;
-	struct
+  union
 	{
-		unsigned int CF:1;
-		unsigned int PF:1;
-		unsigned int ZF:1;
-		unsigned int SF:1;
-		unsigned int IF:1;
-		unsigned int DF:1;
-		unsigned int OF:1;
+	  struct
+	   {
+		  unsigned int CF:1;
+		  unsigned int PF:1;
+		  unsigned int ZF:1;
+		  unsigned int SF:1;
+		  unsigned int IF:1;
+		  unsigned int DF:1;
+		  unsigned int OF:1;
+		};
+		uint8_t val;
 	}eflags;
 	union {
 	   struct {
