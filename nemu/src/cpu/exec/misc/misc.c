@@ -117,3 +117,15 @@ make_helper(std)
   print_asm("std");
   return 1;
 }
+
+make_helper(lidt)
+{
+	Operand rm , reg;
+	rm.size=4;
+	int len = read_ModR_M(cpu.eip+2,&rm,&reg);
+	lnaddr_t addr = rm.addr;
+	cpu.IDTR.limit = lnaddr_read(addr,2);
+	cpu.IDTR.base_addr = lnaddr_read(addr+2,4);
+	print_asm("lidt 0x%x",rm.addr);
+	return len+1;
+}

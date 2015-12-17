@@ -11,4 +11,5 @@ make_helper(cld);
 make_helper(lgdt);
 make_helper(ljmp);
 make_helper(std);
+make_helper(lidt);
 #endif
