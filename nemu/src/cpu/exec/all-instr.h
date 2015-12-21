@@ -43,6 +43,7 @@
 #include "control/ret.h"
 #include "control/setcc.h"
 #include "control/jcc.h"
+#include "control/in.h"
 
 
 #include "misc/misc.h"
