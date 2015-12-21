@@ -293,3 +293,10 @@ make_helper(out)
 	print_asm("out");
 	return 1;
 }
+
+make_helper(sti)
+{
+	cpu.eflags.IF = 1;
+	print_asm("sti");
+	return 1;
+}

@@ -20,4 +20,5 @@ make_helper(cli);
 make_helper(hlt);
 make_helper(in);
 make_helper(out);
+make_helper(sti);
 #endif
