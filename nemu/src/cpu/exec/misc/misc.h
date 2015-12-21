@@ -18,4 +18,6 @@ make_helper(popa);
 make_helper(iret);
 make_helper(cli);
 make_helper(hlt);
+make_helper(in);
+make_helper(out);
 #endif

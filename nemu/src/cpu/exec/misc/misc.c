@@ -1,6 +1,7 @@
 #include "cpu/exec/helper.h"
 #include "cpu/decode/modrm.h"
 #include "cpu/exec/raise_intr.h"
+#include "device/port-io.h"
 make_helper(nop) {
 	print_asm("nop");
 	return 1;
@@ -262,5 +263,33 @@ make_helper(hlt)
 {
 	while(!(cpu.INTR && cpu.eflags.IF));
 	print_asm("hlt");
+	return 1;
+}
+
+make_helper(in)
+{
+	switch(ops_decoded.opcode)
+	{
+		case 0xec:cpu.gpr[0]._8[0] = pio_read(cpu.gpr[2]._16,1); break;
+		case 0xed:if(ops_decoded.is_data_size_16) cpu.gpr[0]._16 = pio_read(cpu.gpr[2]._16,2);
+		          else cpu.eax = pio_read(cpu.gpr[2]._16,4);
+							break;
+		default:panic("unfinished in instr\n");
+	}
+	print_asm("in");
+	return 1;
+}
+
+make_helper(out)
+{
+	switch(ops_decoded.opcode)
+	{
+		case 0xee:pio_write(cpu.gpr[2]._16,1,cpu.gpr[0]._8[0]);break;
+		case 0xef:if(ops_decoded.is_data_size_16) pio_write(cpu.gpr[2]._16,2,cpu.gpr[0]._16);
+		          else pio_write(cpu.gpr[2]._16,4,cpu.eax);
+							break;
+		default:panic("unfinished out instr");
+	}
+	print_asm("out");
 	return 1;
 }
