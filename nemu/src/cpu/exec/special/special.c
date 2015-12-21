@@ -28,7 +28,7 @@ make_helper(nemu_trap) {
 	print_asm("nemu trap (eax = %d)", cpu.eax);
 
 	switch(cpu.eax) {
-		case 2:printf("%s",cpu.ecx);
+		case 2:printf("%s",(char*)cpu.ecx);
 		   	break;
 
 		default:
