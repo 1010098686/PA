@@ -11,6 +11,8 @@ void load_elf_tables(int, char *[]);
 void init_regex();
 void init_wp_list();
 void init_ddr3();
+void init_device();
+void init_sdl();
 
 FILE *log_fp = NULL;
 
@@ -26,7 +28,8 @@ static void welcome() {
 
 void init_monitor(int argc, char *argv[]) {
 	/* Perform some global initialization */
-
+  init_device();
+	init_sdl();
 	/* Open the log file. */
 	init_log();
 
