@@ -15,6 +15,10 @@ void ramdisk_read(uint8_t *, uint32_t, uint32_t);
 
 void ramdisk_write(uint8_t *buf,uint32_t offset,uint32_t len);
 void create_video_mapping();
+void video_mapping_write_test();
+void video_mapping_read_test();
+void video_mapping_clear();
+
 uint32_t get_ucr3();
 uint32_t loader() {
 	Elf32_Ehdr *elf;
@@ -72,6 +76,9 @@ uint32_t loader() {
 
 #ifdef HAS_DEVICE
 	create_video_mapping();
+	video_mapping_write_test();
+	video_mapping_read_test();
+	video_mapping_clear();
 #endif
 
 	write_cr3(get_ucr3());

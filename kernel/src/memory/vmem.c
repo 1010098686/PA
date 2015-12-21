@@ -24,6 +24,7 @@ void create_video_mapping() {
 	{
 		ptable[i].val = make_pte(i*4096);
 	}
+  
 }
 
 void video_mapping_write_test() {
