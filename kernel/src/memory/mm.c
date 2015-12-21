@@ -3,7 +3,7 @@
 #include <string.h>
 
 static PDE updir[NR_PDE] align_to_page;
-static PTE uptable[NR_PTE] align_to_page;
+static PTE uptable[PHY_MEM / PAGE_SIZE] align_to_page;
 static CR3 ucr3;
 
 inline PDE* get_updir() { return updir; }
