@@ -103,7 +103,7 @@ static int cmd_si(char* args)
 	if ( args == NULL) steps=1;
 	else
 	{
-		steps=atoi(args);	
+		steps=atoi(args);
 	}
 	cpu_exec(steps);
 	return 0;
@@ -127,6 +127,7 @@ static int cmd_info(char* args)
 		printf("OF:		%d\n",cpu.eflags.OF);
 		printf("SF:		%d\n",cpu.eflags.SF);
 		printf("ZF:		%d\n",cpu.eflags.ZF);
+		printf("INTR: %d\n",cpu.INTR);
 	}
 	else if( strcmp(args,"w") == 0)
 	{
@@ -142,7 +143,7 @@ static int cmd_info(char* args)
 	   printf("CR0:0x%x\n",cpu.CR0.val);
 	   printf("CR3:0x%x\n",cpu.CR3.val);
 	}
-	else 
+	else
 	{
 		printf("the command info needs an parameter\n");
 	}
@@ -177,7 +178,7 @@ static int cmd_p(char* args)
 	init_regex();
 	bool success=true;
 	int result=expr(args,&success);
-	if(!success) 
+	if(!success)
 	{
 		printf("you input an invalid expression!\n");
 		return 0;
@@ -195,7 +196,7 @@ static int cmd_w(char* args)
 }
 static int cmd_d(char* args)
 {
-	if(args==NULL) 
+	if(args==NULL)
 	{
 		printf("no argument\n");
 		return 0;
