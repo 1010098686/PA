@@ -231,7 +231,7 @@ make_helper(popa)
 
 make_helper(iret)
 {
-	cpu.esp = swaddr_read(cpu.esp,4,1);
+	cpu.eip = swaddr_read(cpu.esp,4,1);
 	cpu.esp+=4;
 	cpu.CS.seg_selector = swaddr_read(cpu.esp,2,1);
 	cpu.esp+=2;
@@ -255,5 +255,5 @@ make_helper(cli)
 	cpu.eflags.IF =0 ;
 	print_asm("cli");
 	return 1;
-	
+
 }
