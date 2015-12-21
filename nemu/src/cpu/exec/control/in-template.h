@@ -16,6 +16,7 @@ static void do_execute()
   {
     cpu.eax = pio_read(op_src->val,4);
   }
+  print_asm_template2();
 }
 
 make_instr_helper(i2a)

@@ -29,7 +29,7 @@ uint32_t loader() {
 #endif
 
 	elf = (void*)buf;
-    
+
 	/* TODO: fix the magic number with the correct one */
 	const uint32_t elf_magic = 0x464c457f;
 	uint32_t *p_magic = (void *)buf;
@@ -44,21 +44,16 @@ uint32_t loader() {
 		ph=(void*)(buf+elf->e_phoff+i*elf->e_phentsize);
 		if(ph->p_type == PT_LOAD) {
 
-			/* TODO: read the content of the segment from the ELF file 
+			/* TODO: read the content of the segment from the ELF file
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
 			uint32_t addr=mm_malloc(ph->p_vaddr,ph->p_memsz);
-			//ramdisk_read(content,ph->p_offset,ph->p_filesz);
-			//ramdisk_write(content,ph->p_vaddr,ph->p_filesz);
 			memcpy((void*)0+addr,(void*)0+ph->p_offset,ph->p_filesz);
-			/* TODO: zero the memory region 
+			/* TODO: zero the memory region
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
-			//int j;
-			//for(j=0;j<ph->p_memsz-ph->p_filesz;++j) content[j]=0;
-			//ramdisk_write(content,ph->p_vaddr+ph->p_filesz,ph->p_memsz-ph->p_filesz);
 			memset((void*)0+addr+ph->p_filesz,0,ph->p_memsz-ph->p_filesz);
-			
+
 
 
 #ifdef IA32_PAGE

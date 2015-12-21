@@ -44,7 +44,7 @@
 #include "control/setcc.h"
 #include "control/jcc.h"
 #include "control/in.h"
-
+#include "control/out.h"
 
 #include "misc/misc.h"
 
