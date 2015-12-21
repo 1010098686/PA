@@ -249,3 +249,11 @@ make_helper(iret)
 	print_asm("iret");
 	return 1;
 }
+
+make_helper(cli)
+{
+	cpu.eflags.IF =0 ;
+	print_asm("cli");
+	return 1;
+	
+}
