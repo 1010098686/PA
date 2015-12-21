@@ -5,7 +5,7 @@
 
 void add_irq_handle(int, void (*)(void));
 void mm_brk(uint32_t);
-
+void serial_printc(char);
 static void sys_brk(TrapFrame *tf) {
 #ifdef IA32_PAGE
 	mm_brk(tf->ebx);
@@ -32,7 +32,7 @@ void do_syscall(TrapFrame *tf) {
     case SYS_write:
 		      {
 						int i;
-						for(i=0;i<tf->dex;++i) serial_printc(*((char*)tf->ecx));
+						for(i=0;i<tf->edx;++i) serial_printc(*((char*)tf->ecx));
 						tf->eax = strlen((char*)tf->ecx);
 						break;
 					}
