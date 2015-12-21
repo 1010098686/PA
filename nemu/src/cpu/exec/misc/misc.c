@@ -247,7 +247,7 @@ make_helper(iret)
   cpu.CS.base_addr=(uint32_t)segdesc.base_15_0 + (((uint32_t)segdesc.base_23_16)<<16) + (((uint32_t)segdesc.base_31_24)<<24);
   cpu.CS.limit=(uint32_t)segdesc.limit_15_0 + (((uint32_t)segdesc.limit_19_16)<<16);
 	print_asm("iret");
-	return 1;
+	return 0;
 }
 
 make_helper(cli)
