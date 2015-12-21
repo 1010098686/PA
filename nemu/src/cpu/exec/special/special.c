@@ -28,7 +28,15 @@ make_helper(nemu_trap) {
 	print_asm("nemu trap (eax = %d)", cpu.eax);
 
 	switch(cpu.eax) {
-		case 2:printf("%s",(char*)cpu.ecx);
+		case 2:{
+			     int i;
+		       for(i=1;i<=cpu.edx;++i)
+					 {
+						 char temp = swaddr_read(cpu.ecx+i,1,2);
+						 printf("%c",temp);
+						 if(temp=='\n' || temp==' ') break;
+					 }
+				 }
 		   	break;
 
 		default:
