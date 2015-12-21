@@ -1,5 +1,7 @@
 #include "monitor/monitor.h"
 #include "cpu/helper.h"
+#include "device/i8259.h"
+#include "cpu/exec/raise_intr.h"
 #include <setjmp.h>
 
 /* The assembly code of instructions executed is only output to the screen
@@ -80,7 +82,12 @@ void cpu_exec(volatile uint32_t n) {
 			printf("NO.%d watchpoint has been fired\n",no);
 			nemu_state=STOP;
 		}
-
+    if(cpu.INTR && cpu.eflags.IF)
+		{
+			uint32_t intr_no = i8259_query_intr();
+			i8259_ack_intr();
+			raise_intr(intr_no);
+		}
 		if(nemu_state != RUNNING) { return; }
 	}
 

@@ -7,7 +7,7 @@
 
 extern jmp_buf jbuf;
 
-void raise_intr(uint8_t NO)
+static void raise_intr(uint8_t NO)
 {
   cpu.esp = cpu.esp -1;
   swaddr_write(cpu.esp,1,cpu.eflags.val,1);
