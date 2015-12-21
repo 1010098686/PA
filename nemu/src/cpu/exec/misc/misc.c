@@ -131,11 +131,11 @@ make_helper(lidt)
 	return len+1;
 }
 
-void raise_intr(uint8_t no);
+void raise_intr(uint8_t no,uint32_t len);
 make_helper(INT)
 {
 	uint8_t no = swaddr_read(cpu.eip+1,1,0);
-	raise_intr(no);
+	raise_intr(no,2);
 	print_asm("INT 0x%x",no);
 	return 2;
 }
