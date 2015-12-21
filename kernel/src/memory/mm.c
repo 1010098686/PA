@@ -3,11 +3,11 @@
 #include <string.h>
 
 static PDE updir[NR_PDE] align_to_page;
-static PTE uptable[PHY_MEM / PAGE_SIZE] align_to_page;
+//static PTE uptable[PHY_MEM / PAGE_SIZE] align_to_page;
 static CR3 ucr3;
 
 inline PDE* get_updir() { return updir; }
-inline PTE* get_uptable() {return uptable;}
+//inline PTE* get_uptable() {return uptable;}
 inline uint32_t get_ucr3() { return ucr3.val; }
 
 inline PDE* get_kpdir();
