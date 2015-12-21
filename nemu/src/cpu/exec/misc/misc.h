@@ -15,4 +15,5 @@ make_helper(lidt);
 make_helper(INT);
 make_helper(pusha);
 make_helper(popa);
+make_helper(iret);
 #endif

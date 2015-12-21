@@ -225,5 +225,27 @@ make_helper(popa)
 		cpu.gpr[0]._32 = swaddr_read(cpu.esp,4,1);
 		cpu.esp+=4;
 	}
+	print_asm("popa");
+	return 1;
+}
+
+make_helper(iret)
+{
+	cpu.esp = swaddr_read(cpu.esp,4,1);
+	cpu.esp+=4;
+	cpu.CS.seg_selector = swaddr_read(cpu.esp,2,1);
+	cpu.esp+=2;
+	cpu.eflags.val = swaddr_read(cpu.esp,1,1);
+	cpu.esp+=1;
+	SegDesc segdesc;
+  int index=(cpu.CS.seg_selector&0xfff8)>>3;
+  lnaddr_t seg_addr = cpu.GDTR.base_addr+index*8;
+  int low=lnaddr_read(seg_addr,4);
+  int high=lnaddr_read(seg_addr+4,4);
+  segdesc.low=low;
+  segdesc.high=high;
+  cpu.CS.base_addr=(uint32_t)segdesc.base_15_0 + (((uint32_t)segdesc.base_23_16)<<16) + (((uint32_t)segdesc.base_31_24)<<24);
+  cpu.CS.limit=(uint32_t)segdesc.limit_15_0 + (((uint32_t)segdesc.limit_19_16)<<16);
+	print_asm("iret");
 	return 1;
 }
