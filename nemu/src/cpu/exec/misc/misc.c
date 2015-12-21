@@ -184,3 +184,46 @@ make_helper(pusha)
 	print_asm("pusha");
 	return 1;
 }
+
+make_helper(popa)
+{
+	if(ops_decoded.is_data_size_16)
+	{
+		cpu.gpr[7]._16 = swaddr_read(cpu.esp,2,1);
+		cpu.esp+=2;
+		cpu.gpr[6]._16 = swaddr_read(cpu.esp,2,1);
+		cpu.esp+=2;
+		cpu.gpr[5]._16 = swaddr_read(cpu.esp,2,1);
+		cpu.esp+=2;
+		//uint16_t temp = swaddr_read(cpu.esp,2,1);
+		cpu.esp+=2;
+		cpu.gpr[3]._16 = swaddr_read(cpu.esp,2,1);
+		cpu.esp+=2;
+		cpu.gpr[2]._16 = swaddr_read(cpu.esp,2,1);
+		cpu.esp+=2;
+		cpu.gpr[1]._16 = swaddr_read(cpu.esp,2,1);
+		cpu.esp+=2;
+		cpu.gpr[0]._16 = swaddr_read(cpu.esp,2,1);
+		cpu.esp+=2;
+	}
+	else
+	{
+		cpu.gpr[7]._32 = swaddr_read(cpu.esp,4,1);
+		cpu.esp+=4;
+		cpu.gpr[6]._32 = swaddr_read(cpu.esp,4,1);
+		cpu.esp+=4;
+		cpu.gpr[5]._32 = swaddr_read(cpu.esp,4,1);
+		cpu.esp+=4;
+		//uint32_t temp = swaddr_read(cpu.esp,4,1);
+		cpu.esp+=4;
+		cpu.gpr[3]._32 = swaddr_read(cpu.esp,4,1);
+		cpu.esp+=4;
+		cpu.gpr[2]._32 = swaddr_read(cpu.esp,4,1);
+		cpu.esp+=4;
+		cpu.gpr[1]._32 = swaddr_read(cpu.esp,4,1);
+		cpu.esp+=4;
+		cpu.gpr[0]._32 = swaddr_read(cpu.esp,4,1);
+		cpu.esp+=4;
+	}
+	return 1;
+}

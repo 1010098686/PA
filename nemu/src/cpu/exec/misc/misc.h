@@ -14,4 +14,5 @@ make_helper(std);
 make_helper(lidt);
 make_helper(INT);
 make_helper(pusha);
+make_helper(popa);
 #endif
