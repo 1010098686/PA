@@ -1,4 +1,5 @@
 #include "common.h"
+#include "device/mmio.h"
 #include<stdlib.h>
 #include<time.h>
 #include<string.h>
@@ -49,31 +50,47 @@ hwaddr_t page_translate(lnaddr_t addr,int* flag)
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
-        int i;
-        uint32_t result=0;
-        for(i=0;i<len;++i)
+        int no = is_mmio(addr);
+        if(no!=-1)
         {
-             uint8_t temp=0;
-             cache_read(addr+i,&temp);
-             uint32_t atemp=temp;
-             atemp=atemp<<(i*8);
-             result+=atemp;
-
+          return mmio_read(addr,len,no);
         }
-        return result;
+        else
+        {
+          int i;
+          uint32_t result=0;
+          for(i=0;i<len;++i)
+          {
+               uint8_t temp=0;
+               cache_read(addr+i,&temp);
+               uint32_t atemp=temp;
+               atemp=atemp<<(i*8);
+               result+=atemp;
+
+          }
+          return result;
+      }
 	//return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
 
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
-        int i;
-        uint32_t data_bk=data;
-        for(i=0;i<len;++i)
+        int no = is_mmio(addr);
+        if(no!=-1)
         {
-            uint8_t temp=data_bk&0x000000ff;
-            data_bk=data_bk>>8;
-            cache_write(addr+i,temp);
+          mmio_write(addr,len,data,no);
         }
+        else
+        {
+          int i;
+          uint32_t data_bk=data;
+          for(i=0;i<len;++i)
+          {
+              uint8_t temp=data_bk&0x000000ff;
+              data_bk=data_bk>>8;
+              cache_write(addr+i,temp);
+          }
+      }
 	//dram_write(addr, len, data);
 }
 
