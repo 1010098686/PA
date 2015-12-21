@@ -48,7 +48,8 @@ uint32_t loader() {
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
 			uint32_t addr=mm_malloc(ph->p_vaddr,ph->p_memsz);
-			memcpy((void*)0+addr,(void*)0+ph->p_offset,ph->p_filesz);
+			//memcpy((void*)0+addr,(void*)0+ph->p_offset,ph->p_filesz);
+			ide_read((void*)0+addr,ph->p_offset,ph->p_filesz);
 			/* TODO: zero the memory region
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */

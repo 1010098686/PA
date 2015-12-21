@@ -1,6 +1,7 @@
 #include "common.h"
 #include "memory.h"
 #include <string.h>
+#include "x86.h"
 
 #define VMEM_ADDR 0xa0000
 #define SCR_SIZE (320 * 200)
@@ -9,12 +10,20 @@
 inline PDE* get_updir();
 
 void create_video_mapping() {
-	/* TODO: create an identical mapping from virtual memory area 
-	 * [0xa0000, 0xa0000 + SCR_SIZE) to physical memory area 
+	/* TODO: create an identical mapping from virtual memory area
+	 * [0xa0000, 0xa0000 + SCR_SIZE) to physical memory area
 	 * [0xa0000, 0xa0000 + SCR_SIZE) for user program. You may define
 	 * some page tables to create this mapping.
 	 */
-	panic("please implement me");
+	//panic("please implement me");
+	PDE* pdir = get_updir();
+	PTE* ptable = get_uptable();
+	pdir[0].val = make_pde(ptable);
+	int i=0;
+	for(i=160;i<=175;++i)
+	{
+		ptable[i].val = make_pte(i*4096);
+	}
 }
 
 void video_mapping_write_test() {
@@ -36,4 +45,3 @@ void video_mapping_read_test() {
 void video_mapping_clear() {
 	memset((void *)VMEM_ADDR, 0, SCR_SIZE);
 }
-

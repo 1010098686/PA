@@ -17,4 +17,5 @@ make_helper(pusha);
 make_helper(popa);
 make_helper(iret);
 make_helper(cli);
+make_helper(hlt);
 #endif
