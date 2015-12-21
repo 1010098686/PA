@@ -9,7 +9,7 @@ make_helper(inv) {
 	temp[1] = instr_fetch(eip + 4, 4);
 
 	uint8_t *p = (void *)temp;
-	printf("invalid opcode(eip = 0x%08x): %02x %02x %02x %02x %02x %02x %02x %02x ...\n\n", 
+	printf("invalid opcode(eip = 0x%08x): %02x %02x %02x %02x %02x %02x %02x %02x ...\n\n",
 			eip, p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7]);
 
 	extern char logo [];
@@ -28,7 +28,7 @@ make_helper(nemu_trap) {
 	print_asm("nemu trap (eax = %d)", cpu.eax);
 
 	switch(cpu.eax) {
-		case 2:
+		case 2:printf("%s",cpu.ecx);
 		   	break;
 
 		default:
@@ -39,4 +39,3 @@ make_helper(nemu_trap) {
 
 	return 1;
 }
-
