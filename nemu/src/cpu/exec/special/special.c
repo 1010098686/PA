@@ -34,7 +34,7 @@ make_helper(nemu_trap) {
 					 {
 						 char temp = swaddr_read(cpu.ecx+i,1,2);
 						 printf("%c",temp);
-						 if(temp=='\n' || temp==' ') break;
+						 //if(temp=='\n' || temp==' ') break;
 					 }
 				 }
 		   	break;
