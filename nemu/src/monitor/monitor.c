@@ -107,6 +107,7 @@ void restart() {
 	cpu.CS.limit=0xffffffff;
 	cpu.IDTR.base_addr = 0;
 	cpu.IDTR.limit = 0x03ff;
+	cpu.INTR = 0;
 	/* Initialize DRAM. */
 	init_ddr3();
 	int i;
