@@ -32,7 +32,7 @@ void do_syscall(TrapFrame *tf) {
     case SYS_write:
 		      {
 						int i;
-						for(i=0;i<tf->edx;++i) serial_printc(*((char*)tf->ecx));
+						for(i=0;i<tf->edx;++i) serial_printc(*((char*)tf->ecx+i));
 						tf->eax = strlen((char*)tf->ecx);
 						break;
 					}
