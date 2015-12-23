@@ -9,7 +9,6 @@
 static PTE uptable[PHY_MEM / PAGE_SIZE] align_to_page;
 /* Use the function to get the start address of user page directory. */
 inline PDE* get_updir();
-//inline PTE* get_uptable();
 void create_video_mapping() {
 	/* TODO: create an identical mapping from virtual memory area
 	 * [0xa0000, 0xa0000 + SCR_SIZE) to physical memory area
@@ -18,6 +17,7 @@ void create_video_mapping() {
 	 */
 	//panic("please implement me");
 	PDE* pdir = get_updir();
+	pdir = va_to_pa(pdir);
 	pdir[0].val = make_pde(uptable);
 	int i=0;
 	for(i=160;i<=175;++i)
