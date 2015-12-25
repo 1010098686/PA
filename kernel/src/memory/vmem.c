@@ -20,15 +20,15 @@ void create_video_mapping() {
 	PTE* ptab = (PTE*)va_to_pa(uptable);
 	pdir[0].val = make_pde(ptab);
 	int i=0;
-	/*for(i=160;i<=175;++i)
+	for(i=160;i<=175;++i)
 	{
-		uptable[i].val = make_pte(i*4096);
-	}*/
-	for(;i<=VMEM_ADDR+SCR_SIZE;i+=PAGE_SIZE)
+		ptab[i].val = make_pte(i*4096);
+	}
+	/*for(;i<=VMEM_ADDR+SCR_SIZE;i+=PAGE_SIZE)
 	{
 		ptab->val = make_pte(i);
 		ptab++;
-	}
+	}*/
   
 }
 
