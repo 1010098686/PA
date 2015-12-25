@@ -24,12 +24,6 @@ void create_video_mapping() {
 	{
 		ptab[i].val = make_pte(i*4096);
 	}
-	/*for(;i<=VMEM_ADDR+SCR_SIZE;i+=PAGE_SIZE)
-	{
-		ptab->val = make_pte(i);
-		ptab++;
-	}*/
-  
 }
 
 void video_mapping_write_test() {
