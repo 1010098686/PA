@@ -261,9 +261,9 @@ make_helper(cli)
 
 make_helper(hlt)
 {
-	while(!(cpu.INTR && cpu.eflags.IF));
 	print_asm("hlt");
-	return 1;
+	if(!(cpu.INTR && cpu.eflags.IF)) return 0;
+	else return 1;
 }
 
 make_helper(in)
