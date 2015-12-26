@@ -127,6 +127,7 @@ static int cmd_info(char* args)
 		printf("OF:		%d\n",cpu.eflags.OF);
 		printf("SF:		%d\n",cpu.eflags.SF);
 		printf("ZF:		%d\n",cpu.eflags.ZF);
+		printf("IF:		%d\n",cpu.eflags.IF);
 		printf("INTR: %d\n",cpu.INTR);
 	}
 	else if( strcmp(args,"w") == 0)
