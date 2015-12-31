@@ -21,7 +21,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *scrrect,
 	 */
          if(scrrect==NULL)
          {
-           
+		 }           
 	//assert(0);
 }
 
