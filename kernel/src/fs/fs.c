@@ -1,10 +1,17 @@
 #include "common.h"
+#include<string.h>
 
 typedef struct {
 	char *name;
 	uint32_t size;
 	uint32_t disk_offset;
 } file_info;
+
+typedef struct 
+{
+	bool opened;
+	uint32_t offset;
+}Fstate;
 
 enum {SEEK_SET, SEEK_CUR, SEEK_END};
 
@@ -22,13 +29,57 @@ static const file_info file_table[] = {
 	{"rgm.mkf", 453202, 20514713}, {"rng.mkf", 4546074, 20967915},
 	{"sss.mkf", 557004, 25513989}, {"voc.mkf", 1997044, 26070993},
 	{"wor16.asc", 5374, 28068037}, {"wor16.fon", 82306, 28073411},
-	{"word.dat", 5650, 28155717},
+	{"word.dat", 5650, 28155717}
 };
 
 #define NR_FILES (sizeof(file_table) / sizeof(file_table[0]))
+
+static Fstate fstate[NR_FILES+3]={
+	{false,0},{false,0},{false,0}, //stdin,stdout,stderr
+	{false,0},{false,0},{false,0},{false,0},{false,0},
+	{false,0},{false,0},{false,0},{false,0},{false,0},
+	{false,0},{false,0},{false,0},{false,0},{false,0},
+	{false,0},{false,0},{false,0},{false,0},{false,0},
+	{false,0},{false,0},{false,0},{false,0},{false,0}
+};
 
 void ide_read(uint8_t *, uint32_t, uint32_t);
 void ide_write(uint8_t *, uint32_t, uint32_t);
 
 /* TODO: implement a simplified file system here. */
+int fs_open(const char* pathname,int flags)
+{
+	int i;
+	for(i=0;i<NR_FILES+3;++i)
+		if( strcmp( file_table[i].name,pathname)==0) 
+		{
+			fstate[i].opened = true;
+			return i;
+		}
+	return -1;
+}
 
+int fs_read(int fd,void* buf,int len)
+{
+	int count = (fstate[fd].offset + len >file_table[fd-3].size)? (file_table[fd-3].size-fstate[fd].offset) : len;
+	ide_read(buf,file_table[fd-3].disk_offset+fstate[fd].offset,count);
+	fstate[fd].offset+=count;
+	return count;
+}
+
+int fs_write(int fd,void* buf,int len)
+{
+	int count = (fstate[fd].offset + len > file_table[fd-3].size)? (file_table[fd-3].size-fstate[fd].offset) : len;
+	ide_write(buf,file_table[fd-3].disk_offset+fstate[fd].offset,count);
+	fstate[fd].offset+=count;
+	return count;
+}
+
+/*int fs_lseek(int fd,int offset,int whence)
+{
+	int base = 0;
+	if(whence==SEEK_SET) base=0;
+	else if(whence==SEEK_CUR) base=fstate[fd].offset;
+	else if(whence==SEEK_END) base=file_table[fd-3].size;
+    return 0;
+}*/
