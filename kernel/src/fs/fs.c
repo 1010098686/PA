@@ -62,6 +62,7 @@ int fs_open(const char* pathname,int flags)
 int fs_read(int fd,void* buf,int len)
 {
 	if(fd<0 || fd>=NR_FILES+3) return -1;
+	if(fstate[fd].opened==false) return -1;
 	int count = (fstate[fd].offset + len >= file_table[fd-3].size)? (file_table[fd-3].size-fstate[fd].offset) : len;
 	ide_read(buf,file_table[fd-3].disk_offset+fstate[fd].offset,count);
 	fstate[fd].offset+=count;
@@ -71,6 +72,7 @@ int fs_read(int fd,void* buf,int len)
 int fs_write(int fd,void* buf,int len)
 {
 	if(fd<0 || fd>=NR_FILES+3) return -1;
+	if(fstate[fd].opened==false) return -1;
 	int count = (fstate[fd].offset + len >= file_table[fd-3].size)? (file_table[fd-3].size-fstate[fd].offset) : len;
 	ide_write(buf,file_table[fd-3].disk_offset+fstate[fd].offset,count);
 	fstate[fd].offset+=count;
@@ -80,6 +82,7 @@ int fs_write(int fd,void* buf,int len)
 int fs_lseek(int fd,int offset,int whence)
 {
 	if(fd<0 || fd>=NR_FILES+3) return -1;
+	if(fstate[fd].opened==false) return -1;
 	int base = 0;
 	if(whence==SEEK_SET) base=0;
 	else if(whence==SEEK_CUR) base=fstate[fd].offset;
