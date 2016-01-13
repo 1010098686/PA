@@ -151,23 +151,15 @@ PAL_Init(
 
 #ifdef PAL_WIN95
 #ifdef _DEBUG
-   Log("pal win95 debug");
    SDL_WM_SetCaption("Pal WIN95 (Debug Build)", NULL);
-   Log("pal win95 debug finish");
 #else
-   Log("pal win95");
    SDL_WM_SetCaption("Pal WIN95", NULL);
-   Log("pal win95 finish");
 #endif
 #else
 #ifdef _DEBUG
-   Log("debug");
    SDL_WM_SetCaption("Pal (Debug Build)", NULL);
-   Log("debug finish");
 #else
-   Log("null");
    SDL_WM_SetCaption("Pal", NULL);
-   Log("null finish");
 #endif
 #endif
 }
@@ -240,10 +232,15 @@ PAL_TrademarkScreen(
 
 --*/
 {
+   Log("start");
    PAL_SetPalette(3, FALSE);
+   Log("1");
    PAL_RNGPlay(6, 0, 1000, 25);
+   Log("2");
    UTIL_Delay(1000);
+   Log("3");
    PAL_FadeOut(1);
+   Log("finish");
 }
 
 VOID
