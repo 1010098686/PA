@@ -148,18 +148,26 @@ PAL_Init(
    PAL_InitResources();
    Log("PAL_InitResources success");
    SOUND_OpenAudio();
-   Log("debug");
+
 #ifdef PAL_WIN95
 #ifdef _DEBUG
+   Log("pal win95 debug");
    SDL_WM_SetCaption("Pal WIN95 (Debug Build)", NULL);
+   Log("pal win95 debug finish");
 #else
+   Log("pal win95");
    SDL_WM_SetCaption("Pal WIN95", NULL);
+   Log("pal win95 finish");
 #endif
 #else
 #ifdef _DEBUG
+   Log("debug");
    SDL_WM_SetCaption("Pal (Debug Build)", NULL);
+   Log("debug finish");
 #else
+   Log("null");
    SDL_WM_SetCaption("Pal", NULL);
+   Log("null finish");
 #endif
 #endif
 }
