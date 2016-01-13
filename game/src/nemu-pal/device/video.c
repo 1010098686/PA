@@ -723,9 +723,13 @@ VIDEO_GetPalette(
 --*/
 {
 #if SDL_VERSION_ATLEAST(2,0,0)
+   Log("1");
    return gpScreen->format->palette->colors;
+   Log("1 finish");
 #else
+   Log("2");
    return gpScreenReal->format->palette->colors;
+   Log("2 finish");
 #endif
 }
 
