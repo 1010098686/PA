@@ -18,11 +18,8 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *scrrect,
 	 * (``src'' or ``dst'') is copied. The final blit rectangle 
 	 * is saved in ``dstrect'' after all clipping is performed
 	 * (``srcrect'' is not modified).
-	 */
-         if(scrrect==NULL)
-         {
-		 }           
-	//assert(0);
+	 */ 
+	assert(0);
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
