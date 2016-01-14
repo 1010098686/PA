@@ -113,6 +113,7 @@ PAL_Init(
    }
 
    Log("VIDEO_Init success");
+   Log("gpScreenReal=%x",gpScreenReal);
    SDL_WM_SetCaption("Loading...", NULL);
 
    e = PAL_InitGlobals();
