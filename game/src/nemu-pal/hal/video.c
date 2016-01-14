@@ -19,20 +19,37 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *scrrect,
 	 * is saved in ``dstrect'' after all clipping is performed
 	 * (``srcrect'' is not modified).
 	 */ 
-	int sx = (scrrect==NULL)?0:scrrect->x;
-	int sy = (scrrect==NULL)?0:scrrect->y;
-	int w = (scrrect==NULL)?src->w:scrrect->w;
-	int h = (scrrect==NULL)?src->h:scrrect->h;
-	int dx = (dstrect==NULL)?0:dstrect->x;
-	int dy = (dstrect==NULL)?0:dstrect->y;
-	int i,j;
-	for(i=sx;i<sx+w;++i)
-		for(j=sy;j<sy+h;++j)
-		{
-            int x = i-sx;
-			int y = j-sy;
-			dst->pixels[(dx+x)*w+dy+y] = src->pixels[i*w+j];
-		}
+	int w,h;
+	uint8_t* src_ptr;
+	uint8_t* dst_ptr;
+	if(scrrect==NULL)
+	{
+		w = src->w;
+		h = src->h;
+		src_ptr = src->pixels;
+	}
+	else
+	{
+		w = scrrect->w;
+		h = scrrect->h;
+		src_ptr = src->pixels + scrrect->y*src->w + scrrect->x;
+	}
+	if(dstrect==NULL)
+	{
+		dst_ptr = dst->pixels;
+	}
+	else
+	{
+		dst_ptr = dst->pixels + dstrect->y*dst->w + dstrect->x;
+	}
+	int i=0;
+	for(i=0;i<h;++i)
+	{
+		memcpy(dst_ptr,src_ptr,w);
+		src_ptr+=src->w;
+		dst_ptr+=dst->w;
+	}
+
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
@@ -48,12 +65,13 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 	int sy = (dstrect==NULL)?0:dstrect->y;
 	int w = (dstrect==NULL)?dst->w:dstrect->w;
 	int h = (dstrect==NULL)?dst->h:dstrect->h;
-	int i,j;
-	for(i=sx;i<sx+w;++i)
-		for(j=sy;j<sy+h;++j)
-		{
-			dst->pixels[i*w+j] = color;
-		}
+	uint8_t* dest = dst->pixels + sy*dst->w + sx;
+	int i=0;
+	for(i=0;i<h;++i)
+	{
+		memset(dest,color,w);
+		dest+=w;
+	}
 }
 
 void SDL_UpdateRect(SDL_Surface *screen, int x, int y, int w, int h) {
