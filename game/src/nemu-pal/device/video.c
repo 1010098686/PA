@@ -304,7 +304,7 @@ VIDEO_Init(
    {
       SDL_ShowCursor(FALSE);
    }
-
+   Log("haha %x",(int)gpScreenReal->format->palette->colors);
    return 0;
 }
 
