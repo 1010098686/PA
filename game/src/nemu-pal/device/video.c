@@ -725,8 +725,8 @@ VIDEO_GetPalette(
 #if SDL_VERSION_ATLEAST(2,0,0)
    return gpScreen->format->palette->colors;
 #else
+   Log("%x",(int)gpScreenReal);
    return gpScreenReal->format->palette->colors;
-   Log("gpScreenReal=%x",(int)gpScreenReal);
 #endif
 }
 
