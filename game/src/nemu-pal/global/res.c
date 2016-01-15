@@ -217,6 +217,7 @@ PAL_LoadResources(
    //
    // Load scene
    //
+   Log("load scene");
    if (gpResources->bLoadFlags & kLoadScene)
    {
       FILE              *fpMAP, *fpGOP;
@@ -298,6 +299,7 @@ PAL_LoadResources(
    //
    // Load player sprites
    //
+   Log("load player sprites");
    if (gpResources->bLoadFlags & kLoadPlayerSprite)
    {
       //
