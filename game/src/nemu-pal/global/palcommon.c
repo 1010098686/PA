@@ -769,7 +769,7 @@ PAL_MKFReadChunk(
 
    if (lpBuffer == NULL || fp == NULL || uiBufferSize == 0)
    {
-	   Log("buf=%x fp=%x size=%x",(int)lpBuffer,(int)fp,(int)uiBufferSize);
+	   Log("%d %d %d",lpBuffer==NULL,fp==NULL,uiBufferSize==0);
 	   return -1;
    }
 
