@@ -217,6 +217,7 @@ PAL_LoadResources(
    //
    // Load scene
    //
+   Log("load scene");
    if (gpResources->bLoadFlags & kLoadScene)
    {
       FILE              *fpMAP, *fpGOP;
@@ -298,12 +299,12 @@ PAL_LoadResources(
    //
    // Load player sprites
    //
+   Log("load player sprites");
    if (gpResources->bLoadFlags & kLoadPlayerSprite)
    {
       //
       // Free previous loaded player sprites
       //
-	  Log("free previous loaded player sprites");
       PAL_FreePlayerSprites();
 
       for (i = 0; i <= (short)gpGlobals->wMaxPartyMemberIndex; i++)
@@ -329,7 +330,6 @@ PAL_LoadResources(
          //
          // Load the follower sprite
          //
-		 Log("load the followed sprite");
          wSpriteNum = gpGlobals->rgParty[i].wPlayerRole;
 
          l = PAL_MKFGetDecompressedSize(wSpriteNum, gpGlobals->f.fpMGO);
