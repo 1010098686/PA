@@ -303,6 +303,7 @@ PAL_LoadResources(
       //
       // Free previous loaded player sprites
       //
+	  Log("free previous loaded player sprites");
       PAL_FreePlayerSprites();
 
       for (i = 0; i <= (short)gpGlobals->wMaxPartyMemberIndex; i++)
@@ -328,6 +329,7 @@ PAL_LoadResources(
          //
          // Load the follower sprite
          //
+		 Log("load the followed sprite");
          wSpriteNum = gpGlobals->rgParty[i].wPlayerRole;
 
          l = PAL_MKFGetDecompressedSize(wSpriteNum, gpGlobals->f.fpMGO);
@@ -338,12 +340,10 @@ PAL_LoadResources(
             gpGlobals->f.fpMGO);
       }
    }
-   Log("before finish the load resources");
    //
    // Clear all of the load flags
    //
    gpResources->bLoadFlags = 0;
-   Log("finish the load resources");
 }
 
 LPPALMAP
