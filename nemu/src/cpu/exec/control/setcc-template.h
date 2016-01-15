@@ -23,7 +23,7 @@ static void do_execute()
      case 0x190:flag=(cpu.eflags.OF==1);break;
      case 0x19a:flag=(cpu.eflags.PF==1);break;
      case 0x198:flag=(cpu.eflags.SF==1);break;
-     default:flag=false;
+     default:assert(0);
      }
      if(flag) OPERAND_W(op_src,1);
      else OPERAND_W(op_src,0);
