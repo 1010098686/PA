@@ -809,7 +809,6 @@ PAL_MKFReadChunk(
    {
 	   return -1;
    }
-   Log("%d",uiChunkLen);
    return (INT)uiChunkLen;
 }
 
