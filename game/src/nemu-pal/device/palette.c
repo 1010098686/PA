@@ -109,7 +109,7 @@ PAL_SetPalette(
 --*/
 {
    SDL_Color *p = PAL_GetPalette(iPaletteNum, fNight);
-
+   Log("p=%d",(int)p);
    if (p != NULL)
    {
 	   VIDEO_SetPalette(p);
