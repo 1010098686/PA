@@ -104,7 +104,9 @@ PAL_GameMain(
       //
       // Load the game resources if needed.
       //
+	  Log("begin load resources");
 	  PAL_LoadResources();
+	  Log("finish load resources");
       //
       // Clear the input state of previous frame.
       
