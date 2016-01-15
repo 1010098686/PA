@@ -35,7 +35,7 @@ static const file_info file_table[] = {
 #define NR_FILES (sizeof(file_table) / sizeof(file_table[0]))
 
 static Fstate fstate[NR_FILES+3]={
-	{false,0},{false,0},{false,0},
+	{false,0},{false,0},{false,0},  //stdin,stdout,stderr
 	{false,0},{false,0},{false,0},{false,0},{false,0},
 	{false,0},{false,0},{false,0},{false,0},{false,0},
 	{false,0},{false,0},{false,0},{false,0},{false,0},
@@ -53,8 +53,8 @@ int fs_open(const char* pathname,int flags)
 	for(i=0;i<NR_FILES;++i)
 		if( strcmp( file_table[i].name,pathname)==0) 
 		{
-			assert(fstate[i].opened==false);
-			fstate[i].opened = true;
+			assert(fstate[i+3].opened==false);
+			fstate[i+3].opened = true;
 			return i+3;
 		}
 	return -1;
