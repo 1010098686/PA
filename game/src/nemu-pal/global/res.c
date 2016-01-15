@@ -221,7 +221,7 @@ PAL_LoadResources(
    if (gpResources->bLoadFlags & kLoadScene)
    {
       FILE              *fpMAP, *fpGOP;
-
+      Log("begin load scene");
       fpMAP = UTIL_OpenRequiredFile("map.mkf");
       fpGOP = UTIL_OpenRequiredFile("gop.mkf");
 
@@ -234,6 +234,7 @@ PAL_LoadResources(
       //
       // Free previous loaded scene (sprites and map)
       //
+	  Log("free previous loaded scene");
       PAL_FreeEventObjectSprites();
       PAL_FreeMap(gpResources->lpMap);
 
