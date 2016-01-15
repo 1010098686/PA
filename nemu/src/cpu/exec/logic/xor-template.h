@@ -10,6 +10,13 @@ static void do_execute () {
 	//panic("please implement me");
 	cpu.eflags.CF=0;
 	cpu.eflags.OF=0;
+	cpu.eflags.SF=(MSB(result)==1)?1:0;
+	cpu.eflags.ZF=(result==0)?1:0;
+	int8_t rel = result&0xff;
+	rel=rel^(rel>>4);
+	rel=rel^(rel>>2);
+	rel=rel^(rel>>1);
+	cpu.eflags.PF=(!(rel&1))?1:0;
 	print_asm_template2();
 }
 
