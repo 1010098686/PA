@@ -96,8 +96,7 @@ PAL_GameMain(
       //
       if (gpGlobals->fGameStart)
       {
-         Log("PAL_GameStart");
-		  PAL_GameStart();
+		 PAL_GameStart();
          gpGlobals->fGameStart = FALSE;
       }
 
@@ -105,9 +104,8 @@ PAL_GameMain(
       //
       // Load the game resources if needed.
       //
-      Log("PAL_LoadResources");
 	  PAL_LoadResources();
-
+      Log("finish load resources");
       //
       // Clear the input state of previous frame.
       //
