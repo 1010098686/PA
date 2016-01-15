@@ -778,7 +778,6 @@ PAL_MKFReadChunk(
    uiChunkCount = PAL_MKFGetChunkCount(fp);
    if (uiChunkNum >= uiChunkCount)
    {
-       Log("%d %d",uiChunkNum, uiChunkCount);
 	   return -1;
    }
 
@@ -808,7 +807,8 @@ PAL_MKFReadChunk(
    }
    else
    {
-      return -1;
+       Log("%d",uiChunkLen);
+	   return -1;
    }
 
    return (INT)uiChunkLen;
