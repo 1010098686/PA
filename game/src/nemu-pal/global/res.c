@@ -342,6 +342,7 @@ PAL_LoadResources(
    //
    // Clear all of the load flags
    //
+   Log("before finish the load resources");
    gpResources->bLoadFlags = 0;
    Log("finish the load resources");
 }
