@@ -217,7 +217,6 @@ PAL_LoadResources(
    //
    // Load scene
    //
-   Log("load scene");
    if (gpResources->bLoadFlags & kLoadScene)
    {
       FILE              *fpMAP, *fpGOP;
@@ -234,14 +233,12 @@ PAL_LoadResources(
       //
       // Free previous loaded scene (sprites and map)
       //
-	  Log("free previous loaded scene");
       PAL_FreeEventObjectSprites();
       PAL_FreeMap(gpResources->lpMap);
 
       //
       // Load map
       //
-	  Log("load map");
       i = gpGlobals->wNumScene - 1;
       gpResources->lpMap = PAL_LoadMap(gpGlobals->g.rgScene[i].wMapNum,
          fpMAP, fpGOP);
@@ -258,7 +255,6 @@ PAL_LoadResources(
       //
       // Load sprites
       //
-	  Log("load sprites");
       index = gpGlobals->g.rgScene[i].wEventObjectIndex;
       gpResources->nEventObject = gpGlobals->g.rgScene[i + 1].wEventObjectIndex;
       gpResources->nEventObject -= index;
@@ -302,7 +298,6 @@ PAL_LoadResources(
    //
    // Load player sprites
    //
-   Log("load player sprites");
    if (gpResources->bLoadFlags & kLoadPlayerSprite)
    {
       //
