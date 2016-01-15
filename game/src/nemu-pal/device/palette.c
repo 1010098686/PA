@@ -109,6 +109,7 @@ PAL_SetPalette(
 
 --*/
 {
+   Log("PAL_SetPalette");
    SDL_Color *p = PAL_GetPalette(iPaletteNum, fNight);
 
    if (p != NULL)
