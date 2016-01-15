@@ -113,7 +113,8 @@ PAL_SetPalette(
 
    if (p != NULL)
    {
-      VIDEO_SetPalette(p);
+       Log("video setpalette");
+	   VIDEO_SetPalette(p);
    }
 }
 
