@@ -19,7 +19,6 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *scrrect,
 	 * is saved in ``dstrect'' after all clipping is performed
 	 * (``srcrect'' is not modified).
 	 */
-	assert(0);
 	int w,h;
 	uint8_t* src_ptr;
 	uint8_t* dst_ptr;
@@ -61,7 +60,6 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 	 * in surface ``dst'' with color ``color''. If dstrect is
 	 * NULL, fill the whole surface.
 	 */
-    assert(0);
 	int sx = (dstrect==NULL)?0:dstrect->x;
 	int sy = (dstrect==NULL)?0:dstrect->y;
 	int w = (dstrect==NULL)?dst->w:dstrect->w;
@@ -90,7 +88,6 @@ void SDL_UpdateRect(SDL_Surface *screen, int x, int y, int w, int h) {
 	}
 
 	/* TODO: Copy the pixels in the rectangle area to the screen. */
-    assert(0);
 	void* addr = (void*)VMEM_ADDR;
 	int row;
 	for(row=y;row<y+h;++row)
@@ -126,7 +123,6 @@ void SDL_SetPalette(SDL_Surface *s, int flags, SDL_Color *colors,
 
 	if(s->flags & SDL_HWSURFACE) {
 		/* TODO: Set the VGA palette by calling write_palette(). */
-		assert(0);
 		write_palette(colors,ncolors);
 	}
 }
