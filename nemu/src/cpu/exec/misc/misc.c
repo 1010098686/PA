@@ -300,3 +300,21 @@ make_helper(sti)
 	print_asm("sti");
 	return 1;
 }
+
+make_helper(cbw)
+{
+	if(ops_decoded.is_data_size_16)
+	{
+		uint8_t temp = cpu.eax&0x000000ff;
+		int16_t result = temp;
+		cpu.gpr[0]._16 = result;
+	}
+	else
+	{
+		uint16_t temp = cpu.gpr[0]._16;
+		int32_t result = temp;
+		cpu.eax=result;
+	}
+	print_asm("cbw");
+	return 1;
+}

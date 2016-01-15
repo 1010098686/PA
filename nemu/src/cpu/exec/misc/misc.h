@@ -21,4 +21,5 @@ make_helper(hlt);
 make_helper(in);
 make_helper(out);
 make_helper(sti);
+make_helper(cbw);
 #endif
