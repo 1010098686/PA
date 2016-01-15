@@ -240,6 +240,7 @@ PAL_LoadResources(
       //
       // Load map
       //
+	  Log("load map");
       i = gpGlobals->wNumScene - 1;
       gpResources->lpMap = PAL_LoadMap(gpGlobals->g.rgScene[i].wMapNum,
          fpMAP, fpGOP);
@@ -256,6 +257,7 @@ PAL_LoadResources(
       //
       // Load sprites
       //
+	  Log("load sprites");
       index = gpGlobals->g.rgScene[i].wEventObjectIndex;
       gpResources->nEventObject = gpGlobals->g.rgScene[i + 1].wEventObjectIndex;
       gpResources->nEventObject -= index;
