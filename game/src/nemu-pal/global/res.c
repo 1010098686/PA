@@ -220,7 +220,7 @@ PAL_LoadResources(
    if (gpResources->bLoadFlags & kLoadScene)
    {
       FILE              *fpMAP, *fpGOP;
-
+      Log("load scene");
       fpMAP = UTIL_OpenRequiredFile("map.mkf");
       fpGOP = UTIL_OpenRequiredFile("gop.mkf");
 
@@ -233,12 +233,14 @@ PAL_LoadResources(
       //
       // Free previous loaded scene (sprites and map)
       //
+	  Log("free previous loaded scnen");
       PAL_FreeEventObjectSprites();
       PAL_FreeMap(gpResources->lpMap);
 
       //
       // Load map
       //
+	  Log("load map");
       i = gpGlobals->wNumScene - 1;
       gpResources->lpMap = PAL_LoadMap(gpGlobals->g.rgScene[i].wMapNum,
          fpMAP, fpGOP);
@@ -255,6 +257,7 @@ PAL_LoadResources(
       //
       // Load sprites
       //
+	  Log("load sprites");
       index = gpGlobals->g.rgScene[i].wEventObjectIndex;
       gpResources->nEventObject = gpGlobals->g.rgScene[i + 1].wEventObjectIndex;
       gpResources->nEventObject -= index;
@@ -298,6 +301,7 @@ PAL_LoadResources(
    //
    // Load player sprites
    //
+   Log("load player sprites");
    if (gpResources->bLoadFlags & kLoadPlayerSprite)
    {
       //
@@ -328,6 +332,7 @@ PAL_LoadResources(
          //
          // Load the follower sprite
          //
+		 Log("load the follower sprite");
          wSpriteNum = gpGlobals->rgParty[i].wPlayerRole;
 
          l = PAL_MKFGetDecompressedSize(wSpriteNum, gpGlobals->f.fpMGO);
@@ -342,6 +347,7 @@ PAL_LoadResources(
    //
    // Clear all of the load flags
    //
+   Log("clear all of the load flags");
    gpResources->bLoadFlags = 0;
 }
 
