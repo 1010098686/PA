@@ -799,7 +799,7 @@ PAL_MKFReadChunk(
    {
       return -2;
    }
-
+   
    if (uiChunkLen != 0)
    {
       fseek(fp, uiOffset, SEEK_SET);
@@ -807,10 +807,9 @@ PAL_MKFReadChunk(
    }
    else
    {
-       Log("%d",uiChunkLen);
 	   return -1;
    }
-
+   Log("%d",uiChunkLen);
    return (INT)uiChunkLen;
 }
 
