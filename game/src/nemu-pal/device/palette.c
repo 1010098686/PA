@@ -54,7 +54,7 @@ PAL_GetPalette(
    // Read the palette data from the pat.mkf file
    //
    i = PAL_MKFReadChunk(buf, 1536, iPaletteNum, fp);
-
+   Log("i=%d",i);
    fclose(fp);
 
    if (i < 0)
@@ -109,12 +109,10 @@ PAL_SetPalette(
 
 --*/
 {
-   Log("PAL_SetPalette");
    SDL_Color *p = PAL_GetPalette(iPaletteNum, fNight);
 
    if (p != NULL)
    {
-       Log("video setpalette");
 	   VIDEO_SetPalette(p);
    }
 }
