@@ -96,7 +96,8 @@ PAL_GameMain(
       //
       if (gpGlobals->fGameStart)
       {
-         PAL_GameStart();
+         Log("PAL_GameStart");
+		  PAL_GameStart();
          gpGlobals->fGameStart = FALSE;
       }
 
@@ -104,16 +105,19 @@ PAL_GameMain(
       //
       // Load the game resources if needed.
       //
-      PAL_LoadResources();
+      Log("PAL_LoadResources");
+	  PAL_LoadResources();
 
       //
       // Clear the input state of previous frame.
       //
+	  Log("PAL_ClearKeyState");
       PAL_ClearKeyState();
 
       //
       // Wait for the time of one frame. Accept input here.
       //
+	  Log("PAL_ProcessEvent");
       PAL_ProcessEvent();
       while (SDL_GetTicks() <= dwTime)
       {
@@ -129,6 +133,7 @@ PAL_GameMain(
       //
       // Run the main frame routine.
       //
+	  Log("PAL_StartFrame");
       PAL_StartFrame();
    }
 }
