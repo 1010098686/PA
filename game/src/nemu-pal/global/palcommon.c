@@ -769,7 +769,7 @@ PAL_MKFReadChunk(
 
    if (lpBuffer == NULL || fp == NULL || uiBufferSize == 0)
    {
-       Log("1 -1");
+	   Log("buf=%x fp=%x size=%x",(int)lpBuffer,(int)fp,(int)uiBufferSize);
 	   return -1;
    }
 
@@ -779,7 +779,6 @@ PAL_MKFReadChunk(
    uiChunkCount = PAL_MKFGetChunkCount(fp);
    if (uiChunkNum >= uiChunkCount)
    {
-	   Log("2 -1");
 	   return -1;
    }
 
@@ -799,7 +798,6 @@ PAL_MKFReadChunk(
 
    if (uiChunkLen > uiBufferSize)
    {
-       Log("1 -2");
 	   return -2;
    }
    
@@ -810,10 +808,8 @@ PAL_MKFReadChunk(
    }
    else
    {
-	   Log("3 -1");
 	   return -1;
    }
-   Log("4");
    return (INT)uiChunkLen;
 }
 
