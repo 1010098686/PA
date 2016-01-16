@@ -77,7 +77,6 @@ int fs_read(int fd,void* buf,int len)
 int fs_write(int fd,void* buf,int len)
 {
 	if(fd<=0 || fd>=NR_FILES+3) return -1;
-	assert(fstate[fd].opened);
 	if(fd==1 || fd==2)
 	{
 		int i;
@@ -86,6 +85,7 @@ int fs_write(int fd,void* buf,int len)
 			serial_printc(*(p+i));
 		return len;
 	}
+	assert(fstate[fd].opened);
 	int count = (fstate[fd].offset + len > file_table[fd-3].size)? (file_table[fd-3].size-fstate[fd].offset) : len;
 	if(count<=0) return 0;
 	ide_write(buf,file_table[fd-3].disk_offset+fstate[fd].offset,count);
