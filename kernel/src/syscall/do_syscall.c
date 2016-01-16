@@ -35,17 +35,7 @@ void do_syscall(TrapFrame *tf) {
 		/* TODO: Add more system calls. */
         case SYS_write:
 		            {
-						int fd=tf->ebx;
-						if(fd==1 || fd==2)
-						{
-							int i;
-							for(i=0;i<tf->edx;++i) serial_printc(*((char*)tf->ecx+i));
-							tf->eax = strlen((char*)tf->ecx);
-						}
-						else
-						{
-							tf->eax = fs_write(fd,(void*)tf->ecx,tf->edx);
-						}
+						tf->eax = fs_write(tf->ebx,(void*)tf->ecx,tf->edx);
 						break;
 					}
 		 case SYS_open:
