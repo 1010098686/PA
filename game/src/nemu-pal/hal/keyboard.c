@@ -61,7 +61,7 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 	 * Remember to enable interrupts before returning from the function.
 	 */
         int i;
-		int count=0;
+	int count=0;
         for(i=0 ; i< NR_KEYS;++i)
         {
            if(query_key(i) == KEY_STATE_PRESS) 
@@ -84,7 +84,7 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 	}
 	else
 	{
-		sti();
+	    sti();
 	    return false;
 	}
 }
