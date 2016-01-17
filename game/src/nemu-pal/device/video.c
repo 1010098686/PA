@@ -326,12 +326,13 @@ VIDEO_Shutdown(
 
 --*/
 {
+   
    if (gpScreen != NULL)
    {
       SDL_FreeSurface(gpScreen);
    }
    gpScreen = NULL;
-
+   
    if (gpScreenBak != NULL)
    {
       SDL_FreeSurface(gpScreenBak);
