@@ -69,6 +69,7 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
            {
              Log("press key");
              key_press_callback(get_keycode(i));
+             Log("finish press key");
              release_key(i);
 			 ++count;
            }
@@ -76,6 +77,7 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
            {
              Log("release key");
              key_release_callback(get_keycode(i));
+             Log("finish release key");
              clear_key(i);
 			 ++count;
            }

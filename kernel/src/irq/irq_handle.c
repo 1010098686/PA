@@ -43,7 +43,6 @@ void irq_handle(TrapFrame *tf) {
 	} else if (irq < 1000) {
 	        if(irq==255)
 	        {
-	           Log("irp handle keyboard");
 	           struct IRQ_t *f = handles[1];
 	           f->routine();
 	        }
