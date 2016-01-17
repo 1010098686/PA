@@ -8,10 +8,8 @@ static void do_execute()
 		cpu.esp+=2;
 		cpu.esp+=imm;
 		int len=decode_i_w(cpu.eip+1);
-		cpu.eip=cpu.eip&0xffff0000;
-		unsigned asrc=src;
-		cpu.eip+=asrc;
-		//cpu.eip=cpu.eip&0x0000ffff;
+		cpu.eip = src;
+		cpu.eip = cpu.eip&0x0000ffff;
 		cpu.eip-=(len+1);
 
 	print_asm_template1();
