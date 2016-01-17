@@ -1,5 +1,6 @@
 #include "hal.h"
 
+
 #define NR_KEYS 18
 
 enum {KEY_STATE_EMPTY, KEY_STATE_WAIT_RELEASE, KEY_STATE_RELEASE, KEY_STATE_PRESS};
@@ -17,26 +18,19 @@ static int key_state[NR_KEYS];
 void
 keyboard_event(void) {
 	/* TODO: Fetch the scancode and update the key states. */
-	char key_code = in_byte(0x60);
-	bool release = (key_code & 0x80) >> 7;
-	key_code &= 0x7f;
-	
-	int i;
-	for(i = 0; i < NR_KEYS; i++)
-	{
-	    if(key_code == keycode_array[i])
-	    {
-		if(release)
-		  key_state[i] = KEY_STATE_RELEASE;
-		else// if(key_state[i] != KEY_STATE_WAIT_RELEASE)
-		  key_state[i] = KEY_STATE_PRESS;
-
-		break;
-	    }
-	
-	}
-	
 	//assert(0);
+	uint8_t keycode = in_byte(0x60);
+	bool release =  (keycode&0x80)>>7;
+	keycode = keycode&0x7f;
+	int i;
+	for(i=0;i<NR_KEYS;++i)
+	{
+	   if(keycode==keycode_array[i])
+	   {
+	      if(release) key_state[i] = KEY_STATE_RELEASE;
+	      else key_state[i] = KEY_STATE_PRESS;
+	   }
+	}
 }
 
 static inline int
@@ -73,26 +67,24 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 	 * If no such key is found, the function return false.
 	 * Remember to enable interrupts before returning from the function.
 	 */
-	int i;
-	for(i = 0; i < NR_KEYS; i++)
-	{
-	    if(query_key(i) == KEY_STATE_PRESS)
-	    {
-		key_press_callback(get_keycode(i));
-		release_key(i);
-		
-		return true;
-	    }
-	    else if(query_key(i) == KEY_STATE_RELEASE)
-	    {
-		key_release_callback(get_keycode(i));
-		clear_key(i);
-
-		return true;	    
-	    }
-	}
-
-	//assert(0);
-	sti();
-	return false;
+        int i;
+        for(i=0 ; i< NR_KEYS;++i)
+        {
+           if(query_key(i) == KEY_STATE_PRESS)
+           {
+             key_press_callback(get_keycode(i));
+             release_key(i);
+             sti();
+             return true;
+           }
+           else if(query_key(i) == KEY_STATE_RELEASE)
+           {
+              key_release_callback(get_keycode(i));
+              clear_key(i);
+              sti();
+              return true;
+           }
+        }
+        sti();
+        return false;
 }
