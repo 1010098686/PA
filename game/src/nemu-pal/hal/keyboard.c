@@ -19,6 +19,7 @@ void
 keyboard_event(void) {
 	/* TODO: Fetch the scancode and update the key states. */
 	//assert(0);
+	Log("keyboard event");
 	int keycode = in_byte(0x60);
 	int i;
 	for(i=0;i<NR_KEYS;++i)
