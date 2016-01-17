@@ -66,12 +66,14 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
         {
            if(query_key(i) == KEY_STATE_PRESS) 
            {
+             Log("press key");
              key_press_callback(get_keycode(i));
              release_key(i);
 			 ++count;
            }
            if(query_key(i) == KEY_STATE_WAIT_RELEASE)
            {
+             Log("release key");
              key_release_callback(get_keycode(i));
              clear_key(i);
 			 ++count;
