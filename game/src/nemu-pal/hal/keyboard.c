@@ -1,6 +1,5 @@
 #include "hal.h"
 
-
 #define NR_KEYS 18
 
 enum {KEY_STATE_EMPTY, KEY_STATE_WAIT_RELEASE, KEY_STATE_RELEASE, KEY_STATE_PRESS};
@@ -18,13 +17,26 @@ static int key_state[NR_KEYS];
 void
 keyboard_event(void) {
 	/* TODO: Fetch the scancode and update the key states. */
-	//assert(0);
-	Log("keyboard event");
-	int keycode = in_byte(0x60);
+	char key_code = in_byte(0x60);
+	bool release = (key_code & 0x80) >> 7;
+	key_code &= 0x7f;
+	
 	int i;
-	for(i=0;i<NR_KEYS;++i)
-	  if(keycode_array[i] == keycode)
-	    key_state[i] = KEY_STATE_PRESS;
+	for(i = 0; i < NR_KEYS; i++)
+	{
+	    if(key_code == keycode_array[i])
+	    {
+		if(release)
+		  key_state[i] = KEY_STATE_RELEASE;
+		else// if(key_state[i] != KEY_STATE_WAIT_RELEASE)
+		  key_state[i] = KEY_STATE_PRESS;
+
+		break;
+	    }
+	
+	}
+	
+	//assert(0);
 }
 
 static inline int
@@ -61,35 +73,26 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 	 * If no such key is found, the function return false.
 	 * Remember to enable interrupts before returning from the function.
 	 */
-        int i;
-	int count=0;
-        for(i=0 ; i< NR_KEYS;++i)
-        {
-           if(query_key(i) == KEY_STATE_PRESS) 
-           {
-             Log("press key");
-             key_press_callback(get_keycode(i));
-             Log("finish press key");
-             release_key(i);
-			 ++count;
-           }
-           if(query_key(i) == KEY_STATE_WAIT_RELEASE)
-           {
-             Log("release key");
-             key_release_callback(get_keycode(i));
-             Log("finish release key");
-             clear_key(i);
-			 ++count;
-           }
-        } 
-	if(count>0)
+	int i;
+	for(i = 0; i < NR_KEYS; i++)
 	{
-	  sti();
-	  return true;
+	    if(query_key(i) == KEY_STATE_PRESS)
+	    {
+		key_press_callback(get_keycode(i));
+		release_key(i);
+		
+		return true;
+	    }
+	    else if(query_key(i) == KEY_STATE_RELEASE)
+	    {
+		key_release_callback(get_keycode(i));
+		clear_key(i);
+
+		return true;	    
+	    }
 	}
-	else
-	{
-	    sti();
-	    return false;
-	}
+
+	//assert(0);
+	sti();
+	return false;
 }
